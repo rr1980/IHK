@@ -10,7 +10,7 @@ namespace IHK.DB.SeedBuilder
         {
             var directory = Directory.GetCurrentDirectory();
 
-            string[] allLines = File.ReadAllLines(Path.Combine(directory, "./Datas/PersonsData.csv"));
+            string[] allLines = File.ReadAllLines(Path.Combine(directory, "../IHK.DB/Datas/PersonsData.csv"));
 
             var lines = allLines.Skip(1);
 

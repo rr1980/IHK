@@ -15,11 +15,14 @@ namespace IHK.Web
                 .UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()
-                .UseStartup<Startup>()
-                .UseApplicationInsights()
-                .Build();
+                .UseStartup<Startup>();
+                //.UseApplicationInsights()
+                
 
-            host.Run();
+            host.CaptureStartupErrors(true);
+            host.UseSetting("detailedErrors", "true");
+
+            host.Build().Run();
         }
     }
 }

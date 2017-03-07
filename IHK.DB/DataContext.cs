@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using JetBrains.Annotations;
+using IHK.DB.SeedBuilder;
 
 namespace IHK.DB
 {
@@ -13,7 +14,7 @@ namespace IHK.DB
     {
         private IConfigurationRoot _config;
 
-        public DataContext(IConfigurationRoot config,DbContextOptions<DataContext> options)
+        public DataContext(IConfigurationRoot config, DbContextOptions options)
             : base(options)
         {
             _config = config;

@@ -28,15 +28,14 @@ namespace IHK.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc();
+
             services.AddSingleton(Configuration);
             services.AddDbContext<DataContext>();
-
-            //(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
-            services.AddMvc();
+            
         }
 
-        public void Configure(IApplicationBuilder app, DataContext ctx, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app,IServiceProvider serviceProvider, IHostingEnvironment env, ILoggerFactory loggerFactory, DataContext dataContext)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -59,8 +58,8 @@ namespace IHK.Web
                     name: "default",
                     template: "{controller=Login}/{action=Index}");
             });
-
-            SeedData.Seed(ctx);
+            
+            SeedData.Seed(dataContext);
         }
     }
 }
