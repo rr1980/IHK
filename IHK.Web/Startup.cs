@@ -9,6 +9,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using IHK.DB;
 using IHK.DB.SeedBuilder;
+using IHK.Web.Authorization;
+using IHK.Common;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace IHK.Web
 {
@@ -30,9 +35,17 @@ namespace IHK.Web
         {
             services.AddMvc();
 
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("DefaultPolicy", policy => policy.Requirements.Add(new AuthPolicyRequirement(UserRoleType.Default)));
+                options.AddPolicy("AdminPolicy", policy => policy.Requirements.Add(new AuthPolicyRequirement(UserRoleType.Admin)));
+            });
+
             services.AddSingleton(Configuration);
             services.AddDbContext<DataContext>();
-            
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSingleton<IAuthorizationHandler, AuthPolicyHandler>();
+
         }
 
         public void Configure(IApplicationBuilder app,IServiceProvider serviceProvider, IHostingEnvironment env, ILoggerFactory loggerFactory, DataContext dataContext)
@@ -52,11 +65,26 @@ namespace IHK.Web
 
             app.UseStaticFiles();
 
+            app.UseCookieAuthentication(new CookieAuthenticationOptions
+            {
+                AuthenticationScheme = CookieAuthenticationDefaults.AuthenticationScheme,
+                LoginPath = "/Account/Login",
+                AccessDeniedPath = "/Account/Login",
+                LogoutPath = "/Account/Logout",
+                AutomaticAuthenticate = true,
+                AutomaticChallenge = true,
+                CookieSecure = CookieSecurePolicy.SameAsRequest,
+                //CookiePath = "/",
+                CookieHttpOnly = true,
+                SlidingExpiration = true,
+                CookieName = "rrAuth",
+            });
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Login}/{action=Index}");
+                    template: "{controller=Account}/{action=Login}");
             });
             
             SeedData.Seed(dataContext);

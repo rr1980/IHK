@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IHK.Models", "IHK.Models\IH
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IHK.Common", "IHK.Common\IHK.Common.csproj", "{4E46870C-4C55-4987-9A76-196065155A20}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IHK.ViewModels", "IHK.ViewModels\IHK.ViewModels.csproj", "{213E9ADC-D6B3-44C7-BF3A-28198DA6BE30}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{4E46870C-4C55-4987-9A76-196065155A20}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4E46870C-4C55-4987-9A76-196065155A20}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4E46870C-4C55-4987-9A76-196065155A20}.Release|Any CPU.Build.0 = Release|Any CPU
+		{213E9ADC-D6B3-44C7-BF3A-28198DA6BE30}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{213E9ADC-D6B3-44C7-BF3A-28198DA6BE30}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{213E9ADC-D6B3-44C7-BF3A-28198DA6BE30}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{213E9ADC-D6B3-44C7-BF3A-28198DA6BE30}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
