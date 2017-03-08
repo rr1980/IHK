@@ -12,18 +12,19 @@ using IHK.Common;
 using Microsoft.AspNetCore.Http.Authentication;
 using Microsoft.AspNetCore.Http;
 using IHK.Models;
+using IHK.Services;
 
 namespace IHK.Web.Controllers
 {
     public class AccountController : Controller
     {
-        DataContext _dataContext;
+        private readonly AccountService _accountService;
         private readonly HttpContext _httpContext;
 
 
-        public AccountController(DataContext dataContext, IHttpContextAccessor httpContextAccessor)
+        public AccountController(AccountService accountService, IHttpContextAccessor httpContextAccessor)
         {
-            _dataContext = dataContext;
+            _accountService = accountService;
             _httpContext = httpContextAccessor.HttpContext;
         }
 
@@ -73,7 +74,7 @@ namespace IHK.Web.Controllers
         private async Task<bool> _auth(string username, string password)
         {
             password = password ?? string.Empty;
-            UserViewModel user = null;//await _repository.GetByUserName(username);
+            UserViewModel user = await _accountService.GetByUserName(username);
 
             if (user == null || (user.Password != password))
             {

@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp1.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\IHK.Common\IHK.Common.csproj" />
+    <ProjectReference Include="..\IHK.DB\IHK.DB.csproj" />
+    <ProjectReference Include="..\IHK.Models\IHK.Models.csproj" />
+  </ItemGroup>
+
+</Project>

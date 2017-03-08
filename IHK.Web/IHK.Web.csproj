@@ -27,6 +27,8 @@
   <ItemGroup>
     <ProjectReference Include="..\IHK.Common\IHK.Common.csproj" />
     <ProjectReference Include="..\IHK.DB\IHK.DB.csproj" />
+    <ProjectReference Include="..\IHK.Repositorys\IHK.Repositorys.csproj" />
+    <ProjectReference Include="..\IHK.Services\IHK.Services.csproj" />
     <ProjectReference Include="..\IHK.ViewModels\IHK.ViewModels.csproj" />
   </ItemGroup>
   <ItemGroup>

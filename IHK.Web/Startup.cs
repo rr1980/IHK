@@ -14,6 +14,8 @@ using IHK.Common;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using IHK.Services;
+using IHK.Repositorys;
 
 namespace IHK.Web
 {
@@ -45,6 +47,9 @@ namespace IHK.Web
             services.AddDbContext<DataContext>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<IAuthorizationHandler, AuthPolicyHandler>();
+            services.AddScoped<UserRepository>();
+            services.AddScoped<AccountService>();
+            
 
         }
 
@@ -84,7 +89,7 @@ namespace IHK.Web
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Account}/{action=Login}");
+                    template: "{controller=Home}/{action=Index}");
             });
             
             SeedData.Seed(dataContext);

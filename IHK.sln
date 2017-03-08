@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IHK.Common", "IHK.Common\IH
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IHK.ViewModels", "IHK.ViewModels\IHK.ViewModels.csproj", "{213E9ADC-D6B3-44C7-BF3A-28198DA6BE30}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IHK.Services", "IHK.Services\IHK.Services.csproj", "{5B0BD3BF-D682-4E5D-BBB0-371BB868FE68}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IHK.Repositorys", "IHK.Repositorys\IHK.Repositorys.csproj", "{053464E1-14D4-458C-B9F8-2EBF90E7FB5E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,14 @@ Global
 		{213E9ADC-D6B3-44C7-BF3A-28198DA6BE30}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{213E9ADC-D6B3-44C7-BF3A-28198DA6BE30}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{213E9ADC-D6B3-44C7-BF3A-28198DA6BE30}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B0BD3BF-D682-4E5D-BBB0-371BB868FE68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B0BD3BF-D682-4E5D-BBB0-371BB868FE68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B0BD3BF-D682-4E5D-BBB0-371BB868FE68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B0BD3BF-D682-4E5D-BBB0-371BB868FE68}.Release|Any CPU.Build.0 = Release|Any CPU
+		{053464E1-14D4-458C-B9F8-2EBF90E7FB5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{053464E1-14D4-458C-B9F8-2EBF90E7FB5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{053464E1-14D4-458C-B9F8-2EBF90E7FB5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{053464E1-14D4-458C-B9F8-2EBF90E7FB5E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
