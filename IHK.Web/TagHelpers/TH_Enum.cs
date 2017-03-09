@@ -72,11 +72,12 @@ namespace IHK.Web.TagHelpers
 
             if (Multiple)
             {
-                template += $"<select class='selectpicker form-control show-tick input-sm' data-style='btn btn-info btn-sm' multiple='true' data-bind='selectedOptions: {Value}, optionsText: \"name\", optionsValue : \"id\", options: {Options}'></select>";
+                //template += $"<select class='selectpicker form-control show-tick input-sm' data-style='btn btn-info btn-sm' multiple='true' data-bind='selectedOptions: {Value}, optionsText: \"name\", optionsValue : \"id\", options: {Options}'></select>";
+                template += $"<select id='observationSelection' class='js-states form-control' multiple='true' data-bind='selectedOptions: {Value},options: {Options} ,optionsText: \"name\", optionsValue : \"id\", select2: {{minimumResultsForSearch: -1,allowClear: false}}'></select>";
             }
             else
             {
-                template += $"<select data-bind='value:{Value}, optionsText: \"name\", optionsValue : \"id\", options: {Options},select2: {{minimumResultsForSearch: Infinity}}'></select>";
+                template += $"<select class='js-states form-control' data-bind='value:{Value}, optionsText: \"name\", optionsValue : \"id\", options: {Options},select2: {{minimumResultsForSearch: Infinity}}'></select>";
             }
 
             output.Content.SetHtmlContent(template);

@@ -174,3 +174,7 @@ textarea {
 .select2-selection__arrow {
     height: 36px !important;
 }
+
+.no-search .select2-search {
+    display: none;
+}
