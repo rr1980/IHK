@@ -6,6 +6,8 @@ window.ViewModels = (function (module) {
         var adminService = new Services.AdminService();
 
         self.selectedUserId = ko.observable();
+        self.selectedRoles = ko.observableArray([1]);
+
         self.user = ko.observable(self.users()[0]);
 
 
@@ -48,11 +50,26 @@ window.ViewModels = (function (module) {
             for (var i = 0; i < self.users().length; i++) {
                 if (self.selectedUserId() === self.users()[i].userId()) {
                     self.user(self.users()[i]);
+                    $('select').select2().trigger('change');
                     break;
                 }
             }
-            //$(".selectpicker").selectpicker('refresh');
         });
+
+
+
+        //$('select').select2().trigger('change');
+
+
+        //$("#observationSelection").select2({
+        //    dropdownCssClass: 'no-search'
+        //});
+
+        //$("#observationSelection").select2({
+        //    minimumResultsForSearch: -1
+        //});
+
+        //$(".select2-search input").prop("readonly", true);
     };
     return module;
 }(this.ViewModels || {}));

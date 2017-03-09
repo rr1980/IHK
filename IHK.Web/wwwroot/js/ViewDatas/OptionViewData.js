@@ -59,10 +59,6 @@ window.ViewModels = (function (module) {
 
         self.onClickDelete = function () { };
         self.errors.showAllMessages();
-
-
-        //$(".selectpicker").selectpicker('refresh');
-        ////$('.selectpicker').selectpicker();
     };
     return module;
 }(this.ViewModels || {}));

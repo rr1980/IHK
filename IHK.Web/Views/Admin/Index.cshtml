@@ -40,6 +40,7 @@
                             </div>
                             <div class="row row-buffTop">
                                 <th_enum th-multiple="true" th-label="Rolle" th-value="user().roles" th-type="@typeof(UserRoleType)" th-col="8"></th_enum>
+                                @*<th_enum th-multiple="true" th-label="Rolle" th-value="selectedRoles" th-type="@typeof(UserRoleType)" th-col="8"></th_enum>*@
 
                                 <th_crud class="col-md-4"
                                          th-show-edit="false"
@@ -68,15 +69,9 @@
     $(document).ready(function () {
         var viewmodel = new ViewModels.AdminViewData(@Html.Raw(Json.Serialize(Model)));
         ko.applyBindings(viewmodel, document.getElementById('adminView'));
-
-    });
-    $("#observationSelection").select2({
-        minimumResultsForSearch: -1
     });
 
 
+    //$("select").select2();
 
-    $("#test").select2({
-        dropdownCssClass: 'no-search'
-    }); 
 </script>
