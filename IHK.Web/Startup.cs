@@ -48,8 +48,9 @@ namespace IHK.Web
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<IAuthorizationHandler, AuthPolicyHandler>();
             services.AddScoped<UserRepository>();
+            services.AddScoped<OptionRepository>();
             services.AddScoped<AccountService>();
-            
+            services.AddScoped<OptionService>();
 
         }
 

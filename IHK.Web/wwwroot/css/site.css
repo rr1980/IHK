@@ -3,6 +3,12 @@
     padding-bottom: 20px;
 }
 
+.nav .open > a,
+.nav .open > a:hover,
+.nav .open > a:focus {
+    background-color: transparent !important;
+}
+
 /* Wrapping element */
 /* Set some basic padding to keep content from hitting the edges */
 .body-content {
@@ -14,7 +20,7 @@
 input,
 select,
 textarea {
-    max-width: 280px;
+    /*max-width: 280px;*/
 }
 
 /* Carousel */
@@ -34,4 +40,137 @@ textarea {
     .carousel-caption {
         display: none;
     }
+}
+
+
+.input-group .input-group-addon {
+    color: white;
+    font-weight: bold;
+}
+
+.input-group .form-control {
+    background-color: rgba(137, 137, 137, 0.97);
+    color: black;
+    font-weight: bold;
+    /*max-width: 100%;*/
+}
+
+.input-group .ccol {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.error-content > ul {
+    padding-left: 0;
+}
+
+    .error-content > ul > li {
+        text-align: center;
+        list-style-type: none;
+        color: red;
+        font-size: 120%;
+        font-weight: bold;
+    }
+
+.usr-name {
+    font-size: -40%;
+    color: rgba(255, 255, 255, 0.34) !important;
+    cursor: default;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
+
+.row.row-buffTop {
+    margin-top: 10px !important;
+}
+
+.view {
+    margin-top: 30px !important;
+}
+
+.validationMessage {
+    color: Red;
+}
+
+#saveConfirm {
+    /*visibility: hidden;*/
+    display: none;
+}
+
+#wrapper {
+    width: 100%;
+    /*padding-left: 0;*/
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
+    #wrapper.toggled {
+        padding-left: 235px;
+    }
+
+#sidebar-wrapper {
+    z-index: 1000;
+    left: 220px;
+    width: 0;
+    height: 100%;
+    margin-left: -220px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background: #1a1a1a;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+    padding: 0 10px 0 0 !important;
+}
+
+    #sidebar-wrapper::-webkit-scrollbar {
+        display: none;
+    }
+
+#wrapper.toggled #sidebar-wrapper {
+    width: 220px;
+}
+
+#page-content-wrapper {
+    width: 100%;
+    padding-top: 10px;
+    /*padding-left:10px;*/
+}
+
+#wrapper.toggled #page-content-wrapper {
+    position: relative;
+    /*margin-right: -220px;*/
+}
+
+.navbar-toggler {
+    padding: 0 !important;
+}
+
+.select2-container {
+    width: 100% !important;
+}
+
+.select2-selection {
+    display: block !important;
+    height: 36px !important;
+    white-space: nowrap !important;
+    line-height: 26px !important;
+    border: 1px solid rgba(0, 0, 0, 0.15) !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: 36px !important;
+}
+
+
+.select2-selection__arrow {
+    height: 36px !important;
 }

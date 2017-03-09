@@ -1,0 +1,47 @@
+﻿@model  IHK.ViewModels.NavbarViewModel
+@using IHK.Common
+@using IHK.Services
+@inject  AccountService _accountService
+
+
+<nav id="navbarContent" class="navbar navbar-toggleable-md fixed-top navbar-inverse bg-inverse">
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    @if (Model.ShowSidebar)
+    {
+        <button type="button" class="hamburger is-closed navbar-brand" data-toggle="offcanvas">
+            <span class="hamb-top"></span>
+            <span class="hamb-middle"></span>
+            <span class="hamb-bottom"></span>
+        </button>
+    }
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Suche</a></li>
+            <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Option" asp-action="Index">Option</a></li>
+            @if (await _accountService.HasRole(Model.UserViewModel.UserId, UserRoleType.Admin))
+            {
+            <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Admin" asp-action="Index">Bernutzerverwaltung</a></li>
+            }
+        </ul>
+        <ul class="navbar-nav navbar-right">
+            <li class="nav-item active">
+                <span class="navbar-brand usr-name" data-bind="text: userViewModel.username">yyyy</span>
+            </li>
+            <li class="nav-item active">
+                <form data-bind="submit: onClickLogout">
+                    <button type="submit" class="btn">
+                        <i class="fa fa-sign-out"  ></i> Log out
+                    </button>
+                </form>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<script>
+    var viewmodel = new ViewModels.NavBarViewData(@Html.Raw(Json.Serialize(Model)));
+    ko.applyBindings(viewmodel, document.getElementById('navbarContent'));
+</script>

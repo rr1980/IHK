@@ -1,0 +1,4 @@
+.settings
+nuget
+bower_components
+node_modules

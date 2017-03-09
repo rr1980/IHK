@@ -7,6 +7,17 @@
   <PropertyGroup>
     <PackageTargetFallback>$(PackageTargetFallback);portable-net45+win8+wp8+wpa81;</PackageTargetFallback>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="wwwroot\css\sidebar.css" />
+    <Content Include="wwwroot\css\sidebar.js" />
+    <Content Include="wwwroot\js\Services\AdminService.js" />
+    <Content Include="wwwroot\js\Services\OptionService.js" />
+    <Content Include="wwwroot\js\ViewDatas\AdminViewData.js" />
+    <Content Include="wwwroot\js\ViewDatas\NavBarViewData.js" />
+    <Content Include="wwwroot\js\ViewDatas\OptionViewData.js" />
+    <Content Include="wwwroot\lib\knockout\dist\knockout.mapping-latest.debug.js" />
+  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore" Version="1.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="1.1.1" />
@@ -33,6 +44,9 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="TagHelpers\" />
   </ItemGroup>
 
 </Project>

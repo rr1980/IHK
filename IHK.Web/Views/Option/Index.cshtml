@@ -1,0 +1,82 @@
+@model  IHK.ViewModels.OptionViewModel
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div id="wrapper" class="container-fluid">
+    @await Component.InvokeAsync(nameof(NavbarComponent), new { showSidebar = false })
+    <div id="page-content-wrapper" class="container-fluid ">
+
+        <div id="optionenView" class="view">
+            <div class="row">
+                <div class="col-md-8 mx-auto">
+                    <div class="card mx-auto">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <strong class="control-label">Benutzer</strong>
+                                </div>
+                                <div class="col-md-4">
+                                    <h5 class="float-right" id="saveConfirm" data-bind="text: saveConfirm"></h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-block">
+                            <div class="row">
+                                <th_enum th-label="Anrede" th-multiple="false" th-value="currentUser.anrede" th-type="@typeof(Anrede)" th-col="2"></th_enum>
+                                <th_li th-label="Name" th-input="currentUser.name" th-col="5"></th_li>
+                                <th_li th-label="Vorname" th-input="currentUser.vorname" th-col="5"></th_li>
+                            </div>
+                            <div class="row row-buffTop">
+                                <th_li th-label="Username" th-input="currentUser.username" th-col="4"></th_li>
+                                <th_li th-label="Telefon" th-input="currentUser.telefon" th-col="4"></th_li>
+                                <th_li th-label="Email" th-input="currentUser.email" th-col="4"></th_li>
+
+                            </div>
+                            <div class="row row-buffTop">
+                                <th_li th-label="Plz" th-input="currentUser.postleitzahl" th-col="4"></th_li>
+                                <th_li th-label="Stadt" th-input="currentUser.stadt" th-col="4"></th_li>
+                                <th_li th-label="Strasse" th-input="currentUser.strasse" th-col="4"></th_li>
+                            </div>
+                            <div class="row row-buffTop">
+                                <div class="form-group-sm col-md-4">
+                                    <label class="control-label">Password</label>
+                                    <input class="form-control" type="password" data-bind="value: currentUser.password" />
+                                </div>
+                                <div class="form-group-sm col-md-4">
+                                    <label class="control-label">Password</label>
+                                    <input class="form-control" type="password" data-bind="value: passwordConfirm" />
+                                </div>
+                            </div>
+                            <div class="row row-buffTop">
+                                <th_select th-col="4" th-label="Theme" th-value="selectedThemeId" th-options="layoutThemeViewModels" th-ovalue="id" th-otext="name"></th_select>
+                                <div class="col-md-4"></div>
+                                <th_crud class="col-md-4"
+                                         th-show-del="false"
+                                         th-show-edit="false"
+                                         th-show-insert="false">
+                                </th_crud>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr />
+        <footer>
+            <p>&copy; 2017 - IHK.Web</p>
+        </footer>
+    </div>
+</div>
+<script>
+
+    $(function () {
+        $("#themeLink").attr('href', '@Model.CurrentUser.LayoutThemeViewModel.Link');
+    });
+
+    $(document).ready(function () {
+        var viewmodel = new ViewModels.OptionViewData(@Html.Raw(Json.Serialize(Model)));
+        ko.applyBindings(viewmodel, document.getElementById('optionenView'));
+    });
+</script>
