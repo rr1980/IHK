@@ -21,14 +21,15 @@ namespace IHK.Web.ViewComponents
             _httpContext = httpContextAccessor.HttpContext;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(bool showSidebar = false)
+        public async Task<IViewComponentResult> InvokeAsync(bool showSidebar = false, string tab = "Suche")
         {
             var id = Convert.ToInt32(_httpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value);
 
             return View(new NavbarViewModel()
             {
                 UserViewModel = await _accountService.GetById(id),
-                ShowSidebar = showSidebar
+                ShowSidebar = showSidebar,
+                activeTab = tab
             });
         }
     }

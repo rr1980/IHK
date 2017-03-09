@@ -3,7 +3,7 @@
 }
 
 <div id="wrapper" class="container-fluid">
-    @await Component.InvokeAsync(nameof(NavbarComponent), new { showSidebar = true })
+    @await Component.InvokeAsync(nameof(NavbarComponent), new { showSidebar = true, tab = "Suche" })
     @await Component.InvokeAsync(nameof(SidebarComponent))
     <div id="page-content-wrapper" class="container-fluid ">
         <h1>Hallo</h1>

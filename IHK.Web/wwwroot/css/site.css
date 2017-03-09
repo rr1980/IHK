@@ -170,11 +170,20 @@ textarea {
     line-height: 36px !important;
 }
 
-
 .select2-selection__arrow {
     height: 36px !important;
 }
 
 .no-search .select2-search {
     display: none;
+}
+
+.select2-results__option {
+    /*background-color: red;*/
+    color: #303030;
+}
+
+.select2 {
+    color: #303030;
+    /*color:red;*/
 }

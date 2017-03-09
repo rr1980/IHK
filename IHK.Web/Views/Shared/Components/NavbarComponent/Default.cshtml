@@ -19,18 +19,18 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item active"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Suche</a></li>
-            <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Option" asp-action="Index">Option</a></li>
+            <li class="nav-item @{if (Model.activeTab == "Suche") {<text>active</text> } }"><a class="nav-link" asp-area="" asp-controller="Home" ifp-action="Index">Suche</a></li>
+            <li class="nav-item @{if (Model.activeTab == "Option") {<text>active</text> } }"><a class="nav-link" asp-area="" asp-controller="Option" asp-action="Index">Option</a></li>
             @if (await _accountService.HasRole(Model.UserViewModel.UserId, UserRoleType.Admin))
             {
-            <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Admin" asp-action="Index">Bernutzerverwaltung</a></li>
+            <li class="nav-item @{if (Model.activeTab == "Admin") {<text>active</text> } }"><a class="nav-link" asp-area="" asp-controller="Admin" asp-action="Index">Bernutzerverwaltung</a></li>
             }
         </ul>
         <ul class="navbar-nav navbar-right">
-            <li class="nav-item active">
+            <li class="nav-item">
                 <span class="navbar-brand usr-name" data-bind="text: userViewModel.username">yyyy</span>
             </li>
-            <li class="nav-item active">
+            <li class="nav-item">
                 <form data-bind="submit: onClickLogout">
                     <button type="submit" class="btn">
                         <i class="fa fa-sign-out"  ></i> Log out
@@ -44,4 +44,11 @@
 <script>
     var viewmodel = new ViewModels.NavBarViewData(@Html.Raw(Json.Serialize(Model)));
     ko.applyBindings(viewmodel, document.getElementById('navbarContent'));
+
+    //$('ul.navbar-nav > li').click(function (e) {
+    //    //e.preventDefault();
+    //    //console.log("AYE");
+    //    $('ul.navbar-nav > li').removeClass('active');
+    //    $(this).addClass('active');
+    //});   
 </script>

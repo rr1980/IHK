@@ -10,7 +10,6 @@
 
   <ItemGroup>
     <Content Include="wwwroot\css\sidebar.css" />
-    <Content Include="wwwroot\css\sidebar.js" />
     <Content Include="wwwroot\js\Services\AdminService.js" />
     <Content Include="wwwroot\js\Services\OptionService.js" />
     <Content Include="wwwroot\js\ViewDatas\AdminViewData.js" />

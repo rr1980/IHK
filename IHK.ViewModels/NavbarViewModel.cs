@@ -8,5 +8,6 @@ namespace IHK.ViewModels
     {
         public bool ShowSidebar { get; set; }
         public UserViewModel UserViewModel { get; set; }
+        public string activeTab { get; set; }
     }
 }
