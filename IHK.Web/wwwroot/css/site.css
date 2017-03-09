@@ -141,7 +141,7 @@ textarea {
 
 #page-content-wrapper {
     width: 100%;
-    padding-top: 10px;
+    /*padding-top: 10px;*/
     /*padding-left:10px;*/
 }
 
@@ -150,13 +150,15 @@ textarea {
     /*margin-right: -220px;*/
 }
 
-.navbar-toggler {
-    padding: 0 !important;
-}
-
 .select2-container {
     width: 100% !important;
 }
+
+/*.navbar-toggler {
+    padding: 0 !important;
+}
+
+
 
 .select2-selection {
     display: block !important;
@@ -179,11 +181,11 @@ textarea {
 }
 
 .select2-results__option {
-    /*background-color: red;*/
+    background-color: red;
     color: #303030;
-}
+}*/
 
-.select2 {
+/*.select2 {
     color: #303030;
-    /*color:red;*/
-}
+    color:red;
+}*/

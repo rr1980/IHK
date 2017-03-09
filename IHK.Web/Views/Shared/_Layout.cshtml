@@ -11,16 +11,17 @@
     </script>
     <environment names="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-        <link rel="stylesheet" href="~/lib/tether/dist/css/tether.css" />
+        @*<link rel="stylesheet" href="~/lib/tether/dist/css/tether.css" />*@
         <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.css" />
         <link id="themeLink" type="text/css" href="" rel="stylesheet">
         <link rel="stylesheet" href="~/lib/select2/dist/css/select2.css" />
+        <link rel="stylesheet" href="~/lib/select2-bootstrap-theme/dist/select2-bootstrap.css">
         <link rel="stylesheet" href="~/css/site.css" />
         <link rel="stylesheet" href="~/css/sidebar.css" />
     </environment>
     <environment names="Staging,Production">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-        <link rel="stylesheet" href="~/lib/tether/dist/css/tether.css" />
+        @*<link rel="stylesheet" href="~/lib/tether/dist/css/tether.css" />*@
         <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.css" />
         <link rel="stylesheet" href="~/lib/select2/dist/css/select2.css" />
         <link rel="stylesheet" href="~/css/site.css" />
@@ -33,7 +34,7 @@
 
     <environment names="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
-        <script src="~/lib/tether/dist/js/tether.js"></script>
+        @*<script src="~/lib/tether/dist/js/tether.js"></script>*@
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
         <script src="~/lib/select2/dist/js/select2.full.js"></script>
         <script src="~/lib/knockout/dist/knockout.debug.js"></script>
@@ -64,5 +65,9 @@
     </div>
 
     @RenderSection("Scripts", required: false)
+
+    <script>
+        $.fn.select2.defaults.set("theme", "bootstrap");
+    </script>
 </body>
 </html>
