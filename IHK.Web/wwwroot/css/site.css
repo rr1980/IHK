@@ -150,9 +150,14 @@ textarea {
     /*margin-right: -220px;*/
 }
 
-.select2-container {
-    width: 100% !important;
+
+.multiselect-container {
+    /*width: 100% !important;*/
 }
+
+/*.select2-container {
+    width: 100% !important;
+}*/
 
 /*.navbar-toggler {
     padding: 0 !important;

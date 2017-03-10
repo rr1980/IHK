@@ -78,5 +78,7 @@
     $(document).ready(function () {
         var viewmodel = new ViewModels.OptionViewData(@Html.Raw(Json.Serialize(Model)));
         ko.applyBindings(viewmodel, document.getElementById('optionenView'));
+
+        $(".selectpicker").selectpicker('refresh');
     });
 </script>

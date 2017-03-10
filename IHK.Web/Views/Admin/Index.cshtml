@@ -14,11 +14,14 @@
                     <div class="panel panel-primary">
                         <div class="panel-heading clearfix">
                             <div class="row">
-                                <div class="col-md-9">
+                                <div class="col-md-5">
                                     <h5 class="control-label">Benutzer</h5>
                                 </div>
+                                <div class="col-md-4">
+                                    <h5 class="pull-right" id="saveConfirm" data-bind="text: saveConfirm"></h5>
+                                </div>
                                 <div class="col-md-3">
-                                    <th_select th-isFC="false" th-withLabel="false" th-label="User" th-value="selectedUserId" th-options="Users" th-ovalue="UserId" th-otext="ShowName"></th_select>
+                                    <th_select th-isFC="true" th-withLabel="false" th-label="User" th-value="selectedUserId" th-options="Users" th-ovalue="UserId" th-otext="ShowName"></th_select>
                                 </div>
                             </div>
                         </div>
@@ -39,8 +42,7 @@
                                 <th_li th-label="Strasse" th-input="user().strasse" th-col="4"></th_li>
                             </div>
                             <div class="row row-buffTop">
-                                <th_enum th-multiple="true" th-label="Rolle" th-value="user().roles" th-type="@typeof(UserRoleType)" th-col="8"></th_enum>
-
+                                <th_enum th-id="adminUserRoles" th-multiple="true" th-label="Rolle" th-value="user().roles" th-type="@typeof(UserRoleType)" th-col="4"></th_enum>
                                 <th_crud class="col-md-4"
                                          th-show-edit="false"
                                          th-show-insert="false"
@@ -61,61 +63,6 @@
     </div>
 </div>
 
-@*<div id="wrapper" class="container-fluid">
-        @await Component.InvokeAsync(nameof(NavbarComponent), new { showSidebar = false, tab = "Admin" })
-        <div id="page-content-wrapper" class="container-fluid ">
-
-            <div id="adminView" class="view">
-                <div class="row">
-                    <div class="col-md-8 mx-auto">
-                        <div class="card mx-auto">
-                            <div class="card-header">
-                                <div class="row">
-                                    <div class="col-md-9">
-                                        <h5 class="control-label">Benutzer</h5>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <th_select th-isFC="false" th-withLabel="false" th-label="User" th-value="selectedUserId" th-options="Users" th-ovalue="UserId" th-otext="ShowName"></th_select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-block">
-                                <div class="row">
-                                    <th_enum th-label="Anrede" th-multiple="false" th-value="currentUser.anrede" th-type="@typeof(Anrede)" th-col="4"></th_enum>
-                                    <th_li th-label="Name" th-input="user().name" th-col="4"></th_li>
-                                    <th_li th-label="Vorname" th-input="user().vorname" th-col="4"></th_li>
-                                </div>
-                                <div class="row row-buffTop">
-                                    <th_li th-label="Username" th-input="user().username" th-col="4"></th_li>
-                                    <th_li th-label="Telefon" th-input="user().telefon" th-col="4"></th_li>
-                                    <th_li th-label="Email" th-input="user().email" th-col="4"></th_li>
-                                </div>
-                                <div class="row row-buffTop">
-                                    <th_li th-label="Plz" th-input="user().postleitzahl" th-col="4"></th_li>
-                                    <th_li th-label="Stadt" th-input="user().stadt" th-col="4"></th_li>
-                                    <th_li th-label="Strasse" th-input="user().strasse" th-col="4"></th_li>
-                                </div>
-                                <div class="row row-buffTop">
-                                    <th_enum th-multiple="true" th-label="Rolle" th-value="user().roles" th-type="@typeof(UserRoleType)" th-col="8"></th_enum>
-                                    <th_crud class="col-md-4"
-                                             th-show-edit="false"
-                                             th-show-insert="false"
-                                             th-bind-disable="selectedUserId()<1">
-                                        <th_crud_left>
-                                            <button class='btn btn-warning btn-sm' data-bind='disable: (selectedUserId()<1 || window.isLoading()), click: OnClickPwClear'>Passwort zurücksetzen</button>
-                                        </th_crud_left>
-                                    </th_crud>
-                                </div>
-                                <div class="row row-buffTop">
-                                    <ul id="errors"></ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>*@
 <script>
     $(function () {
         $("#themeLink").attr('href', '@Model.CurrentUser.LayoutThemeViewModel.Link');
@@ -124,9 +71,7 @@
     $(document).ready(function () {
         var viewmodel = new ViewModels.AdminViewData(@Html.Raw(Json.Serialize(Model)));
         ko.applyBindings(viewmodel, document.getElementById('adminView'));
+
+        $(".selectpicker").selectpicker('refresh');
     });
-
-
-    //$("select").select2();
-
 </script>

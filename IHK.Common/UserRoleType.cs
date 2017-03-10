@@ -5,6 +5,9 @@ namespace IHK.Common
     public enum UserRoleType
     {
         Admin,
-        Default
+        Default,
+        Guast,
+        Test,
+        Develop
     }
 }

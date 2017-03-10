@@ -8,10 +8,8 @@
     "knockout": "v3.4.2",
     "Knockout-Validation": "v1.0.2",
     "font-awesome": "Font-Awesome#v4.7.0",
-    "select2": "4.0.3",
-    "knockout-select2v4": "1.0.10",
     "bootstrap": "v3.3.7",
-    "select2-bootstrap-theme": "0.1.0-beta.9"
+    "bootstrap-select": "v2.0.0-beta1"
   },
   "resolutions": {
     "bootstrap": "v4.0.0-alpha.6",
