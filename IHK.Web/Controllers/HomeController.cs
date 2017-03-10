@@ -33,7 +33,11 @@ namespace IHK.Web.Controllers
             });
         }
 
-
+        [Authorize(Policy = "DefaultPolicy")]
+        public  IActionResult GetUser(int id)
+        {
+            return View($"<h1>Yehaaa_{id}</h1>");
+        }
 
         public IActionResult Error()
         {

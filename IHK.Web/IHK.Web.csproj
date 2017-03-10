@@ -14,6 +14,10 @@
     <Content Include="wwwroot\js\Services\AdminService.js" />
     <Content Include="wwwroot\js\Services\OptionService.js" />
     <Content Include="wwwroot\js\ViewDatas\AdminViewData.js" />
+    <Content Include="wwwroot\js\ViewDatas\HomeViewData.js" />
+    <Content Include="wwwroot\js\ViewDatas\NavBarViewData - Kopieren.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
     <Content Include="wwwroot\js\ViewDatas\NavBarViewData.js" />
     <Content Include="wwwroot\js\ViewDatas\OptionViewData.js" />
     <Content Include="wwwroot\lib\knockout\dist\knockout.mapping-latest.debug.js" />

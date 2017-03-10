@@ -4,20 +4,21 @@
 
 <div id="wrapper" class="container-fluid">
     @await Component.InvokeAsync(nameof(NavbarComponent), new { showSidebar = true, tab = "Suche" })
-    @await Component.InvokeAsync(nameof(SidebarComponent))
-    <div id="page-content-wrapper" class="container-fluid ">
 
-        <div class="tab-content">
-            <div id="mieter_content" class="tab-pane fade in active">
-                <h3>Mieter</h3>
-                <p>Suchmaske...</p>
-            </div>
-            <div id="wohnung_content" class="tab-pane fade">
-                <h3>Wohnung</h3>
-                <p>Suchmaske...</p>
+    <div id="homeView" class="view container-fluid">
+        @await Component.InvokeAsync(nameof(SidebarComponent))
+        <div id="page-content-wrapper" class="container-fluid ">
+
+            <div class="tab-content">
+                <div id="search_content" class="tab-pane fade in active">
+                    <button class="btn btn-primary" data-bind="click: onClickSuche">Suche</button>
+                </div>
+                <div id="mieter_content" class="tab-pane fade">
+                    @*<iframe data-bind="attr: {src: BioLink}"></iframe>*@
+                    @*data-bind="bindIframe: $data"*@
+                </div>
             </div>
         </div>
-
 
 
 
@@ -34,19 +35,44 @@
     });
 
     $(document).ready(function () {
-        var trigger = $('.hamburger'),
-          //overlay = $('.overlay'),
-         isClosed = false;
 
+
+        var trigger = $('.hamburger'),
+            //overlay = $('.overlay'),
+            isClosed = false;
         trigger.click(function () {
             hamburger_cross();
         });
 
-        $(".sidebar-nav li a").click(function () {
-            $(".sidebar-nav").find(".open").removeClass("open");
+        $(".sidebar-nav .single_a").click(function () {
+            $(".sidebar-nav .single_l").removeClass("open");
             $(this).parent().addClass("open");
             $(this).parent().fadeIn("slow");
-            console.log("JO");
+            //console.log("JO");
+        });
+
+        $('.dropdown').on('hide.bs.dropdown', function (e) {
+            var target = $(this);
+            if (target.hasClass("keepopen")) {
+                return false;
+            } else {
+                return true;
+            }
+        });
+
+        $('.dropdown').on('click', function (e) {
+            if (e.target.className === "dropdown-toggle") {
+                var target = $(this);
+                if (target.hasClass("keepopen")) {
+                    $(this).removeClass("keepopen");
+                } else {
+                    $(this).addClass("keepopen");
+                }
+            } else {
+                $(".sidebar-nav .single_l").removeClass("open");
+                $(this).parent().addClass("open");
+                $(this).parent().fadeIn("slow");
+            }
         });
 
         function hamburger_cross() {
@@ -63,12 +89,9 @@
                 isClosed = true;
             }
         }
+        $('[data-toggle="offcanvas"]').click(function () {            $('#wrapper').toggleClass('toggled');        });
 
-        $('[data-toggle="offcanvas"]').click(function () {
-            $('#wrapper').toggleClass('toggled');
-        });
-
-        @*var viewmodel = new ViewModels.HomeViewData(@Html.Raw(Json.Serialize(Model)));
-        ko.applyBindings(viewmodel, document.getElementById('homeView'));*@
+        var viewmodel = new ViewModels.HomeViewData(@Html.Raw(Json.Serialize(Model)));
+        ko.applyBindings(viewmodel, document.getElementById('homeView'));
     });
 </script>
