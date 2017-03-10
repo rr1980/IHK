@@ -6,7 +6,21 @@
     @await Component.InvokeAsync(nameof(NavbarComponent), new { showSidebar = true, tab = "Suche" })
     @await Component.InvokeAsync(nameof(SidebarComponent))
     <div id="page-content-wrapper" class="container-fluid ">
-        <h1>Hallo</h1>
+
+        <div class="tab-content">
+            <div id="mieter_content" class="tab-pane fade in active">
+                <h3>Mieter</h3>
+                <p>Suchmaske...</p>
+            </div>
+            <div id="wohnung_content" class="tab-pane fade">
+                <h3>Wohnung</h3>
+                <p>Suchmaske...</p>
+            </div>
+        </div>
+
+
+
+
         <hr />
         <footer>
             <p>&copy; 2017 - IHK.Web</p>
