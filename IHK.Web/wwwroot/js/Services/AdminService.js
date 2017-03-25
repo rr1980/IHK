@@ -11,6 +11,13 @@
             window.isLoading(false);
         };
 
+        var error = function (a, b, c) {
+            $("body").html(a.responseText);
+            console.debug(a);
+            console.debug(b);
+            console.debug(c);
+        };
+
         service.saveUser = function (user) {
             start();
             return $.ajax({
@@ -20,11 +27,8 @@
                 },
                 type: "POST",
                 cache: false
-            }).fail(function (a, b, c) {
-                console.debug(a);
-                console.debug(b);
-                console.debug(c);
-            }).always(complete);
+            }).fail(error)
+                .always(complete);
         };
 
         service.resetPw = function (user) {
@@ -36,11 +40,8 @@
                 },
                 type: "POST",
                 cache: false
-            }).fail(function (a, b, c) {
-                console.debug(a);
-                console.debug(b);
-                console.debug(c);
-            }).always(complete);
+            }).fail(error)
+                .always(complete);
         };
 
         service.delUser = function (user) {
@@ -52,11 +53,7 @@
                 },
                 type: "POST",
                 cache: false
-            }).fail(function (a, b, c) {
-                console.debug(a);
-                console.debug(b);
-                console.debug(c);
-            }).always(complete);
+            }).fail(error).always(complete);
         };
 
         return service;

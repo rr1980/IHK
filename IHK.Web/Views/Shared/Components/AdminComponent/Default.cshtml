@@ -1,13 +1,7 @@
 ﻿@model  IHK.ViewModels.AdminViewModel
-@{
-    Layout = "_Layout";
-    ViewData["Title"] = "Admin Page";
-}
 
-<div id="wrapper" class="container-fluid">
-    @await Component.InvokeAsync(nameof(NavbarComponent), new { showSidebar = false, tab = "Admin" })
-    <div id="page-content-wrapper" class="container-fluid ">
 
+<div class="container-fluid">
         <div id="adminView" class="view container-fluid">
             <div class="row">
                 <div class="col-md-12">
@@ -59,16 +53,14 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <hr />
-        <footer>
-            <p>&copy; 2017 - IHK.Web</p>
-        </footer>
     </div>
 </div>
 
 <script>
-    $(function () {
+    var viewmodel = new ViewModels.AdminViewData(@Html.Raw(Json.Serialize(Model)));
+    ko.applyBindings(viewmodel, document.getElementById('adminView'));
+
+    @*$(function () {
         $("#themeLink").attr('href', '@Model.CurrentUser.LayoutThemeViewModel.Link');
     });
 
@@ -77,5 +69,5 @@
         ko.applyBindings(viewmodel, document.getElementById('adminView'));
 
         $(".selectpicker").selectpicker('refresh');
-    });
+    });*@
 </script>

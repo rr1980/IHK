@@ -23,25 +23,25 @@ namespace IHK.Web.Controllers
             _httpContext = httpContextAccessor.HttpContext;
         }
 
-        [Authorize(Policy = "AdminPolicy")]
-        public async Task<IActionResult> Index()
-        {
-            var id = Convert.ToInt32(_httpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value);
+        //[Authorize(Policy = "AdminPolicy")]
+        //public async Task<IActionResult> Index()
+        //{
+        //    var id = Convert.ToInt32(_httpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value);
 
-            var result = await _accountService.GetAllUsers();
-            result.Insert(0, new UserViewModel()
-            {
-                UserId = -1,
-                ShowName = "Neu...",
-                Roles = new int[] { -1 }
-            });
+        //    var result = await _accountService.GetAllUsers();
+        //    result.Insert(0, new UserViewModel()
+        //    {
+        //        UserId = -1,
+        //        ShowName = "Neu...",
+        //        Roles = new int[] { -1 }
+        //    });
 
-            return View(new AdminViewModel()
-            {
-                Users = result,
-                CurrentUser = await _accountService.GetById(id)
-            });
-        }
+        //    return View(new AdminViewModel()
+        //    {
+        //        Users = result,
+        //        CurrentUser = await _accountService.GetById(id)
+        //    });
+        //}
 
         [Authorize(Policy = "AdminPolicy")]
         public async Task<AdminViewModel> SaveUser(UserViewModel user)

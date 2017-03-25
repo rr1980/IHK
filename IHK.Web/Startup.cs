@@ -90,7 +90,7 @@ namespace IHK.Web
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}");
+                    template: "{controller=Main}/{action=Index}");
             });
             
             SeedData.Seed(dataContext);

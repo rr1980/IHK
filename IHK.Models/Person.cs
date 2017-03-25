@@ -8,6 +8,7 @@
         public string Postleitzahl { get; set; }
         public string Stadt { get; set; }
         public string Strasse { get; set; }
+        public string Hausnummer { get; set; }
         public string Telefon { get; set; }
     }
 }

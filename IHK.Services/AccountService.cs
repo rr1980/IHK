@@ -43,16 +43,20 @@ namespace IHK.Services
                 };
 
                 List<RoleToUser> rtus = new List<RoleToUser>();
-                foreach (var role in user.Roles)
+
+                if (user.Roles != null)
                 {
-                    var _rtu = new RoleToUser()
+                    foreach (var role in user.Roles)
                     {
-                        //Role = role != -1 ? _context.Roles.First(r => r.UserRoleType == (UserRoleType)role) : _context.Roles.First(r => r.UserRoleType == UserRoleType.Default),
-                        Role = role != -1 ? await _userRepository.GetRoleByType((UserRoleType)role) : await _userRepository.GetRoleByType(UserRoleType.Default),
-                        User = usr
-                    };
-                    rtus.Add(_rtu);
-                    _userRepository.AddRoleToUsers(_rtu);
+                        var _rtu = new RoleToUser()
+                        {
+                            //Role = role != -1 ? _context.Roles.First(r => r.UserRoleType == (UserRoleType)role) : _context.Roles.First(r => r.UserRoleType == UserRoleType.Default),
+                            Role = role != -1 ? await _userRepository.GetRoleByType((UserRoleType)role) : await _userRepository.GetRoleByType(UserRoleType.Default),
+                            User = usr
+                        };
+                        rtus.Add(_rtu);
+                        _userRepository.AddRoleToUsers(_rtu);
+                    }
                 }
                 usr.RoleToUsers = rtus;
             }
@@ -73,15 +77,19 @@ namespace IHK.Services
                 ex.Email = user.Email;
 
                 List<RoleToUser> rtus = new List<RoleToUser>();
-                foreach (var role in user.Roles)
+
+                if (user.Roles != null)
                 {
-                    var _rtu = new RoleToUser()
+                    foreach (var role in user.Roles)
                     {
-                        Role = role != -1 ? await _userRepository.GetRoleByType((UserRoleType)role) : await _userRepository.GetRoleByType(UserRoleType.Default),
-                        User = ex
-                    };
-                    rtus.Add(_rtu);
-                    _userRepository.AddRoleToUsers(_rtu);
+                        var _rtu = new RoleToUser()
+                        {
+                            Role = role != -1 ? await _userRepository.GetRoleByType((UserRoleType)role) : await _userRepository.GetRoleByType(UserRoleType.Default),
+                            User = ex
+                        };
+                        rtus.Add(_rtu);
+                        _userRepository.AddRoleToUsers(_rtu);
+                    }
                 }
                 ex.RoleToUsers = rtus;
             }

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace IHK.ViewModels
 {
-    public class HomeViewModel
+    public class MainViewModel
     {
         public UserViewModel CurrentUser { get; set; }
     }

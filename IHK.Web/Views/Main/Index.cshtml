@@ -1,33 +1,40 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+@using IHK.Common
+@using IHK.Services
+@inject  AccountService _accountService
 
-<div id="wrapper" class="container-fluid">
-    @await Component.InvokeAsync(nameof(NavbarComponent), new { showSidebar = true, tab = "Suche" })
+@await Component.InvokeAsync(nameof(NavbarComponent), new { showSidebar = true, tab = "Suche" })
+<div class="tab-content">
 
-    <div id="homeView" class="view container-fluid">
-        @await Component.InvokeAsync(nameof(SidebarComponent))
-        <div id="page-content-wrapper" class="container-fluid ">
-
-            <div class="tab-content">
-                <div id="search_content" class="tab-pane fade in active">
-                    <button class="btn btn-primary" data-bind="click: onClickSuche">Suche</button>
-                </div>
-                <div id="mieter_content" class="tab-pane fade">
-                    @*<iframe data-bind="attr: {src: BioLink}"></iframe>*@
-                    @*data-bind="bindIframe: $data"*@
+    <div id="main_content" class="tab-pane fade">
+        <div id="wrapper" class="container-fluid">
+            @await Component.InvokeAsync(nameof(SidebarComponent))
+            <div id="page-content-wrapper" class="container-fluid ">
+                <div class="tab-content">
+                    @await Component.InvokeAsync(nameof(MieterComponent))
+                    @await Component.InvokeAsync(nameof(WohnungComponent))
                 </div>
             </div>
         </div>
-
-
-
-        <hr />
-        <footer>
-            <p>&copy; 2017 - IHK.Web</p>
-        </footer>
     </div>
+
+    <div id="option_content" class="tab-pane fade">
+        @await Component.InvokeAsync(nameof(OptionComponent))
+    </div>
+    @if (await _accountService.HasRole(Model.CurrentUser.UserId, UserRoleType.Admin))
+    {
+        <div id="admin_content" class="tab-pane fade">
+            @await Component.InvokeAsync(nameof(AdminComponent))
+        </div>
+    }
 </div>
+<hr />
+<footer>
+    <p class="text-center">&copy; 2017 - IHK.Web</p>
+</footer>
+
 
 <script>
     $(function () {
@@ -91,7 +98,9 @@
         }
         $('[data-toggle="offcanvas"]').click(function () {            $('#wrapper').toggleClass('toggled');        });
 
-        var viewmodel = new ViewModels.HomeViewData(@Html.Raw(Json.Serialize(Model)));
-        ko.applyBindings(viewmodel, document.getElementById('homeView'));
+        @*var viewmodel = new ViewModels.HomeViewData(@Html.Raw(Json.Serialize(Model)));
+        ko.applyBindings(viewmodel, document.getElementById('home_content'));*@
+
+        $(".selectpicker").selectpicker('refresh');
     });
 </script>

@@ -15,27 +15,27 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @if (Model.ShowSidebar)
+                @*@if (Model.ShowSidebar)
                 {
                     <button type="button" class="hamburger is-closed navbar-brand" data-toggle="offcanvas">
                         <span class="hamb-top"></span>
                         <span class="hamb-middle"></span>
                         <span class="hamb-bottom"></span>
                     </button>
-                }
+                }*@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-left">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Suche</a></li>
-                    <li><a asp-area="" asp-controller="Option" asp-action="Index">Option</a></li>
-                    @if (await _accountService.HasRole(Model.UserViewModel.UserId, UserRoleType.Admin))
+                    <li class="active"><a data-toggle="tab" href="#main_content">Suche</a></li>
+                    <li><a data-toggle="tab" href="#option_content">Option</a></li>
+                    @if (await _accountService.HasRole(Model.CurrentUser.UserId, UserRoleType.Admin))
                     {
-                        <li><a asp-area="" asp-controller="Admin" asp-action="Index">Bernutzerverwaltung</a></li>
+                        <li><a data-toggle="tab" href="#admin_content">Bernutzerverwaltung</a></li>
                     }
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li>
-                        <span class="navbar-brand usr-name" data-bind="text: userViewModel.username"></span>
+                        <span class="navbar-brand usr-name" data-bind="text: currentUser.username"></span>
                     </li>
                     <li>
                         <form data-bind="submit: onClickLogout">

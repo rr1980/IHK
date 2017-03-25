@@ -11,12 +11,12 @@ using System.Security.Claims;
 
 namespace IHK.Web.Controllers
 {
-    public class HomeController : Controller
+    public class MainController : Controller
     {
         private readonly AccountService _accountService;
         private readonly HttpContext _httpContext;
 
-        public HomeController(AccountService accountService, IHttpContextAccessor httpContextAccessor)
+        public MainController(AccountService accountService, IHttpContextAccessor httpContextAccessor)
         {
             _accountService = accountService;
             _httpContext = httpContextAccessor.HttpContext;
@@ -27,7 +27,7 @@ namespace IHK.Web.Controllers
         {
             var id = Convert.ToInt32(_httpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value);
 
-            return View(new HomeViewModel()
+            return View(new MainViewModel()
             {
                 CurrentUser = await _accountService.GetById(id)
             });
