@@ -23,6 +23,18 @@ ko.validation.rules['mustEqual'] = {
     message: 'The field must equal {0}'
 };
 
+ko.bindingHandlers.returnAction = {
+    init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+        var value = ko.utils.unwrapObservable(valueAccessor());
+
+        $(element).keyup(function (e) {
+            if (e.which === 13) {
+                value(viewModel);
+            }
+        });
+    }
+};
+
 ko.bindingHandlers.bindIframe = {
     init: function (element, valueAccessor) {
         function bindIframe() {

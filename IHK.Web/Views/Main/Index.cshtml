@@ -8,7 +8,7 @@
 @await Component.InvokeAsync(nameof(NavbarComponent), new { showSidebar = true, tab = "Suche" })
 <div class="tab-content">
 
-    <div id="main_content" class="tab-pane fade">
+    <div id="main_content" class="tab-pane fade active in">
         <div id="wrapper" class="container-fluid">
             @await Component.InvokeAsync(nameof(SidebarComponent))
             <div id="page-content-wrapper" class="container-fluid ">

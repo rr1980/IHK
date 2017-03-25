@@ -49,7 +49,7 @@ textarea {
 }
 
 .input-group .form-control {
-    background-color: rgba(137, 137, 137, 0.97);
+    /*background-color: rgba(137, 137, 137, 0.97);*/
     color: black;
     font-weight: bold;
     /*max-width: 100%;*/

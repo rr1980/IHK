@@ -26,7 +26,7 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-left">
-                    <li class="active"><a data-toggle="tab" href="#main_content">Suche</a></li>
+                    <li class="active"><a data-toggle="tab" href="#main_content" aria-expanded="true">Suche</a></li>
                     <li><a data-toggle="tab" href="#option_content">Option</a></li>
                     @if (await _accountService.HasRole(Model.CurrentUser.UserId, UserRoleType.Admin))
                     {
