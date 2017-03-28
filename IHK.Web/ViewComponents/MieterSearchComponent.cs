@@ -10,12 +10,12 @@ using System.Threading.Tasks;
 
 namespace IHK.Web.ViewComponents
 {
-    public class WohnungComponent : ViewComponent
+    public class MieterSearchComponent : ViewComponent
     {
         //private readonly AccountService _accountService;
         private readonly HttpContext _httpContext;
 
-        public WohnungComponent(AccountService accountService, IHttpContextAccessor httpContextAccessor)
+        public MieterSearchComponent(AccountService accountService, IHttpContextAccessor httpContextAccessor)
         {
             //_accountService = accountService;
             _httpContext = httpContextAccessor.HttpContext;
@@ -25,7 +25,10 @@ namespace IHK.Web.ViewComponents
         {
             //var id = Convert.ToInt32(_httpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value);
 
-            return View();
+            return View(new MieterSearchViewModel()
+            {
+                Mieter = new List<MieterItemViewModel>()
+            });
         }
     }
 }

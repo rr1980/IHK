@@ -22,6 +22,16 @@ namespace IHK.Web.Controllers
         }
 
         [Authorize(Policy = "DefaultPolicy")]
+        public async Task<IActionResult> Index(int id)
+        {
+            var mieter = await _mieterService.GetMieterById(id);
+
+            return View(new MieterViewModel() {
+                Mieter = mieter
+            });
+        }
+
+        [Authorize(Policy = "DefaultPolicy")]
         public async Task<List<MieterItemViewModel>> SearchMieter(string datas)
         {
             List<MieterItemViewModel> mieter = new List<MieterItemViewModel>();

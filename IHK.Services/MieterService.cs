@@ -1,4 +1,5 @@
-﻿using IHK.Repositorys;
+﻿using IHK.Models;
+using IHK.Repositorys;
 using IHK.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -21,8 +22,20 @@ namespace IHK.Services
         {
             var mieter = await _mieterRepository.GetAllMieter();
 
-            return mieter.Select(m => new MieterItemViewModel()
+            return mieter.Select(m => _map(m)).ToList();
+        }
+
+        public async Task<MieterItemViewModel> GetMieterById(int id)
+        {
+            var mieter = await _mieterRepository.GetById(id);
+            return _map(mieter);
+        }
+
+        private MieterItemViewModel _map(Mieter m)
+        {
+            return new MieterItemViewModel()
             {
+                Id = m.Id,
                 Anrede = (int)m.Anrede,
                 Name = m.Name,
                 Vorname = m.Vorname,
@@ -33,7 +46,7 @@ namespace IHK.Services
                 Stadt = m.Wohnung.Gebaeude.Adresse.Stadt,
                 Strasse = m.Wohnung.Gebaeude.Adresse.Strasse,
                 Hausnummer = m.Wohnung.Gebaeude.Adresse.Hausnummer
-            }).ToList();
+            };
         }
     }
 }

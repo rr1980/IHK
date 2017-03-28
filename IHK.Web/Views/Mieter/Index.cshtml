@@ -1,0 +1,30 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model  IHK.ViewModels.MieterViewModel
+@{
+    Layout = "_LayoutMieter";
+    ViewData["Title"] = "Mieter Page";
+}
+
+<div id="mieter_content" class="container-fluid">
+    <div class="row">
+        <div class="col-md-offset-4 col-md-4">
+            <div class="panel panel-Primary">
+                <div class="panel-heading">Mieter</div>
+                <div class="panel-body">
+                    <div class="col-md-12 container-fluid">
+                        <div class="row">
+                            <th_enum th-label="Anrede" th-multiple="false" th-value="mieter.anrede" th-type="@typeof(Anrede)" th-col="4"></th_enum>
+                            <th_li th-label="Name" th-input="mieter.name" th-col="4"></th_li>
+                            <th_li th-label="Vorname" th-input="mieter.vorname" th-col="4"></th_li>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var viewmodel = new ViewModels.MieterViewData(@Html.Raw(Json.Serialize(Model)));
+    ko.applyBindings(viewmodel, document.getElementById('mieter_content'));
+</script>
