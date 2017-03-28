@@ -20,12 +20,25 @@ namespace IHK.Services
             _userRepository = userRepository;
             _optionRepository = optionRepository;
         }
-        
+
         public async Task AddOrUpdate(UserViewModel user)
         {
             var ex = await _userRepository.GetById(user.UserId);
             if (ex == null)
             {
+                Adresse adr = await _userRepository.GetAdresse(user.Postleitzahl, user.Stadt, user.Strasse, user.Hausnummer);
+                if (adr == null)
+                {
+                    adr = new Adresse()
+                    {
+                        Postleitzahl = user.Postleitzahl,
+                        Stadt = user.Stadt,
+                        Strasse = user.Strasse,
+                        Hausnummer = user.Hausnummer
+                    };
+                }
+
+
                 var usr = new User()
                 {
                     Anrede = (int)user.Anrede,
@@ -33,9 +46,7 @@ namespace IHK.Services
                     Name = user.Name,
                     Vorname = user.Vorname,
                     Password = user.Password,
-                    Postleitzahl = user.Postleitzahl,
-                    Stadt = user.Stadt,
-                    Strasse = user.Strasse,
+                    Adresse = adr,
                     Telefon = user.Telefon,
                     Email = user.Email,
                     //LayoutTheme = await _context.LayoutThemes.SingleOrDefaultAsync(lt => lt.Name == "default")
@@ -63,6 +74,19 @@ namespace IHK.Services
             else
             {
                 _delRoles(ex);
+
+                Adresse adr = await _userRepository.GetAdresse(user.Postleitzahl, user.Stadt, user.Strasse, user.Hausnummer);
+                if (adr == null)
+                {
+                    adr = new Adresse()
+                    {
+                        Postleitzahl = user.Postleitzahl,
+                        Stadt = user.Stadt,
+                        Strasse = user.Strasse,
+                        Hausnummer = user.Hausnummer
+                    };
+                }
+
                 ex.Anrede = user.Anrede;
                 ex.Name = user.Name;
                 ex.Vorname = user.Vorname;
@@ -70,9 +94,7 @@ namespace IHK.Services
                 //ex.LayoutTheme = await _optionRepository.LayoutThemes.SingleOrDefaultAsync(lt => lt.Id == user.LayoutThemeViewModel.Id);
                 ex.LayoutTheme = await _optionRepository.GetLayoutThemeById(user.LayoutThemeViewModel.Id);
                 ex.Password = user.Password;
-                ex.Postleitzahl = user.Postleitzahl;
-                ex.Stadt = user.Stadt;
-                ex.Strasse = user.Strasse;
+                ex.Adresse = adr;
                 ex.Telefon = user.Telefon;
                 ex.Email = user.Email;
 
@@ -119,7 +141,7 @@ namespace IHK.Services
         public async Task<List<UserViewModel>> GetAllUsers()
         {
             List<User> users = await _userRepository.GetAllUsers();
-            return  users.Select(u => _map(u)).ToList();
+            return users.Select(u => _map(u)).ToList();
         }
 
         public async Task<UserViewModel> GetByUserName(string username)
@@ -156,9 +178,10 @@ namespace IHK.Services
                     Name = user.Name,
                     Vorname = user.Vorname,
                     Password = user.Password,
-                    Postleitzahl = user.Postleitzahl,
-                    Stadt = user.Stadt,
-                    Strasse = user.Strasse,
+                    Postleitzahl = user.Adresse.Postleitzahl,
+                    Stadt = user.Adresse.Stadt,
+                    Strasse = user.Adresse.Strasse,
+                    Hausnummer = user.Adresse.Hausnummer,
                     Telefon = user.Telefon,
                     Email = user.Email,
                     Roles = user.RoleToUsers.Select(r => r.Role).Select(r => (int)r.UserRoleType),

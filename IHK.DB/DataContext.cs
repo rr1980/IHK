@@ -34,6 +34,9 @@ namespace IHK.DB
         }
 
         public DbSet<Mieter> Mieters { get; set; }
+        public DbSet<Adresse> Adresse { get; set; }
+        public DbSet<Gebaeude> Gebaeude { get; set; }
+        public DbSet<Wohnung> Wohnung { get; set; }
         //public DbSet<Person> Persons { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<RoleToUser> RoleToUsers { get; set; }
@@ -47,8 +50,13 @@ namespace IHK.DB
             modelBuilder.Entity<RoleToUser>().HasOne(rtu => rtu.User).WithMany(r => r.RoleToUsers).HasForeignKey(rtu => rtu.UserId).OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<LayoutTheme>().ToTable("LayoutTheme").HasKey(lt => lt.Id);
+            modelBuilder.Entity<Adresse>().ToTable("Adresse").HasKey(lt => lt.Id);
+            modelBuilder.Entity<Gebaeude>().ToTable("Gebaeude").HasKey(lt => lt.Id);
+            modelBuilder.Entity<Gebaeude>().ToTable("Gebaeude").HasOne(u => u.Adresse);
+            modelBuilder.Entity<Wohnung>().ToTable("Wohnung").HasOne(u => u.Gebaeude);
             modelBuilder.Entity<User>().ToTable("User").HasOne(u => u.LayoutTheme);
-            modelBuilder.Entity<Mieter>().ToTable("Mieter");
+            modelBuilder.Entity<User>().ToTable("User").HasOne(u => u.Adresse);
+            modelBuilder.Entity<Mieter>().ToTable("Mieter").HasOne(m=>m.Wohnung);
 
         }
     }

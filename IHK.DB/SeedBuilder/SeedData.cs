@@ -41,6 +41,10 @@ namespace IHK.DB.SeedBuilder
 
             Roles_Builder.Create(context);
 
+            Adresse_Builder.Create(context);
+            Gebaeude_Builder.Create(context);
+            Wohnung_Builder.Create(context);
+
             Mieter_Builder.Create(context);
 
             Users_Builder.Create(context,
@@ -48,9 +52,11 @@ namespace IHK.DB.SeedBuilder
                         new User
                         {
                             Anrede = 0,
-                            Postleitzahl = "01983",
-                            Stadt = "Strausberg",
-                            Strasse = "Am Annatal 11",
+                            Adresse = context.Adresse.FirstOrDefault(a => a.Id == 2),
+                            //Postleitzahl = "01983",
+                            //Stadt = "Strausberg",
+                            //Strasse = "Am Annatal 11",
+
                             Telefon = "12003",
                             Email = "rener1980@gmx.de",
                             Name = "Riesner",
@@ -65,9 +71,12 @@ namespace IHK.DB.SeedBuilder
                         new User
                         {
                             Anrede = 1,
-                            Postleitzahl = "15344",
-                            Stadt = "Großräschen",
-                            Strasse = "Rosa-Luxemburg Strasse 15",
+
+                            Adresse = context.Adresse.FirstOrDefault(a => a.Id == 2),
+                            //Postleitzahl = "15344",
+                            //Stadt = "Großräschen",
+                            //Strasse = "Rosa-Luxemburg Strasse 15",
+
                             Telefon = "12003",
                             Email = "rener1980@gmail.com",
                             Name = "Riesner",

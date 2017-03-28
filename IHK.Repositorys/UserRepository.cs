@@ -25,17 +25,22 @@ namespace IHK.Repositorys
 
         public async Task<List<User>> GetAllUsers()
         {
-            return await _db_User.Include(u => u.RoleToUsers).ThenInclude(r => r.Role).Include(lt => lt.LayoutTheme).ToListAsync();
+            return await _db_User.Include(u => u.RoleToUsers).ThenInclude(r => r.Role).Include(lt => lt.LayoutTheme).Include(a => a.Adresse).ToListAsync();
+        }
+
+        public async Task<Adresse> GetAdresse(string postleitzahl, string stadt, string strasse, string hausnummer)
+        {
+            return await _dataContext.Adresse.SingleOrDefaultAsync(a => a.Postleitzahl == postleitzahl.Trim() && a.Stadt == stadt.Trim() && a.Strasse == strasse.Trim() && a.Hausnummer == hausnummer.Trim());
         }
 
         public async Task<User> GetByUserName(string username)
         {
-            return await _db_User.Include(u => u.RoleToUsers).ThenInclude(r => r.Role).Include(lt => lt.LayoutTheme).SingleOrDefaultAsync(u => u.Username == username);
+            return await _db_User.Include(u => u.RoleToUsers).ThenInclude(r => r.Role).Include(lt => lt.LayoutTheme).Include(a => a.Adresse).SingleOrDefaultAsync(u => u.Username == username);
         }
 
         public async Task<User> GetById(int id)
         {
-            return await _db_User.Include(u => u.RoleToUsers).ThenInclude(r => r.Role).Include(lt => lt.LayoutTheme).SingleOrDefaultAsync(u => u.Id == id);
+            return await _db_User.Include(u => u.RoleToUsers).ThenInclude(r => r.Role).Include(lt => lt.LayoutTheme).Include(a => a.Adresse).SingleOrDefaultAsync(u => u.Id == id);
         }
 
         public async Task<Role> GetRoleByType(UserRoleType role)
@@ -48,7 +53,7 @@ namespace IHK.Repositorys
             _dataContext.RoleToUsers.Add(rtu);
         }
 
-        public  List<RoleToUser> GetManyRoleToUser(Func<RoleToUser, bool> p)
+        public List<RoleToUser> GetManyRoleToUser(Func<RoleToUser, bool> p)
         {
             return _dataContext.RoleToUsers.Where(p).ToList();
         }
