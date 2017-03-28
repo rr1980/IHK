@@ -1,6 +1,6 @@
 ﻿namespace IHK.ViewModels
 {
-    public class LayoutThemeViewModel
+    public class LayoutThemeItemViewModel
     {
         public int Id { get; set; }
         public string Name { get; set; }

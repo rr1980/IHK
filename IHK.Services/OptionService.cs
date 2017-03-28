@@ -18,15 +18,15 @@ namespace IHK.Services
             _optionRepository = optionRepository;
         }
 
-        public async Task<List<LayoutThemeViewModel>> GetAllThemes()
+        public async Task<List<LayoutThemeItemViewModel>> GetAllThemes()
         {
             var themes = await _optionRepository.GetAllLayoutThemes();
             return themes.Select(t => _map(t)).ToList();
         }
 
-        private LayoutThemeViewModel _map(LayoutTheme theme)
+        private LayoutThemeItemViewModel _map(LayoutTheme theme)
         {
-            return new LayoutThemeViewModel()
+            return new LayoutThemeItemViewModel()
             {
                 Id = theme.Id,
                 Name = theme.Name,

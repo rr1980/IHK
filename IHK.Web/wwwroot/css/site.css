@@ -155,42 +155,21 @@ textarea {
     /*width: 100% !important;*/
 }
 
-/*.select2-container {
-    width: 100% !important;
-}*/
-
-/*.navbar-toggler {
-    padding: 0 !important;
+tr {
+    width: 100%;
+    display: inline-table;
+    height: 40px;
+    table-layout: fixed;
 }
 
-
-
-.select2-selection {
-    display: block !important;
-    height: 36px !important;
-    white-space: nowrap !important;
-    line-height: 26px !important;
-    border: 1px solid rgba(0, 0, 0, 0.15) !important;
+table {
+    height: 500px;
+    display: -moz-groupbox;
 }
 
-.select2-container--default .select2-selection--single .select2-selection__rendered {
-    line-height: 36px !important;
+tbody {
+    overflow-y: scroll;
+    height: 480px;
+    width: 100%;
+    position: absolute;
 }
-
-.select2-selection__arrow {
-    height: 36px !important;
-}
-
-.no-search .select2-search {
-    display: none;
-}
-
-.select2-results__option {
-    background-color: red;
-    color: #303030;
-}*/
-
-/*.select2 {
-    color: #303030;
-    color:red;
-}*/

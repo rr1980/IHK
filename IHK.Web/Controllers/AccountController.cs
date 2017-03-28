@@ -74,7 +74,7 @@ namespace IHK.Web.Controllers
         private async Task<bool> _auth(string username, string password)
         {
             password = password ?? string.Empty;
-            UserViewModel user = await _accountService.GetByUserName(username);
+            UserItemViewModel user = await _accountService.GetByUserName(username);
 
             if (user == null || (user.Password != password))
             {

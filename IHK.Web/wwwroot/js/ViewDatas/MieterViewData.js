@@ -4,9 +4,14 @@ window.ViewModels = (function (module) {
         var self = this;
         self.searchText = ko.observable();
         ko.mapping.fromJS(data, {}, self);
+        var mieterervice = new Services.MieterService();
 
         self.onSearch = function (sender) {
-            //Todo search....
+            mieterervice.searchMieter(ko.mapping.toJS(self.searchText)).done(function (response) {
+                ko.mapping.fromJS(response, {}, self.mieter);
+                //$(".selectpicker").selectpicker('refresh');
+                console.debug(response);
+            });
         };
 
     };

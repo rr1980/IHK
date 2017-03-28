@@ -25,7 +25,10 @@ namespace IHK.Web.ViewComponents
         {
             //var id = Convert.ToInt32(_httpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value);
 
-            return View();
+            return View(new MieterViewModel()
+            {
+                Mieter = new List<MieterItemViewModel>()
+            });
         }
     }
 }

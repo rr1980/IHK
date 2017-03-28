@@ -7,5 +7,6 @@ namespace IHK.Models
     public class Wohnung : BaseModel
     {
         public Gebaeude Gebaeude { get; set; }
+        public string Wohnungsnummer { get; set; }
     }
 }

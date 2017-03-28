@@ -44,14 +44,14 @@ namespace IHK.Web.Controllers
         //}
 
         [Authorize(Policy = "AdminPolicy")]
-        public async Task<AdminViewModel> SaveUser(UserViewModel user)
+        public async Task<AdminViewModel> SaveUser(UserItemViewModel user)
         {
-            List<UserViewModel> result;
+            List<UserItemViewModel> result;
 
             if (!ModelState.IsValid)
             {
                 result = await _accountService.GetAllUsers();
-                result.Insert(0, new UserViewModel()
+                result.Insert(0, new UserItemViewModel()
                 {
                     UserId = -1,
                     ShowName = "Neu...",
@@ -67,7 +67,7 @@ namespace IHK.Web.Controllers
 
             await _accountService.AddOrUpdate(user);
             result = await _accountService.GetAllUsers();
-            result.Insert(0, new UserViewModel()
+            result.Insert(0, new UserItemViewModel()
             {
                 UserId = -1,
                 ShowName = "Neu...",
@@ -81,17 +81,17 @@ namespace IHK.Web.Controllers
         }
 
         [Authorize(Policy = "AdminPolicy")]
-        public async Task ResetPassord(UserViewModel user)
+        public async Task ResetPassord(UserItemViewModel user)
         {
             await _accountService.ResetPassword(user.UserId);
         }
 
         [Authorize(Policy = "AdminPolicy")]
-        public async Task<AdminViewModel> DelUser(UserViewModel user)
+        public async Task<AdminViewModel> DelUser(UserItemViewModel user)
         {
             await _accountService.RemoveUserById(user.UserId);
             var result = await _accountService.GetAllUsers();
-            result.Insert(0, new UserViewModel()
+            result.Insert(0, new UserItemViewModel()
             {
                 UserId = -1,
                 ShowName = "Neu...",

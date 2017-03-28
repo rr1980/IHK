@@ -4,8 +4,8 @@ using System.Text;
 
 namespace IHK.ViewModels
 {
-    public class MainViewModel
+    public class MieterViewModel
     {
-        public UserItemViewModel CurrentUser { get; set; }
+        public List<MieterItemViewModel> Mieter { get; set; }
     }
 }

@@ -15,7 +15,8 @@ namespace IHK.DB.SeedBuilder
             {
                 wohs.Add(new Wohnung()
                 {
-                    Gebaeude = context.Gebaeude.FirstOrDefault(a => a.Id == i)
+                    Gebaeude = context.Gebaeude.FirstOrDefault(a => a.Id == i),
+                    Wohnungsnummer ="0001"
                 });
             }
 

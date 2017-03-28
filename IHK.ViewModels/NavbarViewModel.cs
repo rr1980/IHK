@@ -7,7 +7,7 @@ namespace IHK.ViewModels
     public class NavbarViewModel
     {
         public bool ShowSidebar { get; set; }
-        public UserViewModel CurrentUser { get; set; }
+        public UserItemViewModel CurrentUser { get; set; }
         public string activeTab { get; set; }
     }
 }

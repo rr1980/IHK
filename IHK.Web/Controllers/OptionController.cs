@@ -37,7 +37,7 @@ namespace IHK.Web.Controllers
         }
 
         [Authorize(Policy = "DefaultPolicy")]
-        public async Task<bool> SaveUser(UserViewModel user)
+        public async Task<bool> SaveUser(UserItemViewModel user)
         {
             await _accountService.AddOrUpdate(user);
             return true;

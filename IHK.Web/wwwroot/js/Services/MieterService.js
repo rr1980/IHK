@@ -1,7 +1,7 @@
 ﻿window.Services = (function (module) {
-    module.OptionService = function () {
+    module.MieterService = function () {
         var service = {};
-        var serviceurl = "http://" + window.location.host + "/Option/";
+        var serviceurl = "http://" + window.location.host + "/Mieter/";
 
         var start = function (message) {
             window.isLoading(true);
@@ -18,16 +18,17 @@
             console.debug(c);
         };
 
-        service.saveUser = function (user) {
-            start();
+        service.searchMieter = function (datas) {
+            start();1
             var res = $.ajax({
-                url: serviceurl + "SaveUser",
+                url: serviceurl + "SearchMieter",
                 data: {
-                    user: user
+                    datas: datas
                 },
                 type: "POST",
                 cache: false
             }).fail(error).always(complete);
+            
             return res;
         };
 

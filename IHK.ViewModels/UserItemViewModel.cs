@@ -6,7 +6,7 @@ using System.Text;
 
 namespace IHK.ViewModels
 {
-    public class UserViewModel
+    public class UserItemViewModel
     {
         public int UserId { get; set; }
         public int Anrede { get; set; }
@@ -26,7 +26,7 @@ namespace IHK.ViewModels
         public string Telefon { get; set; }
         public string Email { get; set; }
 
-        public LayoutThemeViewModel LayoutThemeViewModel { get; set; }
+        public LayoutThemeItemViewModel LayoutThemeViewModel { get; set; }
         public IEnumerable<int> Roles { get; set; }
     }
 }

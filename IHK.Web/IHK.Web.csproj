@@ -12,9 +12,9 @@
     <Content Include="wwwroot\css\sidebar.css" />
     <Content Include="wwwroot\js\multiselectKo.js" />
     <Content Include="wwwroot\js\Services\AdminService.js" />
+    <Content Include="wwwroot\js\Services\MieterService.js" />
     <Content Include="wwwroot\js\Services\OptionService.js" />
     <Content Include="wwwroot\js\ViewDatas\AdminViewData.js" />
-    <Content Include="wwwroot\js\ViewDatas\HomeViewData - Kopieren.js" />
     <Content Include="wwwroot\js\ViewDatas\HomeViewData.js" />
     <Content Include="wwwroot\js\ViewDatas\MieterViewData.js" />
     <Content Include="wwwroot\js\ViewDatas\NavBarViewData.js" />

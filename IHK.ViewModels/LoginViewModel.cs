@@ -16,6 +16,6 @@ namespace IHK.ViewModels
         [Required]
         public string ReturnUrl { get; set; }
 
-        public UserViewModel CurrentUser { get; set; }
+        public UserItemViewModel CurrentUser { get; set; }
     }
 }

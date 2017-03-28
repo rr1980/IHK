@@ -21,7 +21,7 @@ namespace IHK.Services
             _optionRepository = optionRepository;
         }
 
-        public async Task AddOrUpdate(UserViewModel user)
+        public async Task AddOrUpdate(UserItemViewModel user)
         {
             var ex = await _userRepository.GetById(user.UserId);
             if (ex == null)
@@ -138,20 +138,20 @@ namespace IHK.Services
             await _userRepository.RemoveUserById(id);
         }
 
-        public async Task<List<UserViewModel>> GetAllUsers()
+        public async Task<List<UserItemViewModel>> GetAllUsers()
         {
             List<User> users = await _userRepository.GetAllUsers();
             return users.Select(u => _map(u)).ToList();
         }
 
-        public async Task<UserViewModel> GetByUserName(string username)
+        public async Task<UserItemViewModel> GetByUserName(string username)
         {
             User user = await _userRepository.GetByUserName(username);
             return _map(user);
         }
 
 
-        public async Task<UserViewModel> GetById(int id)
+        public async Task<UserItemViewModel> GetById(int id)
         {
             User user = await _userRepository.GetById(id);
             return _map(user);
@@ -163,13 +163,13 @@ namespace IHK.Services
             return user.RoleToUsers.Any(rtu => rtu.Role.UserRoleType == urt);
         }
 
-        private UserViewModel _map(User user)
+        private UserItemViewModel _map(User user)
         {
             if (user != null)
             {
                 var default_theme = _optionRepository.GetLayoutThemeByName("default").Result;
 
-                return new UserViewModel()
+                return new UserItemViewModel()
                 {
                     UserId = user.Id,
                     Anrede = user.Anrede,
@@ -185,7 +185,7 @@ namespace IHK.Services
                     Telefon = user.Telefon,
                     Email = user.Email,
                     Roles = user.RoleToUsers.Select(r => r.Role).Select(r => (int)r.UserRoleType),
-                    LayoutThemeViewModel = new LayoutThemeViewModel()
+                    LayoutThemeViewModel = new LayoutThemeItemViewModel()
                     {
                         Id = user.LayoutTheme?.Id ?? default_theme.Id,
                         Name = user.LayoutTheme?.Name ?? default_theme.Name,
@@ -195,7 +195,7 @@ namespace IHK.Services
             }
             else
             {
-                return default(UserViewModel);
+                return default(UserItemViewModel);
             }
         }
 

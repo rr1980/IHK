@@ -6,7 +6,7 @@ namespace IHK.ViewModels
 {
     public class OptionViewModel
     {
-        public UserViewModel CurrentUser { get; set; }
-        public List<LayoutThemeViewModel> LayoutThemeViewModels { get; set; }
+        public UserItemViewModel CurrentUser { get; set; }
+        public List<LayoutThemeItemViewModel> LayoutThemeViewModels { get; set; }
     }
 }

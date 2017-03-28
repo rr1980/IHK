@@ -27,8 +27,7 @@
                 },
                 type: "POST",
                 cache: false
-            }).fail(error)
-                .always(complete);
+            }).fail(error).always(complete);
         };
 
         service.resetPw = function (user) {
