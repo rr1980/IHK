@@ -45,9 +45,10 @@ namespace IHK.Web.Controllers
             {
                 mieter = await _mieterService.GetAllMieter();
             }
-
-            //var data = datas.Split(' ');
-
+            else
+            {
+                mieter = await _mieterService.SearchMieter(datas);
+            }
 
             return mieter;
         }

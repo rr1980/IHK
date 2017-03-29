@@ -16,9 +16,6 @@
     <Content Include="wwwroot\js\Services\OptionService.js" />
     <Content Include="wwwroot\js\ViewDatas\AdminViewData.js" />
     <Content Include="wwwroot\js\ViewDatas\HomeViewData.js" />
-    <Content Include="wwwroot\js\ViewDatas\MieterSearchViewData - Kopieren.js">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
     <Content Include="wwwroot\js\ViewDatas\MieterSearchViewData.js" />
     <Content Include="wwwroot\js\ViewDatas\MieterViewData.js" />
     <Content Include="wwwroot\js\ViewDatas\NavBarViewData.js" />

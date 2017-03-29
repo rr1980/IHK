@@ -4,6 +4,8 @@ using IHK.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -29,6 +31,25 @@ namespace IHK.Services
         {
             var mieter = await _mieterRepository.GetById(id);
             return _map(mieter);
+        }
+
+        public async Task<List<MieterItemViewModel>> SearchMieter(string datas)
+        {
+            ICollection<string> data = datas.Split(' ').Select(d=>d.Trim()).Where(s=>!string.IsNullOrEmpty(s)).ToList();
+
+            var mieter = await _mieterRepository.GetMieterBy(data,m=> new[] {
+                m.Name,
+                m.Vorname,
+                m.Telefon,
+                m.WbsNummer,
+                m.Wohnung.Wohnungsnummer,
+                m.Wohnung.Gebaeude.Adresse.Hausnummer,
+                m.Wohnung.Gebaeude.Adresse.Postleitzahl,
+                m.Wohnung.Gebaeude.Adresse.Stadt,
+                m.Wohnung.Gebaeude.Adresse.Strasse
+            });
+
+            return mieter.Select(m => _map(m)).ToList();
         }
 
         private MieterItemViewModel _map(Mieter m)
