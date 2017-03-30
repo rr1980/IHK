@@ -6,6 +6,7 @@ namespace IHK.ViewModels
 {
     public class MieterViewModel
     {
+        public UserItemViewModel CurrentUser { get; set; }
         public MieterItemViewModel Mieter { get; set; }
     }
 }

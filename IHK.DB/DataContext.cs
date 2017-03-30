@@ -53,10 +53,11 @@ namespace IHK.DB
             modelBuilder.Entity<Adresse>().ToTable("Adresse").HasKey(lt => lt.Id);
             modelBuilder.Entity<Gebaeude>().ToTable("Gebaeude").HasKey(lt => lt.Id);
             modelBuilder.Entity<Gebaeude>().ToTable("Gebaeude").HasOne(u => u.Adresse);
+
             modelBuilder.Entity<Wohnung>().ToTable("Wohnung").HasOne(u => u.Gebaeude);
             modelBuilder.Entity<User>().ToTable("User").HasOne(u => u.LayoutTheme);
             modelBuilder.Entity<User>().ToTable("User").HasOne(u => u.Adresse);
-            modelBuilder.Entity<Mieter>().ToTable("Mieter").HasOne(m=>m.Wohnung);
+            modelBuilder.Entity<Mieter>().ToTable("Mieter").HasOne(m => m.Wohnung);
 
         }
     }

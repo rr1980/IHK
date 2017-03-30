@@ -7,15 +7,35 @@
 
 <div id="mieter_content" class="container-fluid">
     <div class="row">
-        <div class="col-md-offset-4 col-md-4">
-            <div class="panel panel-Primary">
+        <div class="col-md-12">
+            <div class="panel panel-primary">
                 <div class="panel-heading">Mieter</div>
                 <div class="panel-body">
                     <div class="col-md-12 container-fluid">
                         <div class="row">
-                            <th_enum th-label="Anrede" th-multiple="false" th-value="mieter.anrede" th-type="@typeof(Anrede)" th-col="4"></th_enum>
-                            <th_li th-label="Name" th-input="mieter.name" th-col="4"></th_li>
-                            <th_li th-label="Vorname" th-input="mieter.vorname" th-col="4"></th_li>
+                            <th_enum th-label="Anrede" th-multiple="false" th-value="mieter.anrede" th-type="@typeof(Anrede)" th-col="2"></th_enum>
+                            <th_li th-label="Name" th-input="mieter.name" th-col="3"></th_li>
+                            <th_li th-label="Vorname" th-input="mieter.vorname" th-col="3"></th_li>
+                            <th_li th-label="Telefon" th-input="mieter.telefon" th-col="2"></th_li>
+                            <th_li th-label="WBSNummer" th-input="mieter.wbsNummer" th-col="2"></th_li>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">Wohnung</div>
+                <div class="panel-body">
+                    <div class="col-md-12 container-fluid">
+                        <div class="row">
+                            <th_bool th-col="1" th-label="Balkon" th-value="mieter.wohnung.balkon"></th_bool>
+                            <th_bool th-col="1" th-label="Garage" th-value="mieter.wohnung.garage"></th_bool>
+                            <th_bool th-col="1" th-label="Garten" th-value="mieter.wohnung.garten"></th_bool>
+                            <th_bool th-col="1" th-label="Keller" th-value="mieter.wohnung.keller"></th_bool>
+
                         </div>
                     </div>
                 </div>
@@ -25,6 +45,10 @@
 </div>
 
 <script>
+    $(function () {
+        $("#themeLink").attr('href', '@Model.CurrentUser.LayoutThemeViewModel.Link');
+    });
+
     var viewmodel = new ViewModels.MieterViewData(@Html.Raw(Json.Serialize(Model)));
     ko.applyBindings(viewmodel, document.getElementById('mieter_content'));
 </script>

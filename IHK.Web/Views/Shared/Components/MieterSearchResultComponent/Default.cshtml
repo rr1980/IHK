@@ -1,4 +1,4 @@
-﻿
+﻿@*@model  IHK.ViewModels.*@
 
 <div class="col-md-12">
     <table class="table table-striped table-hover">
@@ -29,11 +29,11 @@
                 <td width="10%" class="text-center" data-bind="text: vorname"></td>
                 <td width="10%" class="text-center" data-bind="text: telefon"></td>
                 <td width="15%" class="text-center" data-bind="text: wbsNummer"></td>
-                <td width="5%" class="text-center" data-bind="text: wohnungsnummer"></td>
-                <td width="5%" class="text-center" data-bind="text: postleitzahl"></td>
-                <td width="15%" class="text-center" data-bind="text: stadt"></td>
-                <td width="15%" class="text-center" data-bind="text: strasse"></td>
-                <td width="5%" class="text-center" data-bind="text: hausnummer"></td>
+                <td width="5%" class="text-center" data-bind="text: wohnung.wohnungsnummer"></td>
+                <td width="5%" class="text-center" data-bind="text: wohnung.gebaeude.adresse.postleitzahl"></td>
+                <td width="15%" class="text-center" data-bind="text: wohnung.gebaeude.adresse.stadt"></td>
+                <td width="15%" class="text-center" data-bind="text: wohnung.gebaeude.adresse.strasse"></td>
+                <td width="5%" class="text-center" data-bind="text: wohnung.gebaeude.adresse.hausnummer"></td>
             </tr>
         </tbody>
     </table>

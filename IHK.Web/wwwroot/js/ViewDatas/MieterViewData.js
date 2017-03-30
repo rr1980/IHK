@@ -5,7 +5,7 @@ window.ViewModels = (function (module) {
         ko.mapping.fromJS(data, {}, self);
         var mieterervice = new Services.MieterService();
 
-
+        console.debug(data);
 
     };
     return module;

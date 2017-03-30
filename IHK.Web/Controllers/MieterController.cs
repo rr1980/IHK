@@ -6,17 +6,20 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace IHK.Web.Controllers
 {
     public class MieterController : Controller
     {
+        private readonly AccountService _accountService;
         private readonly HttpContext _httpContext;
         private readonly MieterService _mieterService;
 
-        public MieterController(IHttpContextAccessor httpContextAccessor, MieterService mieterService)
+        public MieterController(AccountService accountService, IHttpContextAccessor httpContextAccessor, MieterService mieterService)
         {
+            _accountService = accountService;
             _httpContext = httpContextAccessor.HttpContext;
             _mieterService = mieterService;
         }
@@ -24,9 +27,12 @@ namespace IHK.Web.Controllers
         [Authorize(Policy = "DefaultPolicy")]
         public async Task<IActionResult> Index(int id)
         {
+            var userId = Convert.ToInt32(_httpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value);
+
             var mieter = await _mieterService.GetMieterById(id);
 
             return View(new MieterViewModel() {
+                CurrentUser = await _accountService.GetById(userId),
                 Mieter = mieter
             });
         }

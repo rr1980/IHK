@@ -62,11 +62,31 @@ namespace IHK.Services
                 Vorname = m.Vorname,
                 Telefon = m.Telefon,
                 WbsNummer = m.WbsNummer,
-                Wohnungsnummer = m.Wohnung.Wohnungsnummer,
-                Postleitzahl = m.Wohnung.Gebaeude.Adresse.Postleitzahl,
-                Stadt = m.Wohnung.Gebaeude.Adresse.Stadt,
-                Strasse = m.Wohnung.Gebaeude.Adresse.Strasse,
-                Hausnummer = m.Wohnung.Gebaeude.Adresse.Hausnummer
+                Wohnung = new WohnungItemViewModel()
+                {
+                    Wohnungsnummer = m.Wohnung.Wohnungsnummer,
+                    Etage = m.Wohnung.Etage,
+                    Keller = m.Wohnung.Keller,
+                    Garage = m.Wohnung.Garage,
+                    Balkon = m.Wohnung.Balkon,
+                    Garten = m.Wohnung.Garten,
+                    Raeume = m.Wohnung.Raeume,
+                    Qm= m.Wohnung.Qm,
+
+                    Gebaeude = new GebaeudeItemViewModel()
+                    {
+                        Etagen = m.Wohnung.Gebaeude.Etagen,
+                        Gaerten = m.Wohnung.Gebaeude.Gaerten,
+                        
+                        Adresse = new AdressenItemViewModel()
+                        {
+                            Postleitzahl = m.Wohnung.Gebaeude.Adresse.Postleitzahl,
+                            Stadt = m.Wohnung.Gebaeude.Adresse.Stadt,
+                            Strasse = m.Wohnung.Gebaeude.Adresse.Strasse,
+                            Hausnummer = m.Wohnung.Gebaeude.Adresse.Hausnummer
+                        }
+                    }
+                }
             };
         }
     }

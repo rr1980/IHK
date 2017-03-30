@@ -43,7 +43,7 @@ namespace IHK.DB.SeedBuilder
 
             Adresse_Builder.Create(context);
             Gebaeude_Builder.Create(context);
-            Wohnung_Builder.Create(context);
+            //Wohnung_Builder.Create(context);
 
             Mieter_Builder.Create(context);
 

@@ -15,6 +15,7 @@
         <link id="themeLink" type="text/css" href="" rel="stylesheet">
         <link rel="stylesheet" href="~/lib/bootstrap-select/dist/css/bootstrap-select.css" />
         <link rel="stylesheet" href="~/lib/bootstrap-multiselect-master/dist/css/bootstrap-multiselect.css" type="text/css" />
+        <link rel="stylesheet" href="~/lib/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" type="text/css" />
         <link rel="stylesheet" href="~/css/site.css" />
     </environment>
     <environment names="Staging,Production">
@@ -37,8 +38,9 @@
         <script type="text/javascript" src="~/lib/bootstrap-multiselect-master/dist/js/bootstrap-multiselect.js"></script>
         <script src="~/js/multiselectKo.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
-        <script asp-src-include="~/js/Services/**/*.js"></script>
-        <script asp-src-include="~/js/ViewDatas/**/*.js"></script>
+        <script src="~/js/Services/MieterService.js"></script>
+        <script src="~/js/ViewDatas/MieterViewData.js"></script>
+        @*<script asp-src-include="~/js/ViewDatas/**/*.js"></script>*@
         
     </environment>
     <environment names="Staging,Production">

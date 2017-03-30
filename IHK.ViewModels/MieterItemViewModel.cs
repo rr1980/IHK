@@ -12,10 +12,12 @@ namespace IHK.ViewModels
         public string Vorname { get; set; }
         public string Telefon { get; set; }
         public string WbsNummer { get; set; }
-        public string Wohnungsnummer { get; set; }
-        public string Postleitzahl { get; set; }
-        public string Stadt { get; set; }
-        public string Strasse { get; set; }
-        public string Hausnummer { get; set; }
+
+        public WohnungItemViewModel Wohnung { get; set; }
+        //public string Wohnungsnummer { get; set; }
+        //public string Postleitzahl { get; set; }
+        //public string Stadt { get; set; }
+        //public string Strasse { get; set; }
+        //public string Hausnummer { get; set; }
     }
 }

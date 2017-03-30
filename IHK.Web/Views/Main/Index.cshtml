@@ -37,6 +37,7 @@
 
 
 <script>
+
     $(function () {
         $("#themeLink").attr('href', '@Model.CurrentUser.LayoutThemeViewModel.Link');
     });
@@ -96,7 +97,7 @@
                 isClosed = true;
             }
         }
-        $('[data-toggle="offcanvas"]').click(function () {            $('#wrapper').toggleClass('toggled');        });
+        $('[data-toggle="offcanvas"]').click(function () {$('#wrapper').toggleClass('toggled');        });
 
         @*var viewmodel = new ViewModels.HomeViewData(@Html.Raw(Json.Serialize(Model)));
         ko.applyBindings(viewmodel, document.getElementById('home_content'));*@
