@@ -3,6 +3,7 @@ using IHK.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -57,6 +58,40 @@ namespace IHK.Web.Controllers
             }
 
             return mieter;
+        }
+
+        [Authorize(Policy = "DefaultPolicy")]
+        public async Task<MieterViewModel> SaveMieter(MieterItemViewModel mieter)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return new MieterViewModel()
+                {
+                    Errors = GetModelStateErrors(ModelState)
+                };
+            }
+
+            //ToDo SAVE
+
+            return new MieterViewModel();
+        }
+
+        private List<string> GetModelStateErrors(ModelStateDictionary ModelState)
+        {
+            List<string> errorMessages = new List<string>();
+
+            var validationErrors = ModelState.Values.Select(x => x.Errors);
+            validationErrors.ToList().ForEach(ve =>
+            {
+                var errorStrings = ve.Select(x => x.ErrorMessage);
+                errorStrings.ToList().ForEach(em =>
+                {
+                    errorMessages.Add(em);
+                });
+            });
+
+            return errorMessages;
         }
     }
 }

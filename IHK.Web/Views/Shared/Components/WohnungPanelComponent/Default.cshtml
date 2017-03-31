@@ -1,0 +1,22 @@
+﻿
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-primary">
+            <div class="panel-heading">Wohnung</div>
+            <div class="panel-body">
+                <div class="col-md-12 container-fluid">
+                    <div class="row">
+                        <th_li th-label="WohnungsNr" th-input="mieter.wohnung.wohnungsnummer" th-col="3"></th_li>
+                        <th_numUpDown th-col="3" th-label="Etage" th-up="onClickWohEtageUp" th-down="onClickWohEtageDown" th-value="mieter.wohnung.etage"></th_numUpDown>
+                        <th_numUpDown th-col="3" th-label="Räume" th-up="onClickWohRaeumeUp" th-down="onClickWohRaeumeDown" th-value="mieter.wohnung.raeume"></th_numUpDown>
+                        <th_li th-label="QM" th-input="mieter.wohnung.qm" th-col="3"></th_li>
+                        <th_bool th-col="1" th-label="Balkon" th-value="mieter.wohnung.balkon"></th_bool>
+                        <th_bool th-col="1" th-label="Garage" th-value="mieter.wohnung.garage"></th_bool>
+                        <th_bool th-col="1" th-label="Garten" th-value="mieter.wohnung.garten"></th_bool>
+                        <th_bool th-col="1" th-label="Keller" th-value="mieter.wohnung.keller"></th_bool>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

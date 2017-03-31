@@ -32,6 +32,20 @@
             return res;
         };
 
+        service.saveMieter = function (mieter) {
+            start(); 1
+            var res = $.ajax({
+                url: serviceurl + "SaveMieter",
+                data: {
+                    mieter: mieter
+                },
+                type: "POST",
+                cache: false
+            }).fail(error).always(complete);
+
+            return res;
+        };
+
 
         return service;
     };
