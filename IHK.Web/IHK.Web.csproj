@@ -12,14 +12,42 @@
     <Content Include="wwwroot\css\sidebar.css" />
     <Content Include="wwwroot\js\multiselectKo.js" />
     <Content Include="wwwroot\js\Services\AdminService.js" />
+    <Content Include="wwwroot\js\Services\AdresseService.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="wwwroot\js\Services\GebaeudeService.js" />
+    <Content Include="wwwroot\js\Services\WohnungService - Kopieren.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="wwwroot\js\Services\WohnungService.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
     <Content Include="wwwroot\js\Services\MieterService.js" />
     <Content Include="wwwroot\js\Services\OptionService.js" />
     <Content Include="wwwroot\js\ViewDatas\AdminViewData.js" />
+    <Content Include="wwwroot\js\ViewDatas\AdresseSearchViewData.js" />
+    <Content Include="wwwroot\js\ViewDatas\GebaeudeSearchViewData.js" />
+    <Content Include="wwwroot\js\ViewDatas\AdresseViewData.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="wwwroot\js\ViewDatas\GebeaudeSearchViewData - Kopieren.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="wwwroot\js\ViewDatas\GebeaudeSearchViewData.js" />
     <Content Include="wwwroot\js\ViewDatas\HomeViewData.js" />
+    <Content Include="wwwroot\js\ViewDatas\MieterSearchViewData - Kopieren.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
     <Content Include="wwwroot\js\ViewDatas\MieterSearchViewData.js" />
+    <Content Include="wwwroot\js\ViewDatas\GebaeudeViewData.js" />
+    <Content Include="wwwroot\js\ViewDatas\WohnungViewData.js" />
     <Content Include="wwwroot\js\ViewDatas\MieterViewData.js" />
     <Content Include="wwwroot\js\ViewDatas\NavBarViewData.js" />
     <Content Include="wwwroot\js\ViewDatas\OptionViewData.js" />
+    <Content Include="wwwroot\js\ViewDatas\WohnungSearchViewData - Kopieren.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="wwwroot\js\ViewDatas\WohnungSearchViewData.js" />
     <Content Include="wwwroot\lib\knockout\dist\knockout.mapping-latest.debug.js" />
   </ItemGroup>
   <ItemGroup>

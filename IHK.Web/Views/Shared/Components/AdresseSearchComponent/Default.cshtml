@@ -1,0 +1,33 @@
+﻿@*@model  IHK.ViewModels.*@
+@*@using IHK.Common
+@using IHK.Services*@
+@*@inject  AccountService _accountService*@
+
+
+<div id="adresseSearch_content" class="tab-pane fade">
+    <div class="row">
+        @await Component.InvokeAsync(nameof(SearchComponent), new { entityType = EntityType.Adresse })
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading clearfix">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h5 class="control-label">Resultate</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    @await Component.InvokeAsync(nameof(AdresseSearchResultComponent))
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var viewmodel = new ViewModels.AdresseSearchViewData(@Html.Raw(Json.Serialize(Model)));
+    ko.applyBindings(viewmodel, document.getElementById('adresseSearch_content'));
+</script>

@@ -6,6 +6,8 @@ namespace IHK.ViewModels
 {
     public class WohnungItemViewModel
     {
+        public string KoPath { get; set; }
+        public int Id { get; set; }
         public string Wohnungsnummer { get; set; }
         public int Etage { get; set; }
         public bool Keller { get; set; }

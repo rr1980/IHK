@@ -1,15 +1,16 @@
-﻿
+﻿@model  IHK.ViewModels.AdressenItemViewModel
+
 <div class="row">
     <div class="col-md-12">
         <div class="panel panel-primary">
             <div class="panel-heading">Adresse</div>
             <div class="panel-body">
                 <div class="col-md-12 container-fluid">
-                    <div class="row">
-                        <th_li th-label="Postleitzahl" th-input="mieter.wohnung.gebaeude.adresse.postleitzahl" th-col="3"></th_li>
-                        <th_li th-label="Stadt" th-input="mieter.wohnung.gebaeude.adresse.stadt" th-col="3"></th_li>
-                        <th_li th-label="Strasse" th-input="mieter.wohnung.gebaeude.adresse.strasse" th-col="3"></th_li>
-                        <th_li th-label="Hausnummer" th-input="mieter.wohnung.gebaeude.adresse.hausnummer" th-col="3"></th_li>
+                    <div class="row" id="wohRow" data-koPath="@Model.KoPath">
+                        <th_li th-label="Postleitzahl" th-input="@{@Model.KoPath}adresse.postleitzahl" th-col="3"></th_li>
+                        <th_li th-label="Stadt" th-input="@{@Model.KoPath}adresse.stadt" th-col="3"></th_li>
+                        <th_li th-label="Strasse" th-input="@{@Model.KoPath}adresse.strasse" th-col="3"></th_li>
+                        <th_li th-label="Hausnummer" th-input="@{@Model.KoPath}adresse.hausnummer" th-col="3"></th_li>
                     </div>
                 </div>
             </div>

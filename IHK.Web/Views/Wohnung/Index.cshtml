@@ -1,0 +1,34 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model  IHK.ViewModels.WohnungViewModel
+@{
+    Layout = "_LayoutWohnung";
+    ViewData["Title"] = "Wohnung Page";
+}
+
+<div id="wohnung_content" class="container-fluid">
+
+    @await Component.InvokeAsync(nameof(AdressePanelComponent), new { koPath = "wohnung.gebaeude.", M = Model.Wohnung.Gebaeude.Adresse })
+    @await Component.InvokeAsync(nameof(WohnungPanelComponent), new { koPath = "", M = Model.Wohnung })
+    @await Component.InvokeAsync(nameof(GebaeudePanelComponent), new { koPath = "wohnung.", M = Model.Wohnung.Gebaeude })
+
+    <div class="row row-buffTop">
+        <ul id="errors"></ul>
+    </div>
+
+    <div class="row">
+        <th_crud class="col-md-12"
+                 th-show-del="false"
+                 th-show-edit="false"
+                 th-show-insert="false">
+        </th_crud>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $("#themeLink").attr('href', '@Model.CurrentUser.LayoutThemeViewModel.Link');
+    });
+
+    var viewmodel = new ViewModels.WohnungViewData(@Html.Raw(Json.Serialize(Model)));
+    ko.applyBindings(viewmodel, document.getElementById('wohnung_content'));
+</script>

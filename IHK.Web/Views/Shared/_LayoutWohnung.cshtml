@@ -1,0 +1,70 @@
+﻿@*@inject Microsoft.ApplicationInsights.AspNetCore.JavaScriptSnippet JavaScriptSnippet*@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - IHK.Web</title>
+    <script>
+        window.ViewModels = {};
+        window.Services = {};
+    </script>
+    <environment names="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.css" />
+        <link id="themeLink" type="text/css" href="" rel="stylesheet">
+        <link rel="stylesheet" href="~/lib/bootstrap-select/dist/css/bootstrap-select.css" />
+        <link rel="stylesheet" href="~/lib/bootstrap-multiselect-master/dist/css/bootstrap-multiselect.css" type="text/css" />
+        <link rel="stylesheet" href="~/lib/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" type="text/css" />
+        <link rel="stylesheet" href="~/css/site.css" />
+    </environment>
+    <environment names="Staging,Production">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.css" />
+        <link rel="stylesheet" href="~/css/site.css" />
+    </environment>
+    @*@Html.Raw(JavaScriptSnippet.FullScript)*@
+</head>
+<body>
+
+
+    <environment names="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="~/lib/bootstrap-select/dist/js/bootstrap-select.js"></script>
+        <script src="~/lib/knockout/dist/knockout.debug.js"></script>
+        <script src="~/lib/knockout/dist/knockout.mapping-latest.debug.js"></script>
+        <script src="~/lib/Knockout-Validation/Dist/knockout.validation.js"></script>
+        <script type="text/javascript" src="~/lib/bootstrap-multiselect-master/dist/js/bootstrap-multiselect.js"></script>
+        <script src="~/js/multiselectKo.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+        <script src="~/js/Services/WohnungService.js"></script>
+        <script src="~/js/ViewDatas/WohnungViewData.js"></script>
+        @*<script asp-src-include="~/js/ViewDatas/**/*.js"></script>*@
+        
+    </environment>
+    <environment names="Staging,Production">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/tether/dist/js/tether.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="~/lib/select2/dist/js/select2.full.js"></script>
+        <script src="~/lib/knockout/dist/knockout.debug.js"></script>
+        <script src="~/lib/knockout/dist/knockout.mapping-latest.debug.js"></script>
+        <script src="~/lib/knockout-select2v4/dist/knockout-select2.js"></script>
+        <script src="~/lib/Knockout-Validation/Dist/knockout.validation.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+        <script asp-src-include="~/js/Services/**/*.js"></script>
+        <script asp-src-include="~/js/ViewDatas/**/*.js"></script>
+    </environment>
+
+
+    <div  class="body-content">
+        @RenderBody()
+    </div>
+
+    
+
+    @RenderSection("Scripts", required: false)
+
+</body>
+</html>

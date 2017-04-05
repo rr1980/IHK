@@ -2,11 +2,12 @@
 window.ViewModels = (function (module) {
     module.MieterViewData = function (data) {
         var self = this;
+        var koPath = $("#wohRow").data("kopath");
         ko.mapping.fromJS(data, {}, self);
-        var mieterervice = new Services.MieterService();
+        var mieterservice = new Services.MieterService();
 
         self.onClickSave = function () {
-            mieterervice.saveMieter(ko.mapping.toJS(self.mieter)).done(function (response) {
+            mieterservice.saveMieter(ko.mapping.toJS(self.mieter)).done(function (response) {
                 $("#errors").html("");
                 if (response.errors === null) {
 
@@ -19,36 +20,63 @@ window.ViewModels = (function (module) {
             });
         };
 
+        function getValue(array) {
+            var value = self;
+
+            if (koPath != "") {
+                var sp = koPath.split('.');
+                for (var i = 0; i < sp.length; i++) {
+                    if (sp[i] != "") {
+                        value = value[sp[i]];
+                    }
+                }
+            }
+
+            for (var i = 0; i < array.length; i++) {
+                value = value[array[i]];
+            }
+
+            return value;
+        };
+
         self.onClickWohEtageUp = function (data, event) {
-            self.mieter.wohnung.etage(self.mieter.wohnung.etage() + 1);
+            var value = getValue(["wohnung", "etage"]);
+            value(value() + 1);
         };
 
         self.onClickWohEtageDown = function (data, event) {
-            self.mieter.wohnung.etage(self.mieter.wohnung.etage() - 1);
+            var value = getValue(["wohnung", "etage"]);
+            value(value() - 1);
         };
 
         self.onClickWohRaeumeUp = function (data, event) {
-            self.mieter.wohnung.raeume(self.mieter.wohnung.raeume() + 1);
+            var value = getValue(["wohnung", "raeume"]);
+            value(value() + 1);
         };
 
         self.onClickWohRaeumeDown = function (data, event) {
-            self.mieter.wohnung.raeume(self.mieter.wohnung.raeume() - 1);
+            var value = getValue(["wohnung", "raeume"]);
+            value(value() - 1);
         };
 
         self.onClickEtagenUp = function (data, event) {
-            self.mieter.wohnung.gebaeude.etagen(self.mieter.wohnung.gebaeude.etagen() + 1);
+            var value = getValue(["wohnung", "gebaeude","etagen"]);
+            value(value() + 1);
         };
 
         self.onClickEtagenDown = function (data, event) {
-            self.mieter.wohnung.gebaeude.etagen(self.mieter.wohnung.gebaeude.etagen() - 1);
+            var value = getValue(["wohnung", "gebaeude", "etagen"]);
+            value(value() - 1);
         };
 
         self.onClickGaertenUp = function (data, event) {
-            self.mieter.wohnung.gebaeude.gaerten(self.mieter.wohnung.gebaeude.gaerten() + 1);
+            var value = getValue(["wohnung", "gebaeude", "gaerten"]);
+            value(value() + 1);
         };
 
         self.onClickGaertenDown = function (data, event) {
-            self.mieter.wohnung.gebaeude.gaerten(self.mieter.wohnung.gebaeude.gaerten() - 1);
+            var value = getValue(["wohnung", "gebaeude", "gaerten"]);
+            value(value() - 1);
         };
 
     };

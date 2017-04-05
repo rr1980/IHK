@@ -1,14 +1,15 @@
-﻿
+﻿@model  IHK.ViewModels.GebaeudeItemViewModel
+
 <div class="row">
     <div class="col-md-12">
         <div class="panel panel-primary">
             <div class="panel-heading">Gebäude</div>
             <div class="panel-body">
                 <div class="col-md-12 container-fluid">
-                    <div class="row">
+                    <div class="row" id="wohRow" data-koPath="@Model.KoPath">
 
-                        <th_numUpDown th-col="4" th-label="Etagen" th-up="onClickEtagenUp" th-down="onClickEtagenDown" th-value="mieter.wohnung.gebaeude.etagen"></th_numUpDown>
-                        <th_numUpDown th-col="4" th-label="Gärten" th-up="onClickGaertenUp" th-down="onClickGaertenDown" th-value="mieter.wohnung.gebaeude.gaerten"></th_numUpDown>
+                        <th_numUpDown th-col="4" th-label="Etagen" th-up="onClickEtagenUp" th-down="onClickEtagenDown" th-value="@{@Model.KoPath}gebaeude.etagen"></th_numUpDown>
+                        <th_numUpDown th-col="4" th-label="Gärten" th-up="onClickGaertenUp" th-down="onClickGaertenDown" th-value="@{@Model.KoPath}gebaeude.gaerten"></th_numUpDown>
 
                     </div>
                 </div>

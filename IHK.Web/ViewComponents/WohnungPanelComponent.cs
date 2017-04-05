@@ -21,9 +21,10 @@ namespace IHK.Web.ViewComponents
             _httpContext = httpContextAccessor.HttpContext;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(WohnungItemViewModel wohnungItemViewModel)
+        public async Task<IViewComponentResult> InvokeAsync(string koPath,WohnungItemViewModel M)
         {
-            return View();
+            M.KoPath = koPath;
+            return View(M);
         }
     }
 }

@@ -35,9 +35,9 @@ namespace IHK.Services
 
         public async Task<List<MieterItemViewModel>> SearchMieter(string datas)
         {
-            ICollection<string> data = datas.Split(' ').Select(d=>d.Trim()).Where(s=>!string.IsNullOrEmpty(s)).ToList();
+            ICollection<string> data = datas.Split(' ').Select(d => d.Trim()).Where(s => !string.IsNullOrEmpty(s)).ToList();
 
-            var mieter = await _mieterRepository.GetMieterBy(data,m=> new[] {
+            var mieter = await _mieterRepository.GetMieterBy(data, m => new[] {
                 m.Name,
                 m.Vorname,
                 m.Telefon,
@@ -52,6 +52,41 @@ namespace IHK.Services
             return mieter.Select(m => _map(m)).ToList();
         }
 
+        public async Task SaveMieter(MieterItemViewModel mieter)
+        {
+            var m = await _mieterRepository.GetById(mieter.Id);
+
+            if (m == null)
+            {
+                m = new Mieter();
+                _mieterRepository.AddMieter(m);
+            }
+            m = m.Map(mieter);
+
+            var wex = await _mieterRepository.GetWohnungById(mieter.Wohnung.Id);
+            if (wex == null)
+            {
+                wex = new Wohnung();
+            }
+            m.Wohnung = wex.Map(mieter.Wohnung);
+
+            var gex = await _mieterRepository.GetGebaeudegById(mieter.Wohnung.Gebaeude.Id);
+            if (gex == null)
+            {
+                gex = new Gebaeude();
+            }
+            m.Wohnung.Gebaeude = gex.Map(mieter.Wohnung.Gebaeude);
+
+            var aex = await _mieterRepository.GetAdresseById(mieter.Wohnung.Gebaeude.Adresse.Id);
+            if (aex == null)
+            {
+                aex = new Adresse();
+            }
+            m.Wohnung.Gebaeude.Adresse = aex.Map(mieter.Wohnung.Gebaeude.Adresse);
+
+            _mieterRepository.SaveChanges();
+        }
+
         private MieterItemViewModel _map(Mieter m)
         {
             return new MieterItemViewModel()
@@ -64,6 +99,7 @@ namespace IHK.Services
                 WbsNummer = m.WbsNummer,
                 Wohnung = new WohnungItemViewModel()
                 {
+                    Id = m.Wohnung.Id,
                     Wohnungsnummer = m.Wohnung.Wohnungsnummer,
                     Etage = m.Wohnung.Etage,
                     Keller = m.Wohnung.Keller,
@@ -71,15 +107,17 @@ namespace IHK.Services
                     Balkon = m.Wohnung.Balkon,
                     Garten = m.Wohnung.Garten,
                     Raeume = m.Wohnung.Raeume,
-                    Qm= m.Wohnung.Qm,
+                    Qm = m.Wohnung.Qm,
 
                     Gebaeude = new GebaeudeItemViewModel()
                     {
+                        Id = m.Wohnung.Gebaeude.Id,
                         Etagen = m.Wohnung.Gebaeude.Etagen,
                         Gaerten = m.Wohnung.Gebaeude.Gaerten,
-                        
+
                         Adresse = new AdressenItemViewModel()
                         {
+                            Id = m.Wohnung.Gebaeude.Adresse.Id,
                             Postleitzahl = m.Wohnung.Gebaeude.Adresse.Postleitzahl,
                             Stadt = m.Wohnung.Gebaeude.Adresse.Stadt,
                             Strasse = m.Wohnung.Gebaeude.Adresse.Strasse,

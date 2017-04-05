@@ -1,0 +1,33 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model  IHK.ViewModels.GebaeudeViewModel
+@{
+    Layout = "_LayoutGebaeude";
+    ViewData["Title"] = "Gebäude Page";
+}
+
+<div id="gebaeude_content" class="container-fluid">
+
+    @await Component.InvokeAsync(nameof(AdressePanelComponent), new { koPath = "gebaeude.", M = Model.Gebaeude.Adresse })
+    @await Component.InvokeAsync(nameof(GebaeudePanelComponent), new { koPath = "", M = Model.Gebaeude })
+
+    <div class="row row-buffTop">
+        <ul id="errors"></ul>
+    </div>
+
+    <div class="row">
+        <th_crud class="col-md-12"
+                 th-show-del="false"
+                 th-show-edit="false"
+                 th-show-insert="false">
+        </th_crud>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $("#themeLink").attr('href', '@Model.CurrentUser.LayoutThemeViewModel.Link');
+    });
+
+    var viewmodel = new ViewModels.GebaeudeViewData(@Html.Raw(Json.Serialize(Model)));
+    ko.applyBindings(viewmodel, document.getElementById('gebaeude_content'));
+</script>

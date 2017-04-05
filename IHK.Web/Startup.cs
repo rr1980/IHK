@@ -47,13 +47,18 @@ namespace IHK.Web
             services.AddDbContext<DataContext>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<IAuthorizationHandler, AuthPolicyHandler>();
-            services.AddScoped<UserRepository>();
-            services.AddScoped<MieterRepository>();
-            services.AddScoped<OptionRepository>();
+            services.AddSingleton<UserRepository>();
+            services.AddSingleton<OptionRepository>();
+            services.AddSingleton<MieterRepository>();
+            services.AddSingleton<WohnungRepository>();
+            services.AddSingleton<GebaeudeRepository>();
+            services.AddSingleton<AdresseRepository>();
             services.AddScoped<AccountService>();
             services.AddScoped<OptionService>();
             services.AddScoped<MieterService>();
-
+            services.AddScoped<WohnungService>();
+            services.AddScoped<GebaeudeService>();
+            services.AddScoped<AdresseService>();
         }
 
         public void Configure(IApplicationBuilder app,IServiceProvider serviceProvider, IHostingEnvironment env, ILoggerFactory loggerFactory, DataContext dataContext)

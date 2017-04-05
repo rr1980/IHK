@@ -39,8 +39,22 @@
         <script type="text/javascript" src="~/lib/bootstrap-multiselect-master/dist/js/bootstrap-multiselect.js"></script>
         <script src="~/js/multiselectKo.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
-        <script asp-src-include="~/js/Services/**/*.js"></script>
-        <script asp-src-include="~/js/ViewDatas/**/*.js"></script>
+        @*<script asp-src-include="~/js/Services/**/*.js"></script>
+        <script asp-src-include="~/js/ViewDatas/**/*.js"></script>*@
+        <script src="~/js/Services/OptionService.js"></script>
+        <script src="~/js/Services/AdminService.js"></script>
+        <script src="~/js/Services/MieterService.js"></script>
+        <script src="~/js/Services/WohnungService.js"></script>
+        <script src="~/js/Services/GebaeudeService.js"></script>
+        <script src="~/js/Services/AdresseService.js"></script>
+        <script src="~/js/ViewDatas/NavBarViewData.js"></script>
+        <script src="~/js/ViewDatas/MieterSearchViewData.js"></script>
+        <script src="~/js/ViewDatas/WohnungSearchViewData.js"></script>
+        <script src="~/js/ViewDatas/GebaeudeSearchViewData.js"></script>
+        <script src="~/js/ViewDatas/AdresseSearchViewData.js"></script>
+        <script src="~/js/ViewDatas/OptionViewData.js"></script>
+        <script src="~/js/ViewDatas/AdminViewData.js"></script>
+
         
     </environment>
     <environment names="Staging,Production">

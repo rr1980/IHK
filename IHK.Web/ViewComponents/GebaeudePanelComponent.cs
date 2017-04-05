@@ -21,9 +21,10 @@ namespace IHK.Web.ViewComponents
             _httpContext = httpContextAccessor.HttpContext;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(GebaeudeItemViewModel gebaeudeItemViewModel)
+        public async Task<IViewComponentResult> InvokeAsync(string koPath, GebaeudeItemViewModel M)
         {
-            return View();
+            M.KoPath = koPath;
+            return View(M);
         }
     }
 }

@@ -1,0 +1,32 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model  IHK.ViewModels.AdresseViewModel
+@{
+    Layout = "_LayoutAdresse";
+    ViewData["Title"] = "Adresse Page";
+}
+
+<div id="adresse_content" class="container-fluid">
+
+    @await Component.InvokeAsync(nameof(AdressePanelComponent), new { koPath = "", M = Model.Adresse })
+    
+    <div class="row row-buffTop">
+        <ul id="errors"></ul>
+    </div>
+
+    <div class="row">
+        <th_crud class="col-md-12"
+                 th-show-del="false"
+                 th-show-edit="false"
+                 th-show-insert="false">
+        </th_crud>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $("#themeLink").attr('href', '@Model.CurrentUser.LayoutThemeViewModel.Link');
+    });
+
+    var viewmodel = new ViewModels.AdresseViewData(@Html.Raw(Json.Serialize(Model)));
+    ko.applyBindings(viewmodel, document.getElementById('adresse_content'));
+</script>

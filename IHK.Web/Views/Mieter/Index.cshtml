@@ -7,9 +7,9 @@
 
 <div id="mieter_content" class="container-fluid">
     @await Component.InvokeAsync(nameof(MieterPanelComponent))
-    @await Component.InvokeAsync(nameof(AdressePanelComponent), Model.Mieter.Wohnung.Gebaeude.Adresse)
-    @await Component.InvokeAsync(nameof(WohnungPanelComponent),Model.Mieter.Wohnung)
-    @await Component.InvokeAsync(nameof(GebaeudePanelComponent),Model.Mieter.Wohnung.Gebaeude)
+    @await Component.InvokeAsync(nameof(AdressePanelComponent), new { koPath = "mieter.wohnung.gebaeude.", M = Model.Mieter.Wohnung.Gebaeude.Adresse })
+    @await Component.InvokeAsync(nameof(WohnungPanelComponent), new { koPath = "mieter.", M = Model.Mieter.Wohnung })
+    @await Component.InvokeAsync(nameof(GebaeudePanelComponent), new { koPath = "mieter.wohnung.", M = Model.Mieter.Wohnung.Gebaeude })
 
     <div class="row row-buffTop">
         <ul id="errors"></ul>

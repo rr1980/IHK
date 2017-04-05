@@ -71,6 +71,10 @@ namespace IHK.Web.Controllers
                     Errors = GetModelStateErrors(ModelState)
                 };
             }
+            else
+            {
+                _mieterService.SaveMieter(mieter);
+            }
 
             //ToDo SAVE
 

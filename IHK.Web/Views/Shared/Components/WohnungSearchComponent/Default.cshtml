@@ -5,5 +5,29 @@
 
 
 <div id="wohnungSearch_content" class="tab-pane fade">
-    <h1>Wohnungszeugs...</h1>
+    <div class="row">
+        @await Component.InvokeAsync(nameof(SearchComponent), new { entityType = EntityType.Wohnung })
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading clearfix">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h5 class="control-label">Resultate</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    @await Component.InvokeAsync(nameof(WohnungSearchResultComponent))
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<script>
+    var viewmodel = new ViewModels.WohnungSearchViewData(@Html.Raw(Json.Serialize(Model)));
+    ko.applyBindings(viewmodel, document.getElementById('wohnungSearch_content'));
+</script>
