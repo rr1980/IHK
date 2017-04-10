@@ -6,6 +6,10 @@ window.ViewModels = (function (module) {
         ko.mapping.fromJS(data, {}, self);
         var mieterservice = new Services.MieterService();
 
+        self.sendMsg = function () {
+            sendMessage("TEST!!!");
+        }
+
         self.onClickSave = function () {
             mieterservice.saveMieter(ko.mapping.toJS(self.mieter)).done(function (response) {
                 $("#errors").html("");
@@ -23,10 +27,10 @@ window.ViewModels = (function (module) {
         function getValue(array) {
             var value = self;
 
-            if (koPath != "") {
+            if (koPath !== "") {
                 var sp = koPath.split('.');
                 for (var i = 0; i < sp.length; i++) {
-                    if (sp[i] != "") {
+                    if (sp[i] !== "") {
                         value = value[sp[i]];
                     }
                 }

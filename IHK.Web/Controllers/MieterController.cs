@@ -1,4 +1,6 @@
-﻿using IHK.Services;
+﻿using IHK.Common;
+using IHK.MultiUserBlock;
+using IHK.Services;
 using IHK.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -17,25 +19,47 @@ namespace IHK.Web.Controllers
         private readonly AccountService _accountService;
         private readonly HttpContext _httpContext;
         private readonly MieterService _mieterService;
+        private readonly MultiUserBlockWebSocketManager _multiUserBlockWebSocketManager;
 
-        public MieterController(AccountService accountService, IHttpContextAccessor httpContextAccessor, MieterService mieterService)
+        public MieterController(AccountService accountService, IHttpContextAccessor httpContextAccessor, MieterService mieterService, MultiUserBlockWebSocketManager multiUserBlockWebSocketManager)
         {
             _accountService = accountService;
             _httpContext = httpContextAccessor.HttpContext;
             _mieterService = mieterService;
+            _multiUserBlockWebSocketManager = multiUserBlockWebSocketManager;
         }
 
         [Authorize(Policy = "DefaultPolicy")]
         public async Task<IActionResult> Index(int id)
         {
+            if (id <= 0)
+            {
+                return BadRequest("Existiert nicht!");
+            }
+
             var userId = Convert.ToInt32(_httpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value);
 
-            var mieter = await _mieterService.GetMieterById(id);
+            var pos = _multiUserBlockWebSocketManager.AddBlock(EntityType.Mieter, id, userId);
 
-            return View(new MieterViewModel() {
-                CurrentUser = await _accountService.GetById(userId),
-                Mieter = mieter
-            });
+
+            //bool canget = _multiUserBlockWebSocketManager.CanGet(EntityType.Mieter, id,userId);
+
+            if (pos == 0)
+            {
+                var mieter = await _mieterService.GetMieterById(id);
+
+                return View(new MieterViewModel()
+                {
+                    CurrentUser = await _accountService.GetById(userId),
+                    Mieter = mieter
+                });
+            }
+            else
+            {
+                //return BadRequest("Besetzt!!!");
+                return View("~/Views/MUB/Index.cshtml");
+            }
+
         }
 
         [Authorize(Policy = "DefaultPolicy")]

@@ -16,7 +16,10 @@
     </div>
 
     <div class="row">
-        <th_crud class="col-md-12"
+        <div class="col-md-3">
+            <button type="button" id="sendButton" data-bind="click: sendMsg" class="btn btn-default btn-sm">SEND</button>
+        </div>
+        <th_crud class="col-md-9"
                  th-show-del="false"
                  th-show-edit="false"
                  th-show-insert="false">

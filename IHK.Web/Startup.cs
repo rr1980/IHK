@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using IHK.Services;
 using IHK.Repositorys;
+using IHK.MultiUserBlock;
 
 namespace IHK.Web
 {
@@ -59,6 +60,9 @@ namespace IHK.Web
             services.AddScoped<WohnungService>();
             services.AddScoped<GebaeudeService>();
             services.AddScoped<AdresseService>();
+
+            services.AddMultiUserBlockManager();
+
         }
 
         public void Configure(IApplicationBuilder app,IServiceProvider serviceProvider, IHostingEnvironment env, ILoggerFactory loggerFactory, DataContext dataContext)
@@ -92,6 +96,9 @@ namespace IHK.Web
                 SlidingExpiration = true,
                 CookieName = "rrAuth",
             });
+
+            app.UseWebSockets();
+            app.UseMultiUserBlock("/mub", serviceProvider.GetService<MultiUserBlockHandler>());
 
             app.UseMvc(routes =>
             {
