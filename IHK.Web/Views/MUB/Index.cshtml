@@ -1,46 +1,52 @@
-﻿
-@*@model  IHK.ViewModels.WaitViewModel*@
+﻿@{
+    Layout = "_LayoutWait";
+    ViewData["Title"] = "Wait Page";
+}
+
+<div id="wait_content"></div>
+@model  IHK.ViewModels.WaitViewModel
 
 <button type="button" id="sendButton" class="btn btn-default btn-sm">SEND</button>
 
 <script>
+    connect("mub");
+    var viewmodel = new ViewModels.WaitViewData(@Html.Raw(Json.Serialize(Model)));
+    ko.applyBindings(viewmodel, document.getElementById('wait_content'));
 
+    //function connect() {
+    //    socket = new WebSocket(uri);
+    //    socket.onopen = function (event) {
+    //        console.log("opened connection to " + uri);
+    //    };
+    //    socket.onclose = function (event) {
+    //        console.log("closed connection from " + uri);
+    //    };
+    //    socket.onmessage = function (event) {
+    //        //appendItem(list, event.data);
+    //        console.log(event.data);
+    //    };
+    //    socket.onerror = function (event) {
+    //        console.log("error: " + event.data);
+    //    };
+    //}
+    //connect();
+    ////var list = document.getElementById("messages");
+    //var button = document.getElementById("sendButton");
+    //button.addEventListener("click", function () {
 
-    var uri = "ws://" + window.location.host + "/mub";
-    function connect() {
-        socket = new WebSocket(uri);
-        socket.onopen = function (event) {
-            console.log("opened connection to " + uri);
-        };
-        socket.onclose = function (event) {
-            console.log("closed connection from " + uri);
-        };
-        socket.onmessage = function (event) {
-            //appendItem(list, event.data);
-            console.log(event.data);
-        };
-        socket.onerror = function (event) {
-            console.log("error: " + event.data);
-        };
-    }
-    connect();
-    //var list = document.getElementById("messages");
-    var button = document.getElementById("sendButton");
-    button.addEventListener("click", function () {
+    //    //var input = document.getElementById("textInput");
+    //    //sendMessage(input.value);
+    //    sendMessage("TEST!!!");
 
-        //var input = document.getElementById("textInput");
-        //sendMessage(input.value);
-        sendMessage("TEST!!!");
-
-        //input.value = "";
-    });
-    function sendMessage(message) {
-        console.log("Sending: " + message);
-        socket.send(message);
-    }
+    //    //input.value = "";
+    //});
+    //function sendMessage(message) {
+    //    console.log("Sending: " + message);
+    //    socket.send(message);
+    //}
 //function appendItem(list, message) {
 //    var item = document.createElement("li");
 //    item.appendChild(document.createTextNode(message));
 //    list.appendChild(item);
-//}    
+//}
 </script>

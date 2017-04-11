@@ -7,7 +7,15 @@ window.ViewModels = (function (module) {
         var mieterservice = new Services.MieterService();
 
         self.sendMsg = function () {
-            sendMessage("TEST!!!");
+            var msg = {
+                Command: "Block",
+                EntityType: self.mubBlock.entityType(),
+                UserId: self.mubBlock.userId(),
+                EntityId: self.mubBlock.entityId(),
+                SocketId: self.mubBlock.socketId()
+            };
+            console.debug(msg);
+            sendMessage(JSON.stringify(msg));
         }
 
         self.onClickSave = function () {
@@ -64,7 +72,7 @@ window.ViewModels = (function (module) {
         };
 
         self.onClickEtagenUp = function (data, event) {
-            var value = getValue(["wohnung", "gebaeude","etagen"]);
+            var value = getValue(["wohnung", "gebaeude", "etagen"]);
             value(value() + 1);
         };
 
@@ -82,6 +90,10 @@ window.ViewModels = (function (module) {
             var value = getValue(["wohnung", "gebaeude", "gaerten"]);
             value(value() - 1);
         };
+
+
+        self.sendMsg();
+
 
     };
     return module;

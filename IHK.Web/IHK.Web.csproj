@@ -32,6 +32,7 @@
     <Content Include="wwwroot\js\ViewDatas\HomeViewData.js" />
     <Content Include="wwwroot\js\ViewDatas\MieterSearchViewData.js" />
     <Content Include="wwwroot\js\ViewDatas\GebaeudeViewData.js" />
+    <Content Include="wwwroot\js\ViewDatas\WaitViewData.js" />
     <Content Include="wwwroot\js\ViewDatas\WohnungViewData.js" />
     <Content Include="wwwroot\js\ViewDatas\MieterViewData.js" />
     <Content Include="wwwroot\js\ViewDatas\NavBarViewData.js" />

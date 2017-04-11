@@ -1,7 +1,28 @@
-﻿
+﻿function sendMessage(message, callback) {
+    console.debug(message);
+    WaitForConnection(function () {
+        socket.send(message);
+        if (typeof callback !== 'undefined') {
+            callback();
+        }
+    }, 500);
+};
 
-var uri = "ws://" + window.location.host + "/mub";
-function connect() {
+function WaitForConnection (callback, interval) {
+    if (socket.readyState === 1) {
+        callback();
+    } else {
+        var that = this;
+        // optional: implement backoff for interval here
+        setTimeout(function () {
+            WaitForConnection(callback, interval);
+        }, interval);
+    }
+};
+
+
+function connect(path) {
+    var uri = "ws://" + window.location.host + "/" + path;
     socket = new WebSocket(uri);
     socket.onopen = function (event) {
         console.log("opened connection to " + uri);
@@ -9,15 +30,15 @@ function connect() {
     socket.onclose = function (event) {
         console.log("closed connection from " + uri);
     };
-    socket.onmessage = function (event) {
-        //appendItem(list, event.data);
-        console.log(event.data);
-    };
+    //socket.onmessage = function (event) {
+    //    //appendItem(list, event.data);
+    //    console.log(event.data);
+    //};
     socket.onerror = function (event) {
         console.log("error: " + event.data);
     };
 }
-connect();
+//connect();
 //var list = document.getElementById("messages");
 var button = document.getElementById("sendButton");
 //button.addEventListener("click", function () {
@@ -28,10 +49,10 @@ var button = document.getElementById("sendButton");
 
 //    input.value = "";
 //});
-function sendMessage(message) {
-    console.log("Sending: " + message);
-    socket.send(message);
-}
+//function sendMessage(message) {
+//    console.log("Sending: " + message);
+//    v.send(message);
+//}
 //function appendItem(list, message) {
 //    var item = document.createElement("li");
 //    item.appendChild(document.createTextNode(message));

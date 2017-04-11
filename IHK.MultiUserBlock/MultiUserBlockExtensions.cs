@@ -9,21 +9,30 @@ namespace IHK.MultiUserBlock
     public static class MultiUserBlockExtensions
     {
 
-        public static IApplicationBuilder UseMultiUserBlock(this IApplicationBuilder app,
-                                                                  PathString path,
-                                                                  MultiUserBlockHandlerBase handler)
+        public static IApplicationBuilder UseMultiUserBlock(this IApplicationBuilder app, bool debug = false)
         {
-            return app.Map(path, (_app) => _app.UseMiddleware<MultiUserBlockMiddleware>(handler));
+            if (debug)
+            {
+                app.Map("/mubdebug", (_app) => _app.UseMiddleware<MultiUserBlockMiddlewareDebug>());
+            }
+
+            //app.Map("/mub", (_app) => _app.UseMiddleware<MultiUserBlockMiddleware>());
+            app.Map("/mub", (_app) => _app.UseMiddleware<MultiUserBlockMiddleware>());
+
+
+            return app;
         }
 
         public static IServiceCollection AddMultiUserBlockManager(this IServiceCollection services)
         {
-            services.AddSingleton<MultiUserBlockWebSocketManager>();
-            services.AddSingleton<MultiUserBlockHandler>();
+            //services.AddSingleton<MultiUserBlockWebSocketManager>();
+            //services.AddSingleton<MultiUserBlockHandler>();
+
+            services.AddScoped<MultiUserBlockWebService>();
 
             //foreach (var type in Assembly.GetEntryAssembly().ExportedTypes)
             //{
-            //    if (type.GetTypeInfo().BaseType == typeof(WebSocketHandler))
+            //if (type.GetTypeInfo().BaseType == typeof(WebSocketHandler))
             //    {
             //        services.AddSingleton(type);
             //    }

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -19,15 +20,23 @@ namespace IHK.Web.Controllers
         private readonly AccountService _accountService;
         private readonly HttpContext _httpContext;
         private readonly MieterService _mieterService;
-        private readonly MultiUserBlockWebSocketManager _multiUserBlockWebSocketManager;
+        private readonly MultiUserBlockWebService _multiUserBlockWebService;
 
-        public MieterController(AccountService accountService, IHttpContextAccessor httpContextAccessor, MieterService mieterService, MultiUserBlockWebSocketManager multiUserBlockWebSocketManager)
+        public MieterController(AccountService accountService, IHttpContextAccessor httpContextAccessor, MieterService mieterService, MultiUserBlockWebService multiUserBlockWebService)
         {
             _accountService = accountService;
             _httpContext = httpContextAccessor.HttpContext;
             _mieterService = mieterService;
-            _multiUserBlockWebSocketManager = multiUserBlockWebSocketManager;
+            _multiUserBlockWebService = multiUserBlockWebService;
         }
+
+        //public MieterController(AccountService accountService, IHttpContextAccessor httpContextAccessor, MieterService mieterService)
+        //{
+        //    _accountService = accountService;
+        //    _httpContext = httpContextAccessor.HttpContext;
+        //    _mieterService = mieterService;
+        //    //_multiUserBlockWebService = multiUserBlockWebService;
+        //}
 
         [Authorize(Policy = "DefaultPolicy")]
         public async Task<IActionResult> Index(int id)
@@ -39,27 +48,52 @@ namespace IHK.Web.Controllers
 
             var userId = Convert.ToInt32(_httpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value);
 
-            var pos = _multiUserBlockWebSocketManager.AddBlock(EntityType.Mieter, id, userId);
+            var block = _multiUserBlockWebService.IsFree(EntityType.Mieter, id, userId);
 
 
             //bool canget = _multiUserBlockWebSocketManager.CanGet(EntityType.Mieter, id,userId);
 
-            if (pos == 0)
+            if (block.Position == 0)
             {
+                Debug.WriteLine("Free true");
                 var mieter = await _mieterService.GetMieterById(id);
 
                 return View(new MieterViewModel()
                 {
                     CurrentUser = await _accountService.GetById(userId),
-                    Mieter = mieter
+                    Mieter = mieter,
+                    MubBlock = new MUBBlockViewData()
+                    {
+                        SocketId = block.SocketId,
+                        EntityType = block.EntityType,
+                        UserId = block.UserId,
+                        EntityId = block.EntityId,
+                        Position = block.Position
+                    }
                 });
             }
             else
             {
+                Debug.WriteLine("Free false");
                 //return BadRequest("Besetzt!!!");
-                return View("~/Views/MUB/Index.cshtml");
+                return View("~/Views/MUB/Index.cshtml", new WaitViewModel()
+                {
+                    MubBlock = new MUBBlockViewData()
+                    {
+                        SocketId = block.SocketId,
+                        EntityType = block.EntityType,
+                        UserId = block.UserId,
+                        EntityId = block.EntityId,
+                        Position = block.Position
+                    }
+                });
             }
 
+            //return View(new MieterViewModel()
+            //{
+            //    CurrentUser = await _accountService.GetById(userId),
+            //    Mieter = mieter
+            //});
         }
 
         [Authorize(Policy = "DefaultPolicy")]

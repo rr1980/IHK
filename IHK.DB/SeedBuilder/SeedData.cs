@@ -86,6 +86,26 @@ namespace IHK.DB.SeedBuilder
                             LayoutTheme = context.LayoutThemes.SingleOrDefault(lt => lt.Name == "slate")
                         });
 
+            Users_Builder.Create(context,
+                        new UserRoleType[] { UserRoleType.Default },
+                        new User
+                        {
+                            Anrede = 1,
+
+                            Adresse = context.Adresse.FirstOrDefault(a => a.Id == 2),
+                            //Postleitzahl = "15344",
+                            //Stadt = "Großräschen",
+                            //Strasse = "Rosa-Luxemburg Strasse 15",
+
+                            Telefon = "12003",
+                            Email = "rener1980@gmail.com",
+                            Name = "Riesner",
+                            Vorname = "Test",
+                            Username = "Test",
+                            Password = "12003",
+                            LayoutTheme = context.LayoutThemes.SingleOrDefault(lt => lt.Name == "slate")
+                        });
+
         }
 
         private static void _del(DataContext context)

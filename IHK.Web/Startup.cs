@@ -98,7 +98,7 @@ namespace IHK.Web
             });
 
             app.UseWebSockets();
-            app.UseMultiUserBlock("/mub", serviceProvider.GetService<MultiUserBlockHandler>());
+            app.UseMultiUserBlock(true);
 
             app.UseMvc(routes =>
             {

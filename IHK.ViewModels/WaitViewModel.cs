@@ -6,6 +6,7 @@ namespace IHK.ViewModels
 {
     public class WaitViewModel
     {
+        public MUBBlockViewData MubBlock { get; set; }
         public int Position { get; set; }
     }
 }
