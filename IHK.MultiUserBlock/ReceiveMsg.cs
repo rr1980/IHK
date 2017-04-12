@@ -1,13 +1,13 @@
 ﻿using IHK.Common;
 
-namespace IHK.ViewModels
+namespace IHK.MultiUserBlock
 {
-    public class MUBBlockViewData
+    public class ReceiveMsg
     {
-        public string SocketId { get; set; }
+        public MUBSocketCommand Command { get; set; }
         public EntityType EntityType { get; set; }
+        public string SocketId { get; set; }
         public int UserId { get; set; }
         public int EntityId { get; set; }
-        public int Position { get; set; }
     }
 }

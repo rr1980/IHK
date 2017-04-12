@@ -81,6 +81,23 @@ namespace IHK.Web
             }
 
             app.UseStaticFiles();
+            app.Use(async (context, next) =>
+            {
+                //context.Response.Headers.Append("Cache-Control", "no-cache");
+                context.Response.Headers.Add("Cache-Control", "no-cache, no-store");
+                context.Response.Headers.Add("Expires", "-1");
+                await next();
+            });
+
+
+            //app.UseStaticFiles(new StaticFileOptions()
+            //{
+            //    OnPrepareResponse = context =>
+            //    {
+            //        context.Context.Response.Headers.Add("Cache-Control", "no-cache, no-store");
+            //        context.Context.Response.Headers.Add("Expires", "-1");
+            //    }
+            //});
 
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {

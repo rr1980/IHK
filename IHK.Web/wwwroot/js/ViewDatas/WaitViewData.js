@@ -5,27 +5,27 @@ window.ViewModels = (function (module) {
         ko.mapping.fromJS(data, {}, self);
 
         socket.onmessage = function (event) {
-            var data = JSON.parse(event.data);
-            console.log(data);
-            if (data.Command === 2 && data.Position === 0) {
+            var datas = JSON.parse(event.data);
+            console.log("-------------------------- onmessage");
+            console.debug(datas);
+            console.log("--------------------------");
+
+            if (datas.command === 1) {
+                ko.mapping.fromJS(datas.waits, {}, self.mubBlock.waits);
+            }
+            else if (datas.command === 2) {
                 location.reload();
             }
         };
 
 
         self.sendMsg = function () {
-            var msg = {
-                Command: "Block",
-                EntityType: self.mubBlock.entityType(),
-                UserId: self.mubBlock.userId(),
-                EntityId: self.mubBlock.entityId(),
-                SocketId: self.mubBlock.socketId()
-            };
-            console.debug(msg);
-            sendMessage(JSON.stringify(msg));
+            self.mubBlock.command ="Ping";
+            sendMessage(JSON.stringify(ko.mapping.toJS(self.mubBlock)));
         }
-
-        self.sendMsg();
+        setInterval(function () {
+            self.sendMsg();
+        }, 2000);
 
     };
     return module;

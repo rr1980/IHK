@@ -8,14 +8,19 @@ window.ViewModels = (function (module) {
 
         self.sendMsg = function () {
             var msg = {
-                Command: "Block",
+                Command: "Ping",
                 EntityType: self.mubBlock.entityType(),
                 UserId: self.mubBlock.userId(),
                 EntityId: self.mubBlock.entityId(),
                 SocketId: self.mubBlock.socketId()
             };
-            console.debug(msg);
+            //console.debug(msg);
             sendMessage(JSON.stringify(msg));
+
+            //console.log("-------------------------- sendMsg");
+            //console.debug(ko.mapping.toJS(self.mubBlock));
+            //console.log("--------------------------");
+            //sendMessage(JSON.stringify(ko.mapping.toJS(self.mubBlock)));
         }
 
         self.onClickSave = function () {
@@ -92,7 +97,11 @@ window.ViewModels = (function (module) {
         };
 
 
-        self.sendMsg();
+        setInterval(function () {
+            self.sendMsg();
+        }, 2000);
+
+        //self.sendMsg();
 
 
     };

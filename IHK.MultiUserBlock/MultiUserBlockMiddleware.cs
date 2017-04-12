@@ -18,9 +18,13 @@ namespace IHK.MultiUserBlock
     {
         private readonly RequestDelegate _next;
 
-        public MultiUserBlockMiddleware(RequestDelegate next)
+        public MultiUserBlockMiddleware(RequestDelegate next, MultiUserBlockWebService multiUserBlockWebService)
         {
             _next = next;
+            if(MultiUserBlockManager._multiUserBlockWebService == null)
+            {
+                MultiUserBlockManager._multiUserBlockWebService = multiUserBlockWebService;
+            }
         }
 
         public async Task Invoke(HttpContext context)
@@ -33,7 +37,7 @@ namespace IHK.MultiUserBlock
             var socket = await context.WebSockets.AcceptWebSocketAsync();
             var userId = Convert.ToInt32(context.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value);
 
-            //var sc = MultiUserBlockManager.OnConnected(socket, userId);
+            MultiUserBlockManager.OnConnected(socket, userId);
 
             await Receive(socket, async (webSocket, result, buffer) =>
             {

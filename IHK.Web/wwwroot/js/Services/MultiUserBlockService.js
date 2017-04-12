@@ -1,5 +1,5 @@
 ﻿function sendMessage(message, callback) {
-    console.debug(message);
+    //console.debug(message);
     WaitForConnection(function () {
         socket.send(message);
         if (typeof callback !== 'undefined') {

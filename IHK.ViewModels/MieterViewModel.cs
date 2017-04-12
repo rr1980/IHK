@@ -6,7 +6,7 @@ namespace IHK.ViewModels
 {
     public class MieterViewModel
     {
-        public MUBBlockViewData MubBlock{ get; set; }
+        public MUBBlockViewModel MubBlock { get; set; }
         public UserItemViewModel CurrentUser { get; set; }
         public MieterItemViewModel Mieter { get; set; }
         //public WohnungItemViewModel Wohnung { get; set; }

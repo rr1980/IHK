@@ -2,51 +2,43 @@
     Layout = "_LayoutWait";
     ViewData["Title"] = "Wait Page";
 }
-
-<div id="wait_content"></div>
 @model  IHK.ViewModels.WaitViewModel
 
-<button type="button" id="sendButton" class="btn btn-default btn-sm">SEND</button>
+<div id="wait_content" class="container">
+    @*<button type="button" data-bind="click: sendMsg" id="sendButton" class="btn btn-default btn-sm">SEND</button>*@
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading"><span data-bind="text: mubBlock.description"></span></div>
+                <div class="panel-body">
+                    <div class="col-md-12">
+                        <table class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th class="text-center" width="25%">Position</th>
+                                    <th width="40%">Name</th>
+                                    <th width="35%">Telefon</th>
+                                </tr>
+                            </thead>
+                            <tbody data-bind="foreach: mubBlock.waits">
+                                <tr>
+                                    <td width="25%" class="text-center" data-bind="text: (position()==0?'bearbeitet...':position())"></td>
+                                    <td width="40%"  data-bind="text: (name()+', '+vorname())"></td>
+                                    <td width="35%"  data-bind="text: telefon"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+       
 
+
+</div>
 <script>
     connect("mub");
     var viewmodel = new ViewModels.WaitViewData(@Html.Raw(Json.Serialize(Model)));
     ko.applyBindings(viewmodel, document.getElementById('wait_content'));
-
-    //function connect() {
-    //    socket = new WebSocket(uri);
-    //    socket.onopen = function (event) {
-    //        console.log("opened connection to " + uri);
-    //    };
-    //    socket.onclose = function (event) {
-    //        console.log("closed connection from " + uri);
-    //    };
-    //    socket.onmessage = function (event) {
-    //        //appendItem(list, event.data);
-    //        console.log(event.data);
-    //    };
-    //    socket.onerror = function (event) {
-    //        console.log("error: " + event.data);
-    //    };
-    //}
-    //connect();
-    ////var list = document.getElementById("messages");
-    //var button = document.getElementById("sendButton");
-    //button.addEventListener("click", function () {
-
-    //    //var input = document.getElementById("textInput");
-    //    //sendMessage(input.value);
-    //    sendMessage("TEST!!!");
-
-    //    //input.value = "";
-    //});
-    //function sendMessage(message) {
-    //    console.log("Sending: " + message);
-    //    socket.send(message);
-    //}
-//function appendItem(list, message) {
-//    var item = document.createElement("li");
-//    item.appendChild(document.createTextNode(message));
-//    list.appendChild(item);
-//}
 </script>
