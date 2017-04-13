@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace IHK.Services
 {
-    public class AccountService
+    public class AccountService: IAccountService
     {
         private readonly UserRepository _userRepository;
         private readonly OptionRepository _optionRepository;
@@ -21,7 +21,7 @@ namespace IHK.Services
             _optionRepository = optionRepository;
         }
 
-        public async Task AddOrUpdate(UserItemViewModel user)
+        public async Task AddOrUpdate(IUserItemViewModel user)
         {
             var ex = await _userRepository.GetById(user.UserId);
             if (ex == null)
@@ -138,20 +138,20 @@ namespace IHK.Services
             await _userRepository.RemoveUserById(id);
         }
 
-        public async Task<List<UserItemViewModel>> GetAllUsers()
+        public async Task<List<IUserItemViewModel>> GetAllUsers()
         {
             List<User> users = await _userRepository.GetAllUsers();
             return users.Select(u => _map(u)).ToList();
         }
 
-        public async Task<UserItemViewModel> GetByUserName(string username)
+        public async Task<IUserItemViewModel> GetByUserName(string username)
         {
             User user = await _userRepository.GetByUserName(username);
             return _map(user);
         }
 
 
-        public async Task<UserItemViewModel> GetById(int id)
+        public async Task<IUserItemViewModel> GetById(int id)
         {
             User user = await _userRepository.GetById(id);
             return _map(user);
@@ -163,7 +163,7 @@ namespace IHK.Services
             return user.RoleToUsers.Any(rtu => rtu.Role.UserRoleType == urt);
         }
 
-        private UserItemViewModel _map(User user)
+        private IUserItemViewModel _map(User user)
         {
             if (user != null)
             {

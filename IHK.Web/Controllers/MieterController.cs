@@ -17,12 +17,12 @@ namespace IHK.Web.Controllers
 {
     public class MieterController : Controller
     {
-        private readonly AccountService _accountService;
+        private readonly IAccountService _accountService;
         private readonly HttpContext _httpContext;
         private readonly MieterService _mieterService;
-        private readonly MultiUserBlockWebService _multiUserBlockWebService;
+        private readonly IMultiUserBlockWebService _multiUserBlockWebService;
 
-        public MieterController(AccountService accountService, IHttpContextAccessor httpContextAccessor, MieterService mieterService, MultiUserBlockWebService multiUserBlockWebService)
+        public MieterController(IAccountService accountService, IHttpContextAccessor httpContextAccessor, MieterService mieterService, IMultiUserBlockWebService multiUserBlockWebService)
         {
             _accountService = accountService;
             _httpContext = httpContextAccessor.HttpContext;

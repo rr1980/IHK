@@ -1,4 +1,5 @@
-﻿using IHK.Services;
+﻿using IHK.Common;
+using IHK.Services;
 using IHK.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -12,10 +13,10 @@ namespace IHK.Web.ViewComponents
 {
     public class NavbarComponent : ViewComponent
     {
-        private readonly AccountService _accountService;
+        private readonly IAccountService _accountService;
         private readonly HttpContext _httpContext;
 
-        public NavbarComponent(AccountService accountService, IHttpContextAccessor httpContextAccessor)
+        public NavbarComponent(IAccountService accountService, IHttpContextAccessor httpContextAccessor)
         {
             _accountService = accountService;
             _httpContext = httpContextAccessor.HttpContext;
@@ -29,7 +30,7 @@ namespace IHK.Web.ViewComponents
             {
                 CurrentUser = await _accountService.GetById(id),
                 ShowSidebar = showSidebar,
-                activeTab = tab
+                ActiveTab = tab
             });
         }
     }

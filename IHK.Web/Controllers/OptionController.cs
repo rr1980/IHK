@@ -1,4 +1,5 @@
-﻿using IHK.Services;
+﻿using IHK.Common;
+using IHK.Services;
 using IHK.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -13,11 +14,11 @@ namespace IHK.Web.Controllers
 {
     public class OptionController : Controller
     {
-        private readonly AccountService _accountService;
+        private readonly IAccountService _accountService;
         private readonly OptionService _optionService;
         private readonly HttpContext _httpContext;
 
-        public OptionController(AccountService accountService, OptionService optionService, IHttpContextAccessor httpContextAccessor)
+        public OptionController(IAccountService accountService, OptionService optionService, IHttpContextAccessor httpContextAccessor)
         {
             _accountService = accountService;
             _optionService = optionService;

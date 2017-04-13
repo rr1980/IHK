@@ -1,4 +1,5 @@
-﻿using IHK.Services;
+﻿using IHK.Common;
+using IHK.Services;
 using IHK.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -14,10 +15,10 @@ namespace IHK.Web.Controllers
 {
     public class AdminController : Controller
     {
-        private readonly AccountService _accountService;
+        private readonly IAccountService _accountService;
         private readonly HttpContext _httpContext;
 
-        public AdminController(AccountService accountService, IHttpContextAccessor httpContextAccessor)
+        public AdminController(IAccountService accountService, IHttpContextAccessor httpContextAccessor)
         {
             _accountService = accountService;
             _httpContext = httpContextAccessor.HttpContext;
@@ -44,9 +45,9 @@ namespace IHK.Web.Controllers
         //}
 
         [Authorize(Policy = "AdminPolicy")]
-        public async Task<AdminViewModel> SaveUser(UserItemViewModel user)
+        public async Task<AdminViewModel> SaveUser(IUserItemViewModel user)
         {
-            List<UserItemViewModel> result;
+            List<IUserItemViewModel> result;
 
             if (!ModelState.IsValid)
             {
@@ -81,13 +82,13 @@ namespace IHK.Web.Controllers
         }
 
         [Authorize(Policy = "AdminPolicy")]
-        public async Task ResetPassord(UserItemViewModel user)
+        public async Task ResetPassord(IUserItemViewModel user)
         {
             await _accountService.ResetPassword(user.UserId);
         }
 
         [Authorize(Policy = "AdminPolicy")]
-        public async Task<AdminViewModel> DelUser(UserItemViewModel user)
+        public async Task<AdminViewModel> DelUser(IUserItemViewModel user)
         {
             await _accountService.RemoveUserById(user.UserId);
             var result = await _accountService.GetAllUsers();

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using IHK.Common;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
@@ -16,28 +17,14 @@ namespace IHK.MultiUserBlock
                 app.Map("/mubdebug", (_app) => _app.UseMiddleware<MultiUserBlockMiddlewareDebug>());
             }
 
-            //app.Map("/mub", (_app) => _app.UseMiddleware<MultiUserBlockMiddleware>());
             app.Map("/mub", (_app) => _app.UseMiddleware<MultiUserBlockMiddleware>());
-
 
             return app;
         }
 
-        public static IServiceCollection AddMultiUserBlockManager(this IServiceCollection services)
+        public static IServiceCollection AddMultiUserBlockWebService(this IServiceCollection services)
         {
-            //services.AddSingleton<MultiUserBlockWebSocketManager>();
-            //services.AddSingleton<MultiUserBlockHandler>();
-
-            services.AddScoped<MultiUserBlockWebService>();
-
-            //foreach (var type in Assembly.GetEntryAssembly().ExportedTypes)
-            //{
-            //if (type.GetTypeInfo().BaseType == typeof(WebSocketHandler))
-            //    {
-            //        services.AddSingleton(type);
-            //    }
-            //}
-
+            services.AddSingleton<IMultiUserBlockWebService, MultiUserBlockWebService>();
             return services;
         }
     }

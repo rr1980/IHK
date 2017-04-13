@@ -1,4 +1,5 @@
-﻿using IHK.Services;
+﻿using IHK.Common;
+using IHK.Services;
 using IHK.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -15,7 +16,7 @@ namespace IHK.Web.ViewComponents
         //private readonly AccountService _accountService;
         private readonly HttpContext _httpContext;
 
-        public GebaeudePanelComponent(AccountService accountService, IHttpContextAccessor httpContextAccessor)
+        public GebaeudePanelComponent(IAccountService accountService, IHttpContextAccessor httpContextAccessor)
         {
             //_accountService = accountService;
             _httpContext = httpContextAccessor.HttpContext;

@@ -4,10 +4,10 @@ using System;
 
 namespace IHK.MultiUserBlock
 {
-    public class MUBBlock
+    public class MultiUserBlockItem : IMultiUserBlockItem
     {
         public bool Active { get; set; } = false;
-        public MUBSocketCommand Command { get; set; }
+        public Enum Command { get; set; }
         public WebSocket Socket { get; set; }
         public DateTime UpdateTime { get; set; }
         public bool Init { get; set; } = true;

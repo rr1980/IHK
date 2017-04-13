@@ -2,7 +2,7 @@
 
 namespace IHK.MultiUserBlock
 {
-    public class ReceiveMsg
+    public class MultiUserBlockReceiveMessage
     {
         public MUBSocketCommand Command { get; set; }
         public EntityType EntityType { get; set; }

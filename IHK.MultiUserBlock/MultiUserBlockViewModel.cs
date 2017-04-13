@@ -1,11 +1,12 @@
 ﻿using IHK.Common;
+using System;
 using System.Collections.Generic;
 
-namespace IHK.ViewModels
+namespace IHK.MultiUserBlock
 {
-    public class MUBBlockViewModel
+    public class MultiUserBlockViewModel : IMultiUserBlockViewModel
     {
-        public MUBSocketCommand Command { get; set; }
+        public Enum Command { get; set; }
         public string SocketId { get; set; }
         public EntityType EntityType { get; set; }
         public int UserId { get; set; }
@@ -15,6 +16,6 @@ namespace IHK.ViewModels
         public string Vorname { get; set; }
         public string Description { get; set; }
         public string Telefon { get; set; }
-        public List<MUBBlockViewModel> Waits { get; set; }
+        public List<IMultiUserBlockViewModel> Waits { get; set; }
     }
 }

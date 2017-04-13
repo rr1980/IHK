@@ -1,4 +1,5 @@
-﻿using IHK.Services;
+﻿using IHK.Common;
+using IHK.Services;
 using IHK.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -14,11 +15,11 @@ namespace IHK.Web.Controllers
 {
     public class WohnungController : Controller
     {
-        private readonly AccountService _accountService;
+        private readonly IAccountService _accountService;
         private readonly HttpContext _httpContext;
         private readonly WohnungService _wohnungService;
 
-        public WohnungController(AccountService accountService, IHttpContextAccessor httpContextAccessor, WohnungService wohnungService)
+        public WohnungController(IAccountService accountService, IHttpContextAccessor httpContextAccessor, WohnungService wohnungService)
         {
             _accountService = accountService;
             _httpContext = httpContextAccessor.HttpContext;

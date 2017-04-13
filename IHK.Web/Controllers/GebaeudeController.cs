@@ -1,4 +1,5 @@
-﻿using IHK.Services;
+﻿using IHK.Common;
+using IHK.Services;
 using IHK.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -14,11 +15,11 @@ namespace IHK.Web.Controllers
 {
     public class GebaeudeController : Controller
     {
-        private readonly AccountService _accountService;
+        private readonly IAccountService _accountService;
         private readonly HttpContext _httpContext;
         private readonly GebaeudeService _gebaeudeService;
 
-        public GebaeudeController(AccountService accountService, IHttpContextAccessor httpContextAccessor, GebaeudeService gebaeudeService)
+        public GebaeudeController(IAccountService accountService, IHttpContextAccessor httpContextAccessor, GebaeudeService gebaeudeService)
         {
             _accountService = accountService;
             _httpContext = httpContextAccessor.HttpContext;

@@ -1,4 +1,5 @@
-﻿using IHK.Services;
+﻿using IHK.Common;
+using IHK.Services;
 using IHK.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -13,11 +14,11 @@ namespace IHK.Web.ViewComponents
 {
     public class AdminComponent : ViewComponent
     {
-        private readonly AccountService _accountService;
+        private readonly IAccountService _accountService;
         private readonly OptionService _optionService;
         private readonly HttpContext _httpContext;
 
-        public AdminComponent(AccountService accountService, OptionService optionService, IHttpContextAccessor httpContextAccessor)
+        public AdminComponent(IAccountService accountService, OptionService optionService, IHttpContextAccessor httpContextAccessor)
         {
             _accountService = accountService;
             _optionService = optionService;

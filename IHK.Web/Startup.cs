@@ -54,14 +54,14 @@ namespace IHK.Web
             services.AddSingleton<WohnungRepository>();
             services.AddSingleton<GebaeudeRepository>();
             services.AddSingleton<AdresseRepository>();
-            services.AddScoped<AccountService>();
+            services.AddScoped<IAccountService,AccountService>();
             services.AddScoped<OptionService>();
             services.AddScoped<MieterService>();
             services.AddScoped<WohnungService>();
             services.AddScoped<GebaeudeService>();
             services.AddScoped<AdresseService>();
 
-            services.AddMultiUserBlockManager();
+            services.AddMultiUserBlockWebService();
 
         }
 

@@ -3,7 +3,7 @@
 }
 @using IHK.Common
 @using IHK.Services
-@inject  AccountService _accountService
+@inject  IAccountService _accountService
 
 @await Component.InvokeAsync(nameof(NavbarComponent), new { showSidebar = true, tab = "Suche" })
 <div class="tab-content">

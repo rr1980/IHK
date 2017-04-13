@@ -18,7 +18,7 @@ namespace IHK.MultiUserBlock
     {
         private readonly RequestDelegate _next;
 
-        public MultiUserBlockMiddleware(RequestDelegate next, MultiUserBlockWebService multiUserBlockWebService)
+        public MultiUserBlockMiddleware(RequestDelegate next, IMultiUserBlockWebService multiUserBlockWebService)
         {
             _next = next;
             if(MultiUserBlockManager._multiUserBlockWebService == null)
@@ -44,7 +44,7 @@ namespace IHK.MultiUserBlock
                 if (result.MessageType == WebSocketMessageType.Text)
                 {
                     var tmp_msg = Encoding.UTF8.GetString(buffer, 0, result.Count);
-                    var rmsg = JsonConvert.DeserializeObject<ReceiveMsg>(tmp_msg);
+                    var rmsg = JsonConvert.DeserializeObject<MultiUserBlockReceiveMessage>(tmp_msg);
                     await MultiUserBlockManager.ReceiveAsync(webSocket, rmsg);
                     return;
                 }

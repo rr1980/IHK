@@ -3,22 +3,20 @@ using System.Collections.Generic;
 using System.Text;
 using IHK.Common;
 using System.Linq;
-using IHK.ViewModels;
-using IHK.Services;
 using System.Threading.Tasks;
 
 namespace IHK.MultiUserBlock
 {
-    public class MultiUserBlockWebService
+    public class MultiUserBlockWebService : IMultiUserBlockWebService
     {
-        private readonly AccountService _accountService;
+        private readonly IAccountService _accountService;
 
-        public MultiUserBlockWebService(AccountService accountService)
+        public MultiUserBlockWebService(IAccountService accountService)
         {
             _accountService = accountService;
         }
 
-        public async Task<MUBBlockViewModel> Request(EntityType entityType, int entityId, int userId, string description)
+        public async Task<IMultiUserBlockViewModel> Request(EntityType entityType, int entityId, int userId, string description)
         {
 
             var blocks = MultiUserBlockManager.GetBlocksBy(c => c.EntityType == entityType && c.EntityId == entityId);
@@ -26,7 +24,7 @@ namespace IHK.MultiUserBlock
             if (blocks.Any())
             {
                 var selfblocks = blocks.FirstOrDefault(c => c.UserId == userId);
-                if(selfblocks != null)
+                if (selfblocks != null)
                 {
                     selfblocks.Position = blocks.IndexOf(selfblocks);
                     selfblocks.Description = description;
@@ -39,22 +37,17 @@ namespace IHK.MultiUserBlock
             }
             else
             {
-                return await Map(MultiUserBlockManager.AddToBlock(Guid.NewGuid().ToString(),entityType, entityId, userId, description));
+                return await Map(MultiUserBlockManager.AddToBlock(Guid.NewGuid().ToString(), entityType, entityId, userId, description));
             }
         }
 
-        private List<MUBBlock> _getWaits(MUBBlock block)
-        {
-            return MultiUserBlockManager.GetBlocksBy(c => c.EntityType == block.EntityType && c.EntityId == block.EntityId);
-        }
-
-        internal async Task<MUBBlockViewModel> Map(MUBBlock block)
+        public async Task<IMultiUserBlockViewModel> Map(IMultiUserBlockItem block)
         {
             if (block.Position == 0)
             {
-                return new MUBBlockViewModel()
+                return new MultiUserBlockViewModel()
                 {
-                    Description=block.Description,
+                    Description = block.Description,
                     Command = block.Command,
                     SocketId = block.SocketId,
                     EntityType = block.EntityType,
@@ -67,7 +60,7 @@ namespace IHK.MultiUserBlock
             {
                 var waits = _getWaits(block);
 
-                return new MUBBlockViewModel()
+                return new MultiUserBlockViewModel()
                 {
                     Command = block.Command,
                     SocketId = block.SocketId,
@@ -79,7 +72,7 @@ namespace IHK.MultiUserBlock
                     Vorname = (await _accountService.GetById(block.UserId)).Vorname,
                     Description = block.Description,
                     Telefon = (await _accountService.GetById(block.UserId)).Telefon,
-                    Waits = waits.Select(s => new MUBBlockViewModel()
+                    Waits = waits.Select(s => (IMultiUserBlockViewModel)new MultiUserBlockViewModel()
                     {
                         Description = block.Description,
                         Command = block.Command,
@@ -94,6 +87,11 @@ namespace IHK.MultiUserBlock
                     }).ToList()
                 };
             }
+        }
+
+        private List<MultiUserBlockItem> _getWaits(IMultiUserBlockItem block)
+        {
+            return MultiUserBlockManager.GetBlocksBy(c => c.EntityType == block.EntityType && c.EntityId == block.EntityId);
         }
     }
 }

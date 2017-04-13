@@ -1,4 +1,4 @@
-﻿namespace IHK.Common
+﻿namespace IHK.MultiUserBlock
 {
     public enum MUBSocketCommand
     {

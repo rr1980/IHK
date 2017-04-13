@@ -8,15 +8,16 @@ using IHK.Services;
 using Microsoft.AspNetCore.Http;
 using IHK.ViewModels;
 using System.Security.Claims;
+using IHK.Common;
 
 namespace IHK.Web.Controllers
 {
     public class MainController : Controller
     {
-        private readonly AccountService _accountService;
+        private readonly IAccountService _accountService;
         private readonly HttpContext _httpContext;
 
-        public MainController(AccountService accountService, IHttpContextAccessor httpContextAccessor)
+        public MainController(IAccountService accountService, IHttpContextAccessor httpContextAccessor)
         {
             _accountService = accountService;
             _httpContext = httpContextAccessor.HttpContext;

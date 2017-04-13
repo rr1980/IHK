@@ -1,4 +1,5 @@
-﻿using IHK.Services;
+﻿using IHK.Common;
+using IHK.Services;
 using IHK.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -14,11 +15,11 @@ namespace IHK.Web.Controllers
 {
     public class AdresseController : Controller
     {
-        private readonly AccountService _accountService;
+        private readonly IAccountService _accountService;
         private readonly HttpContext _httpContext;
         private readonly AdresseService _adresseService;
 
-        public AdresseController(AccountService accountService, IHttpContextAccessor httpContextAccessor, AdresseService adresseService)
+        public AdresseController(IAccountService accountService, IHttpContextAccessor httpContextAccessor, AdresseService adresseService)
         {
             _accountService = accountService;
             _httpContext = httpContextAccessor.HttpContext;

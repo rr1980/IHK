@@ -16,16 +16,18 @@ namespace IHK.MultiUserBlock
 {
     public static class MultiUserBlockManager
     {
-        internal static List<MUBBlock> _blocks = new List<MUBBlock>();
+        internal static List<MultiUserBlockItem> _blocks = new List<MultiUserBlockItem>();
         private static object _locker = new object();
         private static Timer _updateTimer;
-        internal static MultiUserBlockWebService _multiUserBlockWebService;
+        internal static IMultiUserBlockWebService _multiUserBlockWebService;
         private static readonly JsonSerializerSettings _jsonsettings;
         static MultiUserBlockManager()
         {
             _updateTimer = new Timer(_checkBlocks, null, 0, 1000);
-            _jsonsettings = new JsonSerializerSettings();
-            _jsonsettings.ContractResolver = new LowercaseContractResolver();
+            _jsonsettings = new JsonSerializerSettings()
+            {
+                ContractResolver = new LowercaseContractResolver()
+            };
         }
 
         internal static void OnConnected(WebSocket socket, int userId)
@@ -33,7 +35,7 @@ namespace IHK.MultiUserBlock
             Debug.WriteLine("OnConnected");
         }
 
-        internal static async Task ReceiveAsync(WebSocket socket, ReceiveMsg msg)
+        internal static async Task ReceiveAsync(WebSocket socket, MultiUserBlockReceiveMessage msg)
         {
             var block = _blocks.FirstOrDefault(c => c.EntityType == msg.EntityType && c.EntityId == msg.EntityId && c.UserId == msg.UserId);
 
@@ -78,14 +80,14 @@ namespace IHK.MultiUserBlock
                                    cancellationToken: CancellationToken.None);
         }
 
-        internal static List<MUBBlock> GetBlocksBy(Func<MUBBlock, bool> p)
+        internal static List<MultiUserBlockItem> GetBlocksBy(Func<MultiUserBlockItem, bool> p)
         {
             return _blocks.Where(p).ToList();
         }
 
-        internal static MUBBlock AddToBlock(string id, EntityType entityType, int entityId, int userId, string description="")
+        internal static MultiUserBlockItem AddToBlock(string id, EntityType entityType, int entityId, int userId, string description="")
         {
-            var block = new MUBBlock()
+            var block = new MultiUserBlockItem()
             {
                 Description = description,
                 SocketId = id,
@@ -112,7 +114,7 @@ namespace IHK.MultiUserBlock
             return block;
         }
 
-        private static void _setSocketToBlock(WebSocket socket, MUBBlock block)
+        private static void _setSocketToBlock(WebSocket socket, MultiUserBlockItem block)
         {
             if (block != null && (block.Socket == null))
             {
@@ -125,7 +127,7 @@ namespace IHK.MultiUserBlock
 
         private static void _checkBlocks(object state)
         {
-            List<MUBBlock> todelete = new List<MUBBlock>();
+            List<MultiUserBlockItem> todelete = new List<MultiUserBlockItem>();
             foreach (var block in _blocks.Where(b => b.Init == false))
             {
                 if (block.UpdateTime.AddSeconds(5) < DateTime.Now)
@@ -145,7 +147,7 @@ namespace IHK.MultiUserBlock
             }
         }
 
-        private static async void _updateBlocks(MUBBlock block)
+        private static async void _updateBlocks(MultiUserBlockItem block)
         {
             var all = _blocks.Where(w => w.EntityId == block.EntityId && w.EntityType == block.EntityType).Where(s => s.Socket != null).ToList();
             foreach (var so in all)
@@ -154,7 +156,7 @@ namespace IHK.MultiUserBlock
                 
                 if (so.Position == 0)
                 {
-                    if (so.Command != MUBSocketCommand.Active)
+                    if (so.Command != (Enum)MUBSocketCommand.Active)
                     {
                         so.Command = MUBSocketCommand.Active;
                         _update(so);
@@ -168,7 +170,7 @@ namespace IHK.MultiUserBlock
             }
         }
 
-        private static async void _update(MUBBlock block)
+        private static async void _update(MultiUserBlockItem block)
         {
             var vm = await _multiUserBlockWebService.Map(block);
             string message = JsonConvert.SerializeObject(vm, Formatting.Indented, _jsonsettings);

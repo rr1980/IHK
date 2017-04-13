@@ -18,11 +18,11 @@ namespace IHK.Web.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly AccountService _accountService;
+        private readonly IAccountService _accountService;
         private readonly HttpContext _httpContext;
 
 
-        public AccountController(AccountService accountService, IHttpContextAccessor httpContextAccessor)
+        public AccountController(IAccountService accountService, IHttpContextAccessor httpContextAccessor)
         {
             _accountService = accountService;
             _httpContext = httpContextAccessor.HttpContext;
@@ -74,7 +74,7 @@ namespace IHK.Web.Controllers
         private async Task<bool> _auth(string username, string password)
         {
             password = password ?? string.Empty;
-            UserItemViewModel user = await _accountService.GetByUserName(username);
+            IUserItemViewModel user = await _accountService.GetByUserName(username);
 
             if (user == null || (user.Password != password))
             {
