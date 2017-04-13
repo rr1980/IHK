@@ -1,6 +1,6 @@
 ﻿namespace IHK.MultiUserBlock
 {
-    public enum MUBSocketCommand
+    public enum MultiUserBlockCommand
     {
         Ping,
         Update,

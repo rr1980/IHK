@@ -16,18 +16,21 @@ namespace IHK.MultiUserBlock
 {
     public static class MultiUserBlockManager
     {
-        internal static List<MultiUserBlockItem> _blocks = new List<MultiUserBlockItem>();
-        private static object _locker = new object();
-        private static Timer _updateTimer;
+        internal static readonly List<MultiUserBlockItem> _blocks = new List<MultiUserBlockItem>();
         internal static IMultiUserBlockWebService _multiUserBlockWebService;
+
+        private static readonly object _locker = new object();
+        private static readonly Timer _updateTimer;
         private static readonly JsonSerializerSettings _jsonsettings;
+
         static MultiUserBlockManager()
         {
-            _updateTimer = new Timer(_checkBlocks, null, 0, 1000);
             _jsonsettings = new JsonSerializerSettings()
             {
                 ContractResolver = new LowercaseContractResolver()
             };
+
+            _updateTimer = new Timer(_checkBlocks, null, 0, 1000);
         }
 
         internal static void OnConnected(WebSocket socket, int userId)
@@ -41,12 +44,12 @@ namespace IHK.MultiUserBlock
 
             if (block == null)
             {
-                block = AddToBlock(Guid.NewGuid().ToString(), msg.EntityType, msg.EntityId, msg.UserId,null);
+                block = AddToBlock(Guid.NewGuid().ToString(), msg.EntityType, msg.EntityId, msg.UserId, null);
             }
 
             _setSocketToBlock(socket, block);
 
-            if (msg.Command == MUBSocketCommand.Ping)
+            if (msg.Command == MultiUserBlockCommand.Ping)
             {
                 block.UpdateTime = DateTime.Now;
                 block.Init = false;
@@ -85,7 +88,7 @@ namespace IHK.MultiUserBlock
             return _blocks.Where(p).ToList();
         }
 
-        internal static MultiUserBlockItem AddToBlock(string id, EntityType entityType, int entityId, int userId, string description="")
+        internal static MultiUserBlockItem AddToBlock(string id, EntityType entityType, int entityId, int userId, string description = "")
         {
             var block = new MultiUserBlockItem()
             {
@@ -153,18 +156,18 @@ namespace IHK.MultiUserBlock
             foreach (var so in all)
             {
                 so.Position = all.IndexOf(so);
-                
+
                 if (so.Position == 0)
                 {
-                    if (so.Command != (Enum)MUBSocketCommand.Active)
+                    if (so.Command != (Enum)MultiUserBlockCommand.Active)
                     {
-                        so.Command = MUBSocketCommand.Active;
+                        so.Command = MultiUserBlockCommand.Active;
                         _update(so);
                     }
                 }
                 else
                 {
-                    so.Command = MUBSocketCommand.Update;
+                    so.Command = MultiUserBlockCommand.Update;
                     _update(so);
                 }
             }
@@ -183,11 +186,5 @@ namespace IHK.MultiUserBlock
         }
     }
 
-    public class LowercaseContractResolver : DefaultContractResolver
-    {
-        protected override string ResolvePropertyName(string propertyName)
-        {
-            return Char.ToLowerInvariant(propertyName[0]) + propertyName.Substring(1);
-        }
-    }
+
 }
