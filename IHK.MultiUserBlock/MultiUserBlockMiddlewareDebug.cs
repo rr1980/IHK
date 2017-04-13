@@ -1,4 +1,5 @@
 ﻿using IHK.Common;
+using IHK.MultiUserBlock.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using System;
@@ -13,11 +14,13 @@ namespace IHK.MultiUserBlock
     public class MultiUserBlockMiddlewareDebug
     {
         private readonly RequestDelegate _next;
+        private readonly IMultiUserBlockManager _multiUserBlockManager;
 
-        public MultiUserBlockMiddlewareDebug(RequestDelegate next)
+        public MultiUserBlockMiddlewareDebug(RequestDelegate next, IMultiUserBlockManager multiUserBlockManager)
         {
             _next = next;
             //_mubtHandler = multiUserBlockHandlerBase;
+            _multiUserBlockManager = multiUserBlockManager;
         }
 
         public async Task Invoke(HttpContext context)
@@ -59,7 +62,7 @@ namespace IHK.MultiUserBlock
         {
             Debug.WriteLine($"Debug said: {Encoding.UTF8.GetString(buffer, 0, result.Count)}");
 
-            var message = JsonConvert.SerializeObject(MultiUserBlockManager._blocks);
+            var message = JsonConvert.SerializeObject(_multiUserBlockManager.Blocks);
 
 
             if (socket.State != WebSocketState.Open)

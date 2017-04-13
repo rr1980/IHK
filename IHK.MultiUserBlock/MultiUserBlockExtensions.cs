@@ -1,4 +1,6 @@
 ﻿using IHK.Common;
+using IHK.Common.MultiUserBlockCommon;
+using IHK.MultiUserBlock.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,6 +26,7 @@ namespace IHK.MultiUserBlock
 
         public static IServiceCollection AddMultiUserBlockWebService(this IServiceCollection services)
         {
+            services.AddSingleton<IMultiUserBlockManager, MultiUserBlockManager>();
             services.AddSingleton<IMultiUserBlockWebService, MultiUserBlockWebService>();
             return services;
         }

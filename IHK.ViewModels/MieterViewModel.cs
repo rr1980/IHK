@@ -1,4 +1,5 @@
 ﻿using IHK.Common;
+using IHK.Common.MultiUserBlockCommon;
 using System;
 using System.Collections.Generic;
 using System.Text;

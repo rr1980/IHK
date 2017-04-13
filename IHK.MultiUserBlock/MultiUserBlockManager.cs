@@ -11,20 +11,24 @@ using System.Text;
 using Newtonsoft.Json;
 using System.Linq.Expressions;
 using Newtonsoft.Json.Serialization;
+using IHK.MultiUserBlock.Interfaces;
+using IHK.Common.MultiUserBlockCommon;
 
 namespace IHK.MultiUserBlock
 {
-    public static class MultiUserBlockManager
+    public  class MultiUserBlockManager : IMultiUserBlockManager
     {
-        internal static readonly List<MultiUserBlockItem> _blocks = new List<MultiUserBlockItem>();
-        internal static IMultiUserBlockWebService _multiUserBlockWebService;
+        public List<IMultiUserBlockItem> Blocks { get; set; } = new List<IMultiUserBlockItem>();
+        
+        private readonly IAccountService _accountService;
+        private  readonly object _locker = new object();
+        private  readonly Timer _updateTimer;
+        private  readonly JsonSerializerSettings _jsonsettings;
 
-        private static readonly object _locker = new object();
-        private static readonly Timer _updateTimer;
-        private static readonly JsonSerializerSettings _jsonsettings;
-
-        static MultiUserBlockManager()
+        public MultiUserBlockManager(IAccountService accountService)
         {
+            _accountService = accountService;
+
             _jsonsettings = new JsonSerializerSettings()
             {
                 ContractResolver = new LowercaseContractResolver()
@@ -33,23 +37,23 @@ namespace IHK.MultiUserBlock
             _updateTimer = new Timer(_checkBlocks, null, 0, 1000);
         }
 
-        internal static void OnConnected(WebSocket socket, int userId)
+        public  void OnConnected(WebSocket socket, int userId)
         {
             Debug.WriteLine("OnConnected");
         }
 
-        internal static async Task ReceiveAsync(WebSocket socket, MultiUserBlockReceiveMessage msg)
+        public async Task ReceiveAsync(WebSocket socket, IMultiUserBlockReceiveMessage msg)
         {
-            var block = _blocks.FirstOrDefault(c => c.EntityType == msg.EntityType && c.EntityId == msg.EntityId && c.UserId == msg.UserId);
+            var block = Blocks.FirstOrDefault(c => c.EntityType == msg.EntityType && c.EntityId == msg.EntityId && c.UserId == msg.UserId);
 
             if (block == null)
             {
-                block = AddToBlock(Guid.NewGuid().ToString(), msg.EntityType, msg.EntityId, msg.UserId, null);
+                block = (MultiUserBlockItem)AddToBlock(Guid.NewGuid().ToString(), msg.EntityType, msg.EntityId, msg.UserId, null);
             }
 
             _setSocketToBlock(socket, block);
 
-            if (msg.Command == MultiUserBlockCommand.Ping)
+            if (msg.Command ==  MultiUserBlockCommand.Ping.ToString())
             {
                 block.UpdateTime = DateTime.Now;
                 block.Init = false;
@@ -61,7 +65,7 @@ namespace IHK.MultiUserBlock
             }
         }
 
-        internal static async Task OnDisconnected(WebSocket socket, int userId)
+        public async Task OnDisconnected(WebSocket socket, int userId)
         {
             Debug.WriteLine("OnDisconnected");
 
@@ -70,7 +74,7 @@ namespace IHK.MultiUserBlock
                           cancellationToken: CancellationToken.None);
         }
 
-        public static async Task SendMessageAsync(WebSocket socket, string message)
+        public  async Task SendMessageAsync(WebSocket socket, string message)
         {
             if (socket.State != WebSocketState.Open)
                 return;
@@ -83,12 +87,12 @@ namespace IHK.MultiUserBlock
                                    cancellationToken: CancellationToken.None);
         }
 
-        internal static List<MultiUserBlockItem> GetBlocksBy(Func<MultiUserBlockItem, bool> p)
+        public  List<IMultiUserBlockItem> GetBlocksBy(Func<IMultiUserBlockItem, bool> p)
         {
-            return _blocks.Where(p).ToList();
+            return Blocks.Where(p).ToList();
         }
 
-        internal static MultiUserBlockItem AddToBlock(string id, EntityType entityType, int entityId, int userId, string description = "")
+        public  IMultiUserBlockItem AddToBlock(string id, EntityType entityType, int entityId, int userId, string description = "")
         {
             var block = new MultiUserBlockItem()
             {
@@ -101,10 +105,10 @@ namespace IHK.MultiUserBlock
 
             lock (_locker)
             {
-                _blocks.Add(block);
+                Blocks.Add(block);
             }
 
-            var blocks = MultiUserBlockManager.GetBlocksBy(c => c.EntityType == entityType && c.EntityId == entityId);
+            var blocks = GetBlocksBy(c => c.EntityType == entityType && c.EntityId == entityId);
 
             if (string.IsNullOrEmpty(block.Description) && (blocks.Any()))
             {
@@ -117,7 +121,7 @@ namespace IHK.MultiUserBlock
             return block;
         }
 
-        private static void _setSocketToBlock(WebSocket socket, MultiUserBlockItem block)
+        private  void _setSocketToBlock(WebSocket socket, IMultiUserBlockItem block)
         {
             if (block != null && (block.Socket == null))
             {
@@ -128,10 +132,10 @@ namespace IHK.MultiUserBlock
             }
         }
 
-        private static void _checkBlocks(object state)
+        private  void _checkBlocks(object state)
         {
-            List<MultiUserBlockItem> todelete = new List<MultiUserBlockItem>();
-            foreach (var block in _blocks.Where(b => b.Init == false))
+            List<IMultiUserBlockItem> todelete = new List<IMultiUserBlockItem>();
+            foreach (var block in Blocks.Where(b => b.Init == false))
             {
                 if (block.UpdateTime.AddSeconds(5) < DateTime.Now)
                 {
@@ -143,16 +147,16 @@ namespace IHK.MultiUserBlock
             {
                 lock (_locker)
                 {
-                    _blocks.Remove(block);
+                    Blocks.Remove(block);
                     _updateBlocks(block);
                     Debug.WriteLine("DELETE: " + block.UserId);
                 }
             }
         }
 
-        private static async void _updateBlocks(MultiUserBlockItem block)
+        private  async void _updateBlocks(IMultiUserBlockItem block)
         {
-            var all = _blocks.Where(w => w.EntityId == block.EntityId && w.EntityType == block.EntityType).Where(s => s.Socket != null).ToList();
+            var all = Blocks.Where(w => w.EntityId == block.EntityId && w.EntityType == block.EntityType).Where(s => s.Socket != null).ToList();
             foreach (var so in all)
             {
                 so.Position = all.IndexOf(so);
@@ -173,9 +177,9 @@ namespace IHK.MultiUserBlock
             }
         }
 
-        private static async void _update(MultiUserBlockItem block)
+        private  async void _update(IMultiUserBlockItem block)
         {
-            var vm = await _multiUserBlockWebService.Map(block);
+            var vm = await Map(block);
             string message = JsonConvert.SerializeObject(vm, Formatting.Indented, _jsonsettings);
 
             Debug.WriteLine("SEND COMMAND: " + block.Command.ToString());
@@ -183,6 +187,59 @@ namespace IHK.MultiUserBlock
             {
                 await SendMessageAsync(block.Socket, message);
             }
+        }
+
+        public async Task<IMultiUserBlockViewModel> Map(IMultiUserBlockItem block)
+        {
+            if (block.Position == 0)
+            {
+                return new MultiUserBlockViewModel()
+                {
+                    Description = block.Description,
+                    Command = block.Command,
+                    SocketId = block.SocketId,
+                    EntityType = block.EntityType,
+                    UserId = block.UserId,
+                    EntityId = block.EntityId,
+                    Position = block.Position
+                };
+            }
+            else
+            {
+                var waits = _getWaits(block);
+
+                return new MultiUserBlockViewModel()
+                {
+                    Command = block.Command,
+                    SocketId = block.SocketId,
+                    EntityType = block.EntityType,
+                    UserId = block.UserId,
+                    EntityId = block.EntityId,
+                    Position = block.Position,
+                    Name = (await _accountService.GetById(block.UserId)).Name,
+                    Vorname = (await _accountService.GetById(block.UserId)).Vorname,
+                    Description = block.Description,
+                    Telefon = (await _accountService.GetById(block.UserId)).Telefon,
+                    Waits = waits.Select(s => (IMultiUserBlockViewModel)new MultiUserBlockViewModel()
+                    {
+                        Description = block.Description,
+                        Command = block.Command,
+                        SocketId = s.SocketId,
+                        EntityType = s.EntityType,
+                        UserId = s.UserId,
+                        EntityId = s.EntityId,
+                        Position = s.Position,
+                        Name = (_accountService.GetById(s.UserId)).Result.Name,
+                        Vorname = (_accountService.GetById(s.UserId)).Result.Vorname,
+                        Telefon = (_accountService.GetById(s.UserId)).Result.Telefon,
+                    }).ToList()
+                };
+            }
+        }
+        
+        private List<IMultiUserBlockItem> _getWaits(IMultiUserBlockItem block)
+        {
+            return GetBlocksBy(c => c.EntityType == block.EntityType && c.EntityId == block.EntityId);
         }
     }
 

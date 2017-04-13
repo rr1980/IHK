@@ -10,6 +10,8 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Serialization;
+using IHK.MultiUserBlock.Interfaces;
 
 namespace IHK.MultiUserBlock
 {
@@ -17,14 +19,12 @@ namespace IHK.MultiUserBlock
     public class MultiUserBlockMiddleware
     {
         private readonly RequestDelegate _next;
+        private readonly IMultiUserBlockManager _multiUserBlockManager;
 
-        public MultiUserBlockMiddleware(RequestDelegate next, IMultiUserBlockWebService multiUserBlockWebService)
+        public MultiUserBlockMiddleware(RequestDelegate next, IMultiUserBlockManager multiUserBlockManager)
         {
             _next = next;
-            if(MultiUserBlockManager._multiUserBlockWebService == null)
-            {
-                MultiUserBlockManager._multiUserBlockWebService = multiUserBlockWebService;
-            }
+            _multiUserBlockManager = multiUserBlockManager;
         }
 
         public async Task Invoke(HttpContext context)
@@ -37,7 +37,7 @@ namespace IHK.MultiUserBlock
             var socket = await context.WebSockets.AcceptWebSocketAsync();
             var userId = Convert.ToInt32(context.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value);
 
-            MultiUserBlockManager.OnConnected(socket, userId);
+            _multiUserBlockManager.OnConnected(socket, userId);
 
             await Receive(socket, async (webSocket, result, buffer) =>
             {
@@ -45,13 +45,13 @@ namespace IHK.MultiUserBlock
                 {
                     var tmp_msg = Encoding.UTF8.GetString(buffer, 0, result.Count);
                     var rmsg = JsonConvert.DeserializeObject<MultiUserBlockReceiveMessage>(tmp_msg);
-                    await MultiUserBlockManager.ReceiveAsync(webSocket, rmsg);
+                    await _multiUserBlockManager.ReceiveAsync(webSocket, rmsg);
                     return;
                 }
 
                 else if (result.MessageType == WebSocketMessageType.Close)
                 {
-                    await MultiUserBlockManager.OnDisconnected(webSocket, userId);
+                    await _multiUserBlockManager.OnDisconnected(webSocket, userId);
                     return;
                 }
 

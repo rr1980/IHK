@@ -1,6 +1,7 @@
 ﻿using System.Net.WebSockets;
 using IHK.Common;
 using System;
+using IHK.MultiUserBlock.Interfaces;
 
 namespace IHK.MultiUserBlock
 {

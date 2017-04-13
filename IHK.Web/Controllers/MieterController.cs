@@ -1,4 +1,5 @@
 ﻿using IHK.Common;
+using IHK.Common.MultiUserBlockCommon;
 using IHK.MultiUserBlock;
 using IHK.Services;
 using IHK.ViewModels;
