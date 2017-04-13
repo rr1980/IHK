@@ -9,7 +9,8 @@ namespace IHK.MultiUserBlock.Interfaces
 {
     public interface IMultiUserBlockManager
     {
-        List<IMultiUserBlockItem> Blocks { get; set; }
+        //int PingTimeOutSec { get; set; }
+        List<IMultiUserBlockItem> Blocks { get; }
         void OnConnected(WebSocket socket, int userId);
         Task ReceiveAsync(WebSocket socket, IMultiUserBlockReceiveMessage msg);
         Task OnDisconnected(WebSocket socket, int userId);

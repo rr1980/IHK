@@ -61,7 +61,8 @@ namespace IHK.Web
             services.AddScoped<GebaeudeService>();
             services.AddScoped<AdresseService>();
 
-            services.AddMultiUserBlockWebService();
+            services.Configure<MultiUserBlockSettings>(Configuration.GetSection("MultiUserBlock"));
+            services.AddMultiUserBlockWebService(Configuration);
 
         }
 

@@ -16,10 +16,12 @@ namespace IHK.MultiUserBlock
         private readonly RequestDelegate _next;
         private readonly IMultiUserBlockManager _multiUserBlockManager;
 
+
+
+
         public MultiUserBlockMiddlewareDebug(RequestDelegate next, IMultiUserBlockManager multiUserBlockManager)
         {
             _next = next;
-            //_mubtHandler = multiUserBlockHandlerBase;
             _multiUserBlockManager = multiUserBlockManager;
         }
 

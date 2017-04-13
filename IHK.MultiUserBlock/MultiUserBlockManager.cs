@@ -13,17 +13,26 @@ using System.Linq.Expressions;
 using Newtonsoft.Json.Serialization;
 using IHK.MultiUserBlock.Interfaces;
 using IHK.Common.MultiUserBlockCommon;
+using Microsoft.Extensions.Options;
 
 namespace IHK.MultiUserBlock
 {
+    /// <summary>
+    /// Klasse verwaltet Blockierungen
+    /// </summary>
     public class MultiUserBlockManager : IMultiUserBlockManager
     {
-        public List<IMultiUserBlockItem> Blocks { get; set; } = new List<IMultiUserBlockItem>();
+        /// <summary>
+        /// Liste aktueller active Blockierungen und wartende Clienten
+        /// </summary>
+        public List<IMultiUserBlockItem> Blocks { get; private set; } = new List<IMultiUserBlockItem>();
 
+        private readonly int _pingTimeOutSec;
         private readonly IAccountService _accountService;
         private readonly object _locker = new object();
         private readonly Timer _updateTimer;
         private readonly JsonSerializerSettings _jsonsettings;
+        
 
 
 
@@ -31,8 +40,9 @@ namespace IHK.MultiUserBlock
         /// Konstruktor
         /// </summary>
         /// <param name="accountService">Service der Accountdaten bereit stellt</param>
-        public MultiUserBlockManager(IAccountService accountService)
+        public MultiUserBlockManager(IOptions<MultiUserBlockSettings> settings, IAccountService accountService)
         {
+            _pingTimeOutSec = settings.Value.PingTimeOutSec;
             _accountService = accountService;
 
             _jsonsettings = new JsonSerializerSettings()
@@ -42,6 +52,7 @@ namespace IHK.MultiUserBlock
 
             _updateTimer = new Timer(_checkBlocks, null, 0, 1000);
         }
+
 
 
 
@@ -57,12 +68,12 @@ namespace IHK.MultiUserBlock
 
 
 
+
         /// <summary>
         /// Methode wird von "MultiUserBlockMiddleware" aufgerufen wenn ein Client über Websocket Daten sendet
         /// </summary>
         /// <param name="socket">Websocket des Clienten</param>
         /// <param name="msg">Die gesendeten Daten</param>
-        /// <returns></returns>
         public async Task ReceiveAsync(WebSocket socket, IMultiUserBlockReceiveMessage msg)
         {
             var block = Blocks.FirstOrDefault(c => c.EntityType == msg.EntityType && c.EntityId == msg.EntityId && c.UserId == msg.UserId);
@@ -88,12 +99,12 @@ namespace IHK.MultiUserBlock
 
 
 
+
         /// <summary>
-        /// 
+        /// Methode wird von "MultiUserBlockMiddleware" aufgerufen wenn ein Client die Verbindung trennt
         /// </summary>
         /// <param name="socket">Websocket des Clienten</param>
         /// <param name="userId">Eindeutige ID des Benutzers</param>
-        /// <returns></returns>
         public async Task OnDisconnected(WebSocket socket, int userId)
         {
             Debug.WriteLine("OnDisconnected");
@@ -105,12 +116,12 @@ namespace IHK.MultiUserBlock
 
 
 
+
         /// <summary>
-        /// 
+        /// Methode wird aufgerufen wenn der Server Daten an einen Clienten sendet
         /// </summary>
         /// <param name="socket">Websocket des Clienten</param>
         /// <param name="message">Die zu sendenden Daten</param>
-        /// <returns></returns>
         public async Task SendMessageAsync(WebSocket socket, string message)
         {
             if (socket.State != WebSocketState.Open)
@@ -126,11 +137,12 @@ namespace IHK.MultiUserBlock
 
 
 
+
         /// <summary>
-        /// 
+        /// Methode liefert das Property "List IMultiUserBlockItem Blocks" gefiltert zurück
         /// </summary>
-        /// <param name="p">Predicate für Linq</param>
-        /// <returns></returns>
+        /// <param name="predicate">Predicate für Linq</param>
+        /// <returns>Liefert durch "predicate" gefiltert ein "List IMultiUserBlockItem " zurück</returns>
         public List<IMultiUserBlockItem> GetBlocksBy(Func<IMultiUserBlockItem, bool> predicate)
         {
             return Blocks.Where(predicate).ToList();
@@ -138,15 +150,16 @@ namespace IHK.MultiUserBlock
 
 
 
+
         /// <summary>
-        /// 
+        /// Methode erzeugt "IMultiUserBlockItem" und fügt es dem Property "List IMultiUserBlockItem  Blocks" hinzu
         /// </summary>
         /// <param name="id">Eindeutige ID des Sockets</param>
         /// <param name="entityType">Type des Entitys</param>
         /// <param name="entityId">Eindeutige ID der Entity</param>
         /// <param name="userId">Eindeutige ID des Benutzers</param>
         /// <param name="description">Beschreibung der Entity</param>
-        /// <returns></returns>
+        /// <returns>Liefrt das erzeugte "IMultiUserBlockItem" zurück</returns>
         public IMultiUserBlockItem AddToBlock(string socketId, EntityType entityType, int entityId, int userId, string description = "")
         {
             var block = new MultiUserBlockItem()
@@ -178,11 +191,11 @@ namespace IHK.MultiUserBlock
 
 
 
+
         /// <summary>
-        /// 
+        /// Methode wandelt ein "IMultiUserBlockItem" in "IMultiUserBlockViewModel" um
         /// </summary>
-        /// <param name="block">Wandelt IMultiUserBlockItem in IMultiUserBlockViewModel um</param>
-        /// <returns></returns>
+        /// <param name="block">Das zu mappende IMultiUserBlockItem</param>
         public async Task<IMultiUserBlockViewModel> Map(IMultiUserBlockItem block)
         {
             if (block.Position == 0)
@@ -251,7 +264,7 @@ namespace IHK.MultiUserBlock
             List<IMultiUserBlockItem> todelete = new List<IMultiUserBlockItem>();
             foreach (var block in Blocks.Where(b => b.Init == false))
             {
-                if (block.UpdateTime.AddSeconds(5) < DateTime.Now)
+                if (block.UpdateTime.AddSeconds(_pingTimeOutSec) < DateTime.Now)
                 {
                     todelete.Add(block);
                 }

@@ -15,18 +15,35 @@ using IHK.MultiUserBlock.Interfaces;
 
 namespace IHK.MultiUserBlock
 {
-
+    /// <summary>
+    /// AspNetCore MiddleWare um paralelle mehrfach Zugriffe auf Entitys zu verhindern/verwalten
+    /// </summary>
     public class MultiUserBlockMiddleware
     {
         private readonly RequestDelegate _next;
         private readonly IMultiUserBlockManager _multiUserBlockManager;
 
+
+
+
+        /// <summary>
+        /// Konstruktor
+        /// </summary>
+        /// <param name="next"></param>
+        /// <param name="multiUserBlockManager"></param>
         public MultiUserBlockMiddleware(RequestDelegate next, IMultiUserBlockManager multiUserBlockManager)
         {
             _next = next;
             _multiUserBlockManager = multiUserBlockManager;
         }
 
+
+
+
+        /// <summary>
+        /// AspNetCore Zugriffspunkt
+        /// </summary>
+        /// <param name="context">HttpContext von Asp Net Core des aktuellen Request</param>
         public async Task Invoke(HttpContext context)
         {
             if (!context.WebSockets.IsWebSocketRequest || !context.User.IsInRole(UserRoleType.Default.ToString()))
@@ -60,7 +77,15 @@ namespace IHK.MultiUserBlock
             //TODO - investigate the Kestrel exception thrown when this is the last middleware
             //await _next.Invoke(context);
         }
-        
+
+
+
+
+        /// <summary>
+        /// AspNetCore Zugriffspunkt
+        /// </summary>
+        /// <param name="socket">Websocket des Clienten</param>
+        /// <param name="handleMessage">Action mit der die Anfrage verarbeitet wird</param>
         private async Task Receive(WebSocket socket,Action<WebSocket,WebSocketReceiveResult, byte[]> handleMessage)
         {
             var buffer = new byte[1024 * 4];
