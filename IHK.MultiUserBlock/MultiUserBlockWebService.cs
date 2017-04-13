@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using IHK.Common.MultiUserBlockCommon;
 using IHK.MultiUserBlock.Interfaces;
+using Microsoft.Extensions.Logging;
 
 namespace IHK.MultiUserBlock
 {
@@ -15,7 +16,7 @@ namespace IHK.MultiUserBlock
     public class MultiUserBlockWebService : IMultiUserBlockWebService
     {
         private readonly IMultiUserBlockManager _multiUserBlockManager;
-
+        private readonly ILogger<MultiUserBlockManager> _logger;
 
 
 
@@ -23,9 +24,11 @@ namespace IHK.MultiUserBlock
         /// Konstruktor
         /// </summary>
         /// <param name="multiUserBlockManager"></param>
-        public MultiUserBlockWebService(IMultiUserBlockManager multiUserBlockManager)
+        public MultiUserBlockWebService(IMultiUserBlockManager multiUserBlockManager, ILogger<MultiUserBlockManager> logger)
         {
             _multiUserBlockManager = multiUserBlockManager;
+            _logger = logger;
+
         }
 
 
@@ -50,15 +53,18 @@ namespace IHK.MultiUserBlock
                 {
                     selfblocks.Position = blocks.IndexOf(selfblocks);
                     selfblocks.Description = description;
+                    _logger.LogWarning("User: " + userId + " request: " + entityType.ToString() + ": " + entityId + " again");
                     return await _multiUserBlockManager.Map(selfblocks);
                 }
                 else
                 {
+                    _logger.LogWarning("User: " + userId + " request: " + entityType.ToString() + ": " + entityId);
                     return await _multiUserBlockManager.Map(_multiUserBlockManager.AddToBlock(Guid.NewGuid().ToString(), entityType, entityId, userId, description));
                 }
             }
             else
             {
+                _logger.LogWarning("User: " + userId + " request: " + entityType.ToString() + ": " + entityId);
                 return await _multiUserBlockManager.Map(_multiUserBlockManager.AddToBlock(Guid.NewGuid().ToString(), entityType, entityId, userId, description));
             }
         }

@@ -7,6 +7,7 @@ namespace IHK.MultiUserBlock
 {
     public class MultiUserBlockViewModel : IMultiUserBlockViewModel
     {
+        public int PingMiliSec { get; set; }
         public Enum Command { get; set; }
         public string SocketId { get; set; }
         public EntityType EntityType { get; set; }

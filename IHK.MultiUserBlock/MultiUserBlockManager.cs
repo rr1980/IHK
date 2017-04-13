@@ -14,6 +14,7 @@ using Newtonsoft.Json.Serialization;
 using IHK.MultiUserBlock.Interfaces;
 using IHK.Common.MultiUserBlockCommon;
 using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Logging;
 
 namespace IHK.MultiUserBlock
 {
@@ -32,17 +33,19 @@ namespace IHK.MultiUserBlock
         private readonly object _locker = new object();
         private readonly Timer _updateTimer;
         private readonly JsonSerializerSettings _jsonsettings;
-        
-
+        private readonly MultiUserBlockSettings _settings;
+        private readonly ILogger<MultiUserBlockManager> _logger;
 
 
         /// <summary>
         /// Konstruktor
         /// </summary>
         /// <param name="accountService">Service der Accountdaten bereit stellt</param>
-        public MultiUserBlockManager(IOptions<MultiUserBlockSettings> settings, IAccountService accountService)
+        public MultiUserBlockManager(IOptions<MultiUserBlockSettings> settings, ILogger<MultiUserBlockManager> logger, IAccountService accountService)
         {
-            _pingTimeOutSec = settings.Value.PingTimeOutSec;
+            _settings = settings.Value;
+            _logger = logger;
+            _pingTimeOutSec = _settings.PingTimeOutMiliSec;
             _accountService = accountService;
 
             _jsonsettings = new JsonSerializerSettings()
@@ -63,7 +66,7 @@ namespace IHK.MultiUserBlock
         /// <param name="userId">Eindeutige ID des Benutzers</param>
         public void OnConnected(WebSocket socket, int userId)
         {
-            Debug.WriteLine("OnConnected");
+            _logger.LogWarning("User: "+userId+" connected");
         }
 
 
@@ -76,6 +79,8 @@ namespace IHK.MultiUserBlock
         /// <param name="msg">Die gesendeten Daten</param>
         public async Task ReceiveAsync(WebSocket socket, IMultiUserBlockReceiveMessage msg)
         {
+
+
             var block = Blocks.FirstOrDefault(c => c.EntityType == msg.EntityType && c.EntityId == msg.EntityId && c.UserId == msg.UserId);
 
             if (block == null)
@@ -89,11 +94,13 @@ namespace IHK.MultiUserBlock
             {
                 block.UpdateTime = DateTime.Now;
                 block.Init = false;
+
                 if (block.Position == 0)
                 {
                     block.Active = true;
                 }
-                Debug.WriteLine("PING: " + block.UserId);
+
+                _logger.LogInformation("Ping: " + msg.UserId);
             }
         }
 
@@ -107,7 +114,7 @@ namespace IHK.MultiUserBlock
         /// <param name="userId">Eindeutige ID des Benutzers</param>
         public async Task OnDisconnected(WebSocket socket, int userId)
         {
-            Debug.WriteLine("OnDisconnected");
+            _logger.LogWarning("User: " + userId + " disconnected");
 
             await socket.CloseAsync(closeStatus: WebSocketCloseStatus.NormalClosure,
                           statusDescription: "Closed by the MultiUserBlockWebSocketManager",
@@ -121,11 +128,14 @@ namespace IHK.MultiUserBlock
         /// Methode wird aufgerufen wenn der Server Daten an einen Clienten sendet
         /// </summary>
         /// <param name="socket">Websocket des Clienten</param>
+        /// <param name="userId">Eindeutige ID des Benutzers</param>
         /// <param name="message">Die zu sendenden Daten</param>
-        public async Task SendMessageAsync(WebSocket socket, string message)
+        public async Task SendMessageAsync(WebSocket socket, int userId, string message)
         {
             if (socket.State != WebSocketState.Open)
                 return;
+
+            _logger.LogInformation("Server: send Data to User: " + userId);
 
             await socket.SendAsync(buffer: new ArraySegment<byte>(array: Encoding.ASCII.GetBytes(message),
                                                                   offset: 0,
@@ -202,6 +212,7 @@ namespace IHK.MultiUserBlock
             {
                 return new MultiUserBlockViewModel()
                 {
+                    PingMiliSec = _settings.PingMiliSec,
                     Description = block.Description,
                     Command = block.Command,
                     SocketId = block.SocketId,
@@ -217,6 +228,7 @@ namespace IHK.MultiUserBlock
 
                 return new MultiUserBlockViewModel()
                 {
+                    PingMiliSec = _settings.PingMiliSec,
                     Command = block.Command,
                     SocketId = block.SocketId,
                     EntityType = block.EntityType,
@@ -264,7 +276,7 @@ namespace IHK.MultiUserBlock
             List<IMultiUserBlockItem> todelete = new List<IMultiUserBlockItem>();
             foreach (var block in Blocks.Where(b => b.Init == false))
             {
-                if (block.UpdateTime.AddSeconds(_pingTimeOutSec) < DateTime.Now)
+                if (block.UpdateTime.AddMilliseconds(_pingTimeOutSec) < DateTime.Now)
                 {
                     todelete.Add(block);
                 }
@@ -276,7 +288,8 @@ namespace IHK.MultiUserBlock
                 {
                     Blocks.Remove(block);
                     _updateBlocks(block);
-                    Debug.WriteLine("DELETE: " + block.UserId);
+
+                    _logger.LogWarning("DELETE Block: " + block.UserId);
                 }
             }
         }
@@ -309,10 +322,11 @@ namespace IHK.MultiUserBlock
             var vm = await Map(block);
             string message = JsonConvert.SerializeObject(vm, Formatting.Indented, _jsonsettings);
 
-            Debug.WriteLine("SEND COMMAND: " + block.Command.ToString());
+            _logger.LogWarning("SEND COMMAND to: "+ block.UserId + " : " + block.Command.ToString());
+
             if (block.Socket.State == WebSocketState.Open)
             {
-                await SendMessageAsync(block.Socket, message);
+                await SendMessageAsync(block.Socket,block.UserId ,message);
             }
         }
         private List<IMultiUserBlockItem> _getWaits(IMultiUserBlockItem block)

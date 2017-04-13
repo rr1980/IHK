@@ -25,7 +25,7 @@ window.ViewModels = (function (module) {
         }
         setInterval(function () {
             self.sendMsg();
-        }, 2000);
+        }, self.mubBlock.pingMiliSec());
 
     };
     return module;

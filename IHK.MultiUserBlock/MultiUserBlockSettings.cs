@@ -12,7 +12,9 @@ namespace IHK.MultiUserBlock
         /// <summary>
         /// 
         /// </summary>
-        public int PingTimeOutSec { get; set; }
+        public int PingTimeOutMiliSec { get; set; }
+
+        public int PingMiliSec { get; set; }
 
         public bool DebugSiteOn { get; set; }
     }
