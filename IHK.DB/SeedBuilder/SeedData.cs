@@ -77,10 +77,10 @@ namespace IHK.DB.SeedBuilder
                             //Stadt = "Großräschen",
                             //Strasse = "Rosa-Luxemburg Strasse 15",
 
-                            Telefon = "12003",
+                            Telefon = "12047",
                             Email = "rener1980@gmail.com",
-                            Name = "Riesner",
-                            Vorname = "Sven",
+                            Name = "Mustermann",
+                            Vorname = "Max",
                             Username = "Oxi",
                             Password = "12003",
                             LayoutTheme = context.LayoutThemes.SingleOrDefault(lt => lt.Name == "slate")
@@ -97,12 +97,12 @@ namespace IHK.DB.SeedBuilder
                             //Stadt = "Großräschen",
                             //Strasse = "Rosa-Luxemburg Strasse 15",
 
-                            Telefon = "12003",
+                            Telefon = "12113",
                             Email = "rener1980@gmail.com",
-                            Name = "Riesner",
-                            Vorname = "Test",
+                            Name = "Gates",
+                            Vorname = "Bill",
                             Username = "Test",
-                            Password = "12003",
+                            Password = "12013",
                             LayoutTheme = context.LayoutThemes.SingleOrDefault(lt => lt.Name == "slate")
                         });
 

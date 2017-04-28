@@ -1,17 +1,14 @@
 ﻿using IHK.Common;
+using IHK.MultiUserBlock.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net.WebSockets;
 using System.Security.Claims;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Newtonsoft.Json.Serialization;
-using IHK.MultiUserBlock.Interfaces;
 
 namespace IHK.MultiUserBlock
 {
@@ -23,9 +20,6 @@ namespace IHK.MultiUserBlock
         private readonly RequestDelegate _next;
         private readonly IMultiUserBlockManager _multiUserBlockManager;
 
-
-
-
         /// <summary>
         /// Konstruktor
         /// </summary>
@@ -36,9 +30,6 @@ namespace IHK.MultiUserBlock
             _next = next;
             _multiUserBlockManager = multiUserBlockManager;
         }
-
-
-
 
         /// <summary>
         /// AspNetCore Zugriffspunkt
@@ -73,13 +64,7 @@ namespace IHK.MultiUserBlock
                 }
 
             });
-
-            //TODO - investigate the Kestrel exception thrown when this is the last middleware
-            //await _next.Invoke(context);
         }
-
-
-
 
         /// <summary>
         /// AspNetCore Zugriffspunkt
@@ -99,5 +84,4 @@ namespace IHK.MultiUserBlock
             }
         }
     }
-
 }

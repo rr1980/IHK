@@ -14,6 +14,7 @@ namespace IHK.MultiUserBlock.Interfaces
         void OnConnected(WebSocket socket, int userId);
         Task ReceiveAsync(WebSocket socket, IMultiUserBlockReceiveMessage msg);
         Task OnDisconnected(WebSocket socket, int userId);
+        Task SendMessageAsync(WebSocket socket, int userId, string message);
         List<IMultiUserBlockItem> GetBlocksBy(Func<IMultiUserBlockItem, bool> p);
         IMultiUserBlockItem AddToBlock(string id, EntityType entityType, int entityId, int userId, string description = "");
         Task<IMultiUserBlockViewModel> Map(IMultiUserBlockItem block);

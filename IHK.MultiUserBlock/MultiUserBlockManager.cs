@@ -1,20 +1,16 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using IHK.Common;
+using IHK.Common.MultiUserBlockCommon;
+using IHK.MultiUserBlock.Interfaces;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.WebSockets;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using IHK.Common;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
-using Newtonsoft.Json;
-using System.Linq.Expressions;
-using Newtonsoft.Json.Serialization;
-using IHK.MultiUserBlock.Interfaces;
-using IHK.Common.MultiUserBlockCommon;
-using Microsoft.Extensions.Options;
-using Microsoft.Extensions.Logging;
 
 namespace IHK.MultiUserBlock
 {
@@ -56,9 +52,6 @@ namespace IHK.MultiUserBlock
             _updateTimer = new Timer(_checkBlocks, null, 0, 1000);
         }
 
-
-
-
         /// <summary>
         /// Methode wird von "MultiUserBlockMiddleware" aufgerufen wenn ein Client sich über Websocket verbindet
         /// </summary>
@@ -69,9 +62,6 @@ namespace IHK.MultiUserBlock
             _logger.LogWarning("User: "+userId+" connected");
         }
 
-
-
-
         /// <summary>
         /// Methode wird von "MultiUserBlockMiddleware" aufgerufen wenn ein Client über Websocket Daten sendet
         /// </summary>
@@ -79,8 +69,6 @@ namespace IHK.MultiUserBlock
         /// <param name="msg">Die gesendeten Daten</param>
         public async Task ReceiveAsync(WebSocket socket, IMultiUserBlockReceiveMessage msg)
         {
-
-
             var block = Blocks.FirstOrDefault(c => c.EntityType == msg.EntityType && c.EntityId == msg.EntityId && c.UserId == msg.UserId);
 
             if (block == null)
@@ -104,9 +92,6 @@ namespace IHK.MultiUserBlock
             }
         }
 
-
-
-
         /// <summary>
         /// Methode wird von "MultiUserBlockMiddleware" aufgerufen wenn ein Client die Verbindung trennt
         /// </summary>
@@ -120,9 +105,6 @@ namespace IHK.MultiUserBlock
                           statusDescription: "Closed by the MultiUserBlockWebSocketManager",
                           cancellationToken: CancellationToken.None);
         }
-
-
-
 
         /// <summary>
         /// Methode wird aufgerufen wenn der Server Daten an einen Clienten sendet
@@ -145,9 +127,6 @@ namespace IHK.MultiUserBlock
                                    cancellationToken: CancellationToken.None);
         }
 
-
-
-
         /// <summary>
         /// Methode liefert das Property "List IMultiUserBlockItem Blocks" gefiltert zurück
         /// </summary>
@@ -157,9 +136,6 @@ namespace IHK.MultiUserBlock
         {
             return Blocks.Where(predicate).ToList();
         }
-
-
-
 
         /// <summary>
         /// Methode erzeugt "IMultiUserBlockItem" und fügt es dem Property "List IMultiUserBlockItem  Blocks" hinzu
@@ -198,9 +174,6 @@ namespace IHK.MultiUserBlock
 
             return block;
         }
-
-
-
 
         /// <summary>
         /// Methode wandelt ein "IMultiUserBlockItem" in "IMultiUserBlockViewModel" um
@@ -255,9 +228,6 @@ namespace IHK.MultiUserBlock
                 };
             }
         }
-
-
-
         #region
 
         private void _setSocketToBlock(WebSocket socket, IMultiUserBlockItem block)
@@ -333,9 +303,6 @@ namespace IHK.MultiUserBlock
         {
             return GetBlocksBy(c => c.EntityType == block.EntityType && c.EntityId == block.EntityId);
         }
-
         #endregion
     }
-
-
 }

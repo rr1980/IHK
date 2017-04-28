@@ -1,8 +1,5 @@
 ﻿using IHK.Common;
 using IHK.MultiUserBlock.Interfaces;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using System;
 
 namespace IHK.MultiUserBlock
 {

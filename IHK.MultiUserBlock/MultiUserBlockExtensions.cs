@@ -1,18 +1,13 @@
-﻿using IHK.Common;
-using IHK.Common.MultiUserBlockCommon;
+﻿using IHK.Common.MultiUserBlockCommon;
 using IHK.MultiUserBlock.Interfaces;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection;
-using System.Collections.Generic;
-using System.Text;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace IHK.MultiUserBlock
 {
     public static class MultiUserBlockExtensions
     {
-
         public static IApplicationBuilder UseMultiUserBlock(this IApplicationBuilder app,bool debug)
         {
             app.UseWebSockets();
@@ -29,8 +24,6 @@ namespace IHK.MultiUserBlock
 
         public static IServiceCollection AddMultiUserBlockWebService(this IServiceCollection services, IConfigurationRoot configuration)
         {
-            //var settings = configuration.GetSection("MultiUserBlock").Get<MultiUserBlockSettings>();
-
             services.AddOptions();
             services.Configure<MultiUserBlockSettings>(configuration.GetSection("MultiUserBlock"));
 

@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using IHK.Common;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using IHK.Common;
 using IHK.Common.MultiUserBlockCommon;
 using IHK.MultiUserBlock.Interfaces;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace IHK.MultiUserBlock
 {
@@ -18,8 +16,6 @@ namespace IHK.MultiUserBlock
         private readonly IMultiUserBlockManager _multiUserBlockManager;
         private readonly ILogger<MultiUserBlockManager> _logger;
 
-
-
         /// <summary>
         /// Konstruktor
         /// </summary>
@@ -30,9 +26,6 @@ namespace IHK.MultiUserBlock
             _logger = logger;
 
         }
-
-
-
 
         /// <summary>
         /// Methode um Entityblockierung einzuleiten
